@@ -52,6 +52,8 @@ import mariadb
 # USE crab; 
 app = Flask(__name__)
 api = Api(app)
+if not os.path.exists(r".\uploads"):
+   os.makedirs(r".\uploads")
 model = load_model(r".\model.h5")
 with open("config.json") as json_data_file:
     mysqlconfig = json.load(json_data_file)
