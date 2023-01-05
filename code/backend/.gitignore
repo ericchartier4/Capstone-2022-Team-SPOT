@@ -1,4 +1,6 @@
 config.json
 *.h5
-**/_pycache_
+**/__pycache__
+*.pyc
+**/uploads
 **/env
