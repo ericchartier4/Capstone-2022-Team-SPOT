@@ -1,2 +1,4 @@
 config.json
 *.h5
+**/_pycache_
+**/env
