@@ -12,3 +12,4 @@ scikit-learn
 scipy
 numpy
 tqdm 
+protobuf== 3.20.1
