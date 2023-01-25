@@ -10,6 +10,5 @@ matplotlib
 pandas
 scikit-learn
 scipy
-virtualenv
 numpy
 tqdm 
