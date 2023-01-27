@@ -1,5 +1,5 @@
 ----- This Localization is tested on a windows machine-----
-**** Video tutorial***
+**** Video tutorial: https://youtu.be/0JQ4fA-VRBM ****
 1. Requirements 
 	-Flutter 3.3.8 (or newer) https://docs.flutter.dev/get-started/install
 	-Python 3.9.6 (specific version recomended to work well with specific python packages such as TensorFlow and Keras ) https://www.python.org/downloads/ released June 28, 2021
