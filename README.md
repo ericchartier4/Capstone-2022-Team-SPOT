@@ -3,13 +3,12 @@
 ## Project Name: SPOT 
 
 ## Team Members: 
-*Chirayu Patel
-*Eric Chartier
-*Kyle Jakob Labatete
-*Yuting Li
+* Chirayu Patel
+* Eric Chartier
+* Kyle Jakob Labatete
+* Yuting Li
 
-#Project Idea: 
-
+# Project Idea: 
 Our original goal is to build an AI application that users can upload images of their skin and this application will tell them whether they might have melanoma (skin cancer).
 But upon completion of the AI to detectect melanoma, the Project scope has widened to include the  detection of the seven most comon skin diseases:  
 *  Bowen's disease
