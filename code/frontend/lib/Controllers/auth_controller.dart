@@ -6,6 +6,7 @@ import '../Utils/constant_widgets.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:http_parser/http_parser.dart';
+import '../Utils/preference.dart';
 
 class AuthController extends GetxController {
   TextEditingController lEmailController = TextEditingController();
@@ -32,7 +33,7 @@ class AuthController extends GetxController {
   }
 
   // validation for login
-  checkValidationForLoginDetails() {
+  checkValidationForLoginDetails() async {
     bool emailValid = RegExp("@gmail.com").hasMatch(lEmailController.text);
     if (lEmailController.text.isEmpty) {
       errorSnackBar(message: "Enter your Email");
@@ -40,9 +41,8 @@ class AuthController extends GetxController {
       errorSnackBar(message: "Enter Valid Email");
     } else if (lPasswordController.text.isEmpty) {
       errorSnackBar(message: "Enter your Password");
-      const SnackBar(content: Text("hello"));
     } else {
-      Get.toNamed(Routes.HOME_SCREEN);
+      logInHelper();
     }
   }
 
@@ -89,6 +89,8 @@ class AuthController extends GetxController {
     //} else {
     //print("error posting the image");
     //}
+    await Preference.shared.setString("useremail", sEmailController.text);
+    await Preference.shared.setString("userpass", sPasswordController.text);
     Get.toNamed(
         Routes.HOME_SCREEN); // having this here to transition to next page
   }
@@ -110,6 +112,52 @@ class AuthController extends GetxController {
     request.fields['lName'] = lName!;
     request.fields['pass'] = pass!;
     request.fields['dOB'] = dOB!;
+    http.StreamedResponse response = await request.send();
+    return response;
+  }
+
+  Future<void> logInHelper() async {
+    http.StreamedResponse response = await logInHttp(
+      lEmailController.text,
+      lPasswordController.text,
+    );
+
+    //_isLoading = false;
+    //if (response.statusCode == 200) {
+    Map map = jsonDecode(await response.stream.bytesToString());
+    bool result = map["Result"];
+    if (result == true) {
+    await Preference.shared.setString("useremail", lEmailController.text);
+    await Preference.shared.setString("userpass", lPasswordController.text);
+      Get.toNamed(
+          Routes.HOME_SCREEN); // having this here to transition to next page
+
+    } else {
+      errorSnackBar(
+          message: "Your Email or Password is Wrong, please try again");
+    }
+
+    //_imagePath=message;
+    // _pickedFile = null;
+    //await getUserInfo();
+    //print(message);
+    //} else {
+    //print("error posting the image");
+    //}
+  }
+
+  Future<http.StreamedResponse> logInHttp(
+    String? email,
+    String? pass,
+  ) async {
+    http.MultipartRequest request =
+        http.MultipartRequest('POST', Uri.parse('http://127.0.0.1:5000/logIn'));
+
+    //request.headers.addAll(<String,String>{'Authorization': 'Bearer $token'});
+    //Check if Uint8List populated, it will or will not have an image, this image
+    request.fields['email'] = email!;
+    request.fields['pass'] = pass!;
+
     http.StreamedResponse response = await request.send();
     return response;
   }

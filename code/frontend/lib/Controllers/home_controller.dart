@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'dart:io';
+import 'package:demo/Utils/preference.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:http_parser/http_parser.dart';
 import '../Routes/routes.dart';
+import '../Utils/preference.dart';
 
 class HomeController extends GetxController {
   var selectedBottomIndex = 0.obs;
@@ -32,6 +34,7 @@ class HomeController extends GetxController {
   String? get bresult => _bresults;
   String? _mresults;
   String? get mresult => _mresults;
+
 
   var scanDoc = [
     {
@@ -146,10 +149,7 @@ class HomeController extends GetxController {
 
   Future<void> upload() async {
     http.StreamedResponse response = await updateImage(
-        _imagefilename,
-        _imagefileextention,
-        selectedImageBytes
-            ?.value);
+        _imagefilename, _imagefileextention, selectedImageBytes?.value);
 
     //_isLoading = false;
     //if (response.statusCode == 200) {
@@ -157,7 +157,7 @@ class HomeController extends GetxController {
     String benign = map["benign"];
     //malignent
     String malignent = map["malignent"];
-    
+
     _mresults = malignent;
     _bresults = benign;
     //_imagePath=message;
@@ -173,6 +173,7 @@ class HomeController extends GetxController {
 
   Future<http.StreamedResponse> updateImage(
       String? filename, String? fileextention, Uint8List? data) async {
+  
     http.MultipartRequest request = http.MultipartRequest(
         'POST', Uri.parse('http://127.0.0.1:5000/upload'));
 

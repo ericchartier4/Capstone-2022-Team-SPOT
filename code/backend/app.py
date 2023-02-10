@@ -148,8 +148,50 @@ class SignUp(Resource):
         response.headers.add('Access-Control-Allow-Origin', '*') # needed line to fix CORS error 
         return response
 
+class LogIn(Resource):
+    def post(self):
+        
+         
+        email = request.values['email']
+        password = request.values['pass']
+        print(email)
+        
+        conn = mariadb.connect(**config)
+        cur = conn.cursor()
+
+        sql = "SELECT *  FROM users WHERE Email = %s AND Password = %s;"
+        
+        val = (email,password)
+        cur.execute(sql,val)
+        results = cur.fetchall()
+        print(results)
+        if (len(results) > 0):
+            response = jsonify({'Result': True})
+        else:
+            response = jsonify({'Result': False})
+
+        
+        conn.commit()
+        conn.close() 
+        ##image = request.files['image']
+        #image.save(os.path.join(r".\uploads" , image.filename))   
+        #img = load_img(fr".\uploads\{image.filename}")
+        #img_array = img_to_array(img)
+        #img_4d = img_array.reshape(-1,224,224,3)
+        #prediction=model.predict(img_4d)[0]
+        #benignResult = str((prediction[0])*100)
+        #melignentResult = str((prediction[1])*100)
+        #print("benign:" + benignResult + "malignent:" + melignentResult)
+        #os.remove(fr".\uploads\{image.filename}")
+        #image = request.files('image');
+        
+        #image.save(os.path.join(uploads_path , image.filename))
+        response.headers.add('Access-Control-Allow-Origin', '*') # needed line to fix CORS error 
+        return response
+
 api.add_resource(Upload, '/upload')
 api.add_resource(SignUp, '/signUp')
+api.add_resource(LogIn, '/logIn')
 
 
 if __name__ == '__main__':

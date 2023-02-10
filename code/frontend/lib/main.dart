@@ -5,12 +5,15 @@ import 'package:get/route_manager.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
 import 'Routes/app_pages.dart';
+import 'Utils/preference.dart';
 
-bool isDesktop(BuildContext context) => MediaQuery.of(context).size.width >= 600;
+bool isDesktop(BuildContext context) =>
+    MediaQuery.of(context).size.width >= 600;
 
-void main() async {
+Future<void> main() async {
   // binds the framework to the Flutter engine.
   WidgetsFlutterBinding.ensureInitialized();
+  await Preference().instance();
   // manage portrait lock
   await SystemChrome.setPreferredOrientations(
     [DeviceOrientation.portraitUp],
