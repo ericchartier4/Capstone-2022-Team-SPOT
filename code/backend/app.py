@@ -40,6 +40,7 @@ import itertools
 from pathlib import Path
 import time
 import mariadb
+from datetime import date
 
 
 #app.logger.info(datalist)
@@ -78,6 +79,7 @@ cur = conn.cursor()
 #to 
 
 cur.execute('CREATE TABLE IF NOT EXISTS users ( UserID INT NOT NULL PRIMARY KEY AUTO_INCREMENT, FirstName VARCHAR(255) NOT NULL, Email VARCHAR(255) NOT NULL, LastName VARCHAR(255) NOT NULL,  Password VARCHAR(255) NOT NULL, DOB DATE);')
+cur.execute('CREATE TABLE IF NOT EXISTS entries ( EntryID INT NOT NULL PRIMARY KEY AUTO_INCREMENT,UserID INT NOT NULL, FOREIGN KEY (UserID)  REFERENCES users(UserID), EntryText LONGTEXT, Benign FLOAT , Malignant FLOAT, EntryDate DATE,ImageURL LONGTEXT);')
 cur.execute('SELECT * FROM users') # need to use fetchall to print 
 #cur is a curser that contains mory of previous execution 
 rows = cur.fetchall()    # get all selected rows, as Barmar mentioned
@@ -85,31 +87,7 @@ for r in rows:
     print(r)
 conn.commit()
 conn.close() 
-class Upload(Resource):
-    def post(self):
-        
-         
-        print (request.files)
-        print (request.files["image"].filename)
-        print (request.files["image"].mimetype)
-        print (request.files["image"].content_type)
-        
-    
-        image = request.files['image']
-        image.save(os.path.join(r".\uploads" , image.filename))   
-        img = load_img(fr".\uploads\{image.filename}")
-        img_array = img_to_array(img)
-        img_4d = img_array.reshape(-1,224,224,3)
-        prediction=model.predict(img_4d)[0]
-        benignResult = str((prediction[0])*100)
-        melignentResult = str((prediction[1])*100)
-        print("benign:" + benignResult + "malignent:" + melignentResult)
-        os.remove(fr".\uploads\{image.filename}")
-        #image = request.files('image');
-        #image.save(os.path.join(uploads_path , image.filename))
-        response = jsonify({'benign': benignResult,'malignent':melignentResult})
-        response.headers.add('Access-Control-Allow-Origin', '*') # needed line to fix CORS error 
-        return response
+
 class SignUp(Resource):
     def post(self):
         
@@ -169,6 +147,9 @@ class LogIn(Resource):
             response = jsonify({'Result': True})
         else:
             response = jsonify({'Result': False})
+        
+        
+
 
         
         conn.commit()
@@ -189,10 +170,109 @@ class LogIn(Resource):
         response.headers.add('Access-Control-Allow-Origin', '*') # needed line to fix CORS error 
         return response
 
-api.add_resource(Upload, '/upload')
+class AddEntry(Resource):
+    def post(self):
+        
+         
+        email = request.values['email']
+        password = request.values['pass']
+        details = request.values['details']
+        print(email)
+        
+        conn = mariadb.connect(**config)
+        cur = conn.cursor()
+
+        sql = "SELECT UserID  FROM users WHERE Email = %s AND Password = %s;"
+        
+        val = (email,password)
+        cur.execute(sql,val)
+        results = cur.fetchall()
+        userID_tuple = results[0]
+        userID = userID_tuple[0]
+        print( userID )
+
+
+     
+
+        image = request.files['image']
+        image.save(os.path.join(r".\uploads" , image.filename))   
+        img = load_img(fr".\uploads\{image.filename}")
+        img_array = img_to_array(img)
+        img_4d = img_array.reshape(-1,224,224,3)
+        prediction=model.predict(img_4d)[0]
+        benignResult = str((prediction[0])*100)
+        malignentResult = str((prediction[1])*100)
+        print("benign:" + benignResult + "malignent:" + malignentResult)
+
+        cur.execute("INSERT INTO entries (UserID,EntryText,Benign,Malignant,EntryDate,ImageURL) VALUES (?, ?, ?, ?, ?,?)",(userID,details,benignResult,malignentResult,date.today(),image.filename))
+        #os.remove(fr".\uploads\{image.filename}")   
+        conn.commit()
+        conn.close() 
+        #image = request.files('image');
+        #image.save(os.path.join(uploads_path , image.filename))
+        response = jsonify({'benign': benignResult,'malignent':malignentResult})
+        response.headers.add('Access-Control-Allow-Origin', '*') # needed line to fix CORS error 
+        return response
+
+
+
+
+        ##image = request.files['image']
+        #image.save(os.path.join(r".\uploads" , image.filename))   
+        #img = load_img(fr".\uploads\{image.filename}")
+        #img_array = img_to_array(img)
+        #img_4d = img_array.reshape(-1,224,224,3)
+        #prediction=model.predict(img_4d)[0]
+        #benignResult = str((prediction[0])*100)
+        #melignentResult = str((prediction[1])*100)
+        #print("benign:" + benignResult + "malignent:" + melignentResult)
+        #os.remove(fr".\uploads\{image.filename}")
+        #image = request.files('image');
+        
+        #image.save(os.path.join(uploads_path , image.filename))
+        #response.headers.add('Access-Control-Allow-Origin', '*') # needed line to fix CORS error 
+        #return response
+class GeneralEntries(Resource):
+    def post(self):
+        
+         
+        email = request.values['email']
+        password = request.values['pass']
+        print(email)
+        
+        conn = mariadb.connect(**config)
+        cur = conn.cursor()
+
+        sql = "SELECT UserID  FROM users WHERE Email = %s AND Password = %s;"
+        
+        val = (email,password)
+        cur.execute(sql,val)
+        results = cur.fetchall()
+        userID_tuple = results[0]
+        userID = userID_tuple[0]
+        print( userID )
+        
+        conn.commit()
+        conn.close() 
+        ##image = request.files['image']
+        #image.save(os.path.join(r".\uploads" , image.filename))   
+        #img = load_img(fr".\uploads\{image.filename}")
+        #img_array = img_to_array(img)
+        #img_4d = img_array.reshape(-1,224,224,3)
+        #prediction=model.predict(img_4d)[0]
+        #benignResult = str((prediction[0])*100)
+        #melignentResult = str((prediction[1])*100)
+        #print("benign:" + benignResult + "malignent:" + melignentResult)
+        #os.remove(fr".\uploads\{image.filename}")
+        #image = request.files('image');
+        
+        #image.save(os.path.join(uploads_path , image.filename))
+        #response.headers.add('Access-Control-Allow-Origin', '*') # needed line to fix CORS error 
+        #return response
 api.add_resource(SignUp, '/signUp')
 api.add_resource(LogIn, '/logIn')
-
+api.add_resource(AddEntry, '/addEntry')
+api.add_resource(GeneralEntries, '/viewEntries')
 
 if __name__ == '__main__':
     app.run(debug=True)

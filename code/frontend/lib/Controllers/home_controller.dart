@@ -35,7 +35,6 @@ class HomeController extends GetxController {
   String? _mresults;
   String? get mresult => _mresults;
 
-
   var scanDoc = [
     {
       "status": "Complate",
@@ -147,8 +146,8 @@ class HomeController extends GetxController {
     }
   }
 
-  Future<void> upload() async {
-    http.StreamedResponse response = await updateImage(
+  Future<void> addEntryHelper() async {
+    http.StreamedResponse response = await addEntry(
         _imagefilename, _imagefileextention, selectedImageBytes?.value);
 
     //_isLoading = false;
@@ -171,11 +170,10 @@ class HomeController extends GetxController {
         .VIEW_DETAILS_SCREEN); // having this here to transition to next page
   }
 
-  Future<http.StreamedResponse> updateImage(
+  Future<http.StreamedResponse> addEntry(
       String? filename, String? fileextention, Uint8List? data) async {
-  
     http.MultipartRequest request = http.MultipartRequest(
-        'POST', Uri.parse('http://127.0.0.1:5000/upload'));
+        'POST', Uri.parse('http://127.0.0.1:5000/addEntry'));
 
     //request.headers.addAll(<String,String>{'Authorization': 'Bearer $token'});
     //Check if Uint8List populated, it will or will not have an image, this image
@@ -184,6 +182,9 @@ class HomeController extends GetxController {
           filename: filename,
           contentType: MediaType('image',
               fileextention!))); // can't do Multipart.from path as web has no acess to filesystem , try string , or byte
+      request.fields['email'] = Preference.shared.getString('useremail')!;
+      request.fields['pass'] = Preference.shared.getString('userpass')!;
+      request.fields['details'] = detailsController.text;
     }
 
     http.StreamedResponse response = await request.send();

@@ -145,6 +145,7 @@ class HomeScreen extends StatelessWidget {
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          //photobox
                           Container(
                             height: isDesktop(context) ? 10.h : 8.h,
                             width: isDesktop(context) ? 10.w : 30.w,
