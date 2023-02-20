@@ -71,7 +71,7 @@ class AuthController extends GetxController {
   }
 
   Future<void> signUpHelper() async {
-    http.StreamedResponse response = await signUpHttp(
+    http.StreamedResponse response = await signUp(
         sEmailController.text,
         sFNameController.text,
         sLNameController.text,
@@ -95,7 +95,7 @@ class AuthController extends GetxController {
         Routes.HOME_SCREEN); // having this here to transition to next page
   }
 
-  Future<http.StreamedResponse> signUpHttp(
+  Future<http.StreamedResponse> signUp(
     String? email,
     String? fName,
     String? lName,
@@ -117,7 +117,7 @@ class AuthController extends GetxController {
   }
 
   Future<void> logInHelper() async {
-    http.StreamedResponse response = await logInHttp(
+    http.StreamedResponse response = await logIn(
       lEmailController.text,
       lPasswordController.text,
     );
@@ -146,7 +146,7 @@ class AuthController extends GetxController {
     //}
   }
 
-  Future<http.StreamedResponse> logInHttp(
+  Future<http.StreamedResponse> logIn(
     String? email,
     String? pass,
   ) async {
@@ -161,4 +161,5 @@ class AuthController extends GetxController {
     http.StreamedResponse response = await request.send();
     return response;
   }
+
 }

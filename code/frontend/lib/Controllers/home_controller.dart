@@ -20,6 +20,7 @@ class HomeController extends GetxController {
   final ScrollController doctorController = ScrollController();
   TextEditingController detailsController = TextEditingController();
   final ImagePicker imagePicker = ImagePicker();
+
   // Rx<File> selectedImageFile = File('').obs;
   Rxn<Uint8List>? selectedImageBytes = Rxn<Uint8List>();
   String? _imagefilename;
@@ -89,7 +90,7 @@ class HomeController extends GetxController {
           "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
       "doctor":
           "It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-    },
+    }
   ].obs;
   var selectedArea = 'selectArea'.obs;
   List<DropdownMenuItem<String>> get dropdownItems {
@@ -112,6 +113,46 @@ class HomeController extends GetxController {
       ),
     ];
     return menuItems;
+  }
+
+// method to help get the scan doc
+  Future<void> getEntriesHelper() async {
+    http.StreamedResponse response = await getEntries();
+
+    //_isLoading = false;
+    //if (response.statusCode == 200) {
+    Map map = jsonDecode(await response.stream.bytesToString());
+   
+    print(map);
+    //_imagePath=message;
+    // _pickedFile = null;
+    //await getUserInfo();
+    //print(message);
+    //} else {
+    //print("error posting the image");
+    //} // having this here to transition to next page
+  }
+
+  Future<http.StreamedResponse> getEntries() async {
+    http.MultipartRequest request = http.MultipartRequest(
+        'POST', Uri.parse('http://127.0.0.1:5000/getEntries'));
+
+    //request.headers.addAll(<String,String>{'Authorization': 'Bearer $token'});
+    //Check if Uint8List populated, it will or will not have an image, this image
+    request.fields['email'] = Preference.shared.getString('useremail')!;
+    request.fields['pass'] = Preference.shared.getString('userpass')!;
+
+    http.StreamedResponse response = await request.send();
+    return response;
+  }
+
+// creating listener to call a method to change the scan doc when ever bottom index is changed
+//calls get entries helper to get the entries of the scan doc
+  void onInit() {
+    super.onInit();
+    ever(selectedBottomIndex, (value) {
+      getEntriesHelper();
+    });
   }
 
   ///

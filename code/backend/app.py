@@ -177,6 +177,7 @@ class AddEntry(Resource):
         email = request.values['email']
         password = request.values['pass']
         details = request.values['details']
+
         print(email)
         
         conn = mariadb.connect(**config)
@@ -195,8 +196,10 @@ class AddEntry(Resource):
      
 
         image = request.files['image']
-        image.save(os.path.join(r".\uploads" , image.filename))   
-        img = load_img(fr".\uploads\{image.filename}")
+        imageName = image.filename+"."+image.content_type.split('/')[-1] # geting file extention 
+        print(imageName)
+        image.save(os.path.join(r".\uploads" , imageName))   
+        img = load_img(fr".\uploads\{imageName}")
         img_array = img_to_array(img)
         img_4d = img_array.reshape(-1,224,224,3)
         prediction=model.predict(img_4d)[0]
@@ -204,7 +207,7 @@ class AddEntry(Resource):
         malignentResult = str((prediction[1])*100)
         print("benign:" + benignResult + "malignent:" + malignentResult)
 
-        cur.execute("INSERT INTO entries (UserID,EntryText,Benign,Malignant,EntryDate,ImageURL) VALUES (?, ?, ?, ?, ?,?)",(userID,details,benignResult,malignentResult,date.today(),image.filename))
+        cur.execute("INSERT INTO entries (UserID,EntryText,Benign,Malignant,EntryDate,ImageURL) VALUES (?, ?, ?, ?, ?,?)",(userID,details,benignResult,malignentResult,date.today(),imageName))
         #os.remove(fr".\uploads\{image.filename}")   
         conn.commit()
         conn.close() 
@@ -232,7 +235,7 @@ class AddEntry(Resource):
         #image.save(os.path.join(uploads_path , image.filename))
         #response.headers.add('Access-Control-Allow-Origin', '*') # needed line to fix CORS error 
         #return response
-class GeneralEntries(Resource):
+class GetEntries(Resource):
     def post(self):
         
          
@@ -251,7 +254,22 @@ class GeneralEntries(Resource):
         userID_tuple = results[0]
         userID = userID_tuple[0]
         print( userID )
+        str_UserID = str
+
+
+        sql = "SELECT *  FROM entries WHERE UserID = %s;"
         
+        print(sql)
+        
+        print(tuple(str(userID)))
+        cur.execute(sql,(str(userID),)) 
+        results = cur.fetchall()
+        print(results)
+        response = jsonify({'result':results})
+
+
+
+
         conn.commit()
         conn.close() 
         ##image = request.files['image']
@@ -267,12 +285,12 @@ class GeneralEntries(Resource):
         #image = request.files('image');
         
         #image.save(os.path.join(uploads_path , image.filename))
-        #response.headers.add('Access-Control-Allow-Origin', '*') # needed line to fix CORS error 
-        #return response
+        response.headers.add('Access-Control-Allow-Origin', '*') # needed line to fix CORS error 
+        return response
 api.add_resource(SignUp, '/signUp')
 api.add_resource(LogIn, '/logIn')
 api.add_resource(AddEntry, '/addEntry')
-api.add_resource(GeneralEntries, '/viewEntries')
+api.add_resource(GetEntries, '/getEntries')
 
 if __name__ == '__main__':
     app.run(debug=True)
