@@ -29,6 +29,9 @@ class HomeController extends GetxController {
   String? get imagefileextention => _imagefileextention;
   Uint8List? _encodedImage;
   Uint8List? get encodedImage => _encodedImage;
+  List<Uint8List>? _serverImages;
+  List<Uint8List>? get serverImages => _serverImages;
+
   XFile? _pickedFile;
   XFile? get pickedFile => _pickedFile;
   String? _bresults;
@@ -121,9 +124,49 @@ class HomeController extends GetxController {
 
     //_isLoading = false;
     //if (response.statusCode == 200) {
-    Map map = jsonDecode(await response.stream.bytesToString());
-   
+
+    var map = jsonDecode(await response.stream.bytesToString());
+
     print(map);
+    var newList;
+    _serverImages = [];
+    for (var i = 0; i < map.length; i++) {
+      var about =
+          (map[i]["about"] != null) ? (map[i]['about']).toString() : " ";
+      var scan = (map[i]["scan"] != null) ? (map[i]['scan']).toString() : " ";
+      var status =
+          (map[i]["status"] != null) ? (map[i]['status']).toString() : " ";
+      var date = (map[i]["date"] != null) ? (map[i]['date']).toString() : " ";
+      var doctor =
+          (map[i]["doctor"] != null) ? (map[i]['doctor']).toString() : " ";
+      print(about);
+      print(scan);
+      print(status);
+      print(date);
+      print(doctor);
+      var newScan = {
+        "status": status,
+        "scan": scan,
+        "date": date,
+        "about": about,
+        "doctor": doctor,
+      };
+      var imageBin = map[i]["imageBinary"];
+      var imageDec = base64Decode(imageBin);
+      _serverImages?.add(imageDec);
+      print(imageDec);
+      if (i == 0) {
+        newList = [newScan];
+      } else {
+        newList!.add(newScan);
+       
+      }
+    }
+    print(scanDoc);
+    if (newList != null) {
+      scanDoc.value = newList!;
+    }
+    print(scanDoc);
     //_imagePath=message;
     // _pickedFile = null;
     //await getUserInfo();

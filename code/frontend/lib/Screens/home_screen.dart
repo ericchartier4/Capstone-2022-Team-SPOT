@@ -147,9 +147,11 @@ class HomeScreen extends StatelessWidget {
                         children: [
                           //photobox
                           Container(
+                            
                             height: isDesktop(context) ? 10.h : 8.h,
                             width: isDesktop(context) ? 10.w : 30.w,
                             color: Colors.lightBlue.withOpacity(0.2),
+                            child: Image.memory(homeController.serverImages![index]),
                           ),
                           SizedBox(width: 2.w),
                           Column(

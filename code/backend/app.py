@@ -1,7 +1,7 @@
 import os
 import logging
 
-from flask import Flask, jsonify, render_template, request, send_from_directory
+from flask import Flask, jsonify, render_template, request, send_from_directory,make_response
 from flask_restful import Api, Resource
 
 
@@ -41,6 +41,7 @@ from pathlib import Path
 import time
 import mariadb
 from datetime import date
+import base64
 
 
 #app.logger.info(datalist)
@@ -259,14 +260,26 @@ class GetEntries(Resource):
 
         sql = "SELECT *  FROM entries WHERE UserID = %s;"
         
-        print(sql)
-        
-        print(tuple(str(userID)))
+    
         cur.execute(sql,(str(userID),)) 
         results = cur.fetchall()
-        print(results)
-        response = jsonify({'result':results})
-
+       
+        entriesList =[]
+        for val in results:
+            
+            entryID,userID,entryText,benignResult,malignentResult,entryDate,entryURL = val
+            imageBinary = "null"
+            with open(os.path.join(r".\uploads" , entryURL),"rb") as imageData:
+                  imageBinary = imageData.read()
+                  imageBinary = base64.b64encode(imageBinary).decode('ascii')
+                  print(imageBinary)
+                  
+            entryDict = {'status':str(benignResult),'scan':str(entryID),'date':str(entryDate),'about':entryText,'doctor':entryURL,'imageBinary':imageBinary}
+            entriesList.append(entryDict)
+        response = jsonify(entriesList)
+        print(response)
+        #final = json.dumps(entriesList,indent=1)
+    
 
 
 
@@ -286,6 +299,7 @@ class GetEntries(Resource):
         
         #image.save(os.path.join(uploads_path , image.filename))
         response.headers.add('Access-Control-Allow-Origin', '*') # needed line to fix CORS error 
+        print(response)
         return response
 api.add_resource(SignUp, '/signUp')
 api.add_resource(LogIn, '/logIn')
