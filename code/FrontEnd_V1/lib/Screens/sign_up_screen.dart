@@ -9,6 +9,7 @@ import '../../Utils/Widgets/custom_button.dart';
 import '../../Utils/Widgets/custom_textfield.dart';
 import '../../Utils/app_colors.dart';
 import '../../Utils/constant_widgets.dart';
+import '../Utils/preference.dart';
 import '../main.dart';
 
 class SignUpScreen extends StatelessWidget {
@@ -116,8 +117,10 @@ class SignUpScreen extends StatelessWidget {
                   height: isDesktop(context) ? 7.h : 6.5.h,
                   width: isDesktop(context) ? 12.w : 40.w,
                   text: 'Quick Scan',
-                  onTap: () {
+                  onTap: () async {
                     // signup validation
+                    await Preference.shared.setString("useremail", 'nullnullnull');
+                    await Preference.shared.setString("userpass", 'nullnullnull');
                     Get.toNamed(Routes.NEW_SCAN_SCREEN);
                   },
                 ),

@@ -189,6 +189,25 @@ class AddEntry(Resource):
         val = (email,password)
         cur.execute(sql,val)
         results = cur.fetchall()
+        if results == []:
+            conn.close() 
+            image = request.files['image']
+            imageName = image.filename+"."+image.content_type.split('/')[-1] # geting file extention 
+            print(imageName)
+            image.save(os.path.join(r".\uploads" , imageName))   
+            img = load_img(fr".\uploads\{imageName}")
+            img_array = img_to_array(img)
+            img_4d = img_array.reshape(-1,224,224,3)
+            prediction=model.predict(img_4d)[0]
+            benignResult = str((prediction[0])*100)
+            malignentResult = str((prediction[1])*100)
+            print("benign:" + benignResult + "malignent:" + malignentResult)
+            os.remove(fr".\uploads\{imageName}")
+            response = jsonify({'benign': benignResult,'malignent':malignentResult})
+            response.headers.add('Access-Control-Allow-Origin', '*') # needed line to fix CORS error 
+            return response   
+
+
         userID_tuple = results[0]
         userID = userID_tuple[0]
         print( userID )
@@ -263,8 +282,17 @@ class GetEntries(Resource):
     
         cur.execute(sql,(str(userID),)) 
         results = cur.fetchall()
-       
         entriesList =[]
+        if results == []:
+            conn.close() 
+            entriesList.append({'benign':"NullList"})
+            response = jsonify(entriesList)
+        
+            response.headers.add('Access-Control-Allow-Origin', '*') # needed line to fix CORS error 
+            return response   
+
+
+
         for val in results:
             
             entryID,userID,entryText,benignResult,malignentResult,entryDate,entryURL = val
@@ -274,7 +302,7 @@ class GetEntries(Resource):
                   imageBinary = base64.b64encode(imageBinary).decode('ascii')
                   print(imageBinary)
                   
-            entryDict = {'status':str(benignResult),'scan':str(entryID),'date':str(entryDate),'about':entryText,'doctor':entryURL,'imageBinary':imageBinary}
+            entryDict = {'benign':str(benignResult),"malignent":malignentResult,'scan':str(entryID),'date':str(entryDate),'about':entryText,'doctor':entryURL,'imageBinary':imageBinary}
             entriesList.append(entryDict)
         response = jsonify(entriesList)
         print(response)
@@ -308,4 +336,4 @@ api.add_resource(GetEntries, '/getEntries')
 
 if __name__ == '__main__':
     app.run(debug=True)
-
+#use  host='10.0.2.2' for non-browser

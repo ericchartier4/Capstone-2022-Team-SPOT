@@ -189,10 +189,16 @@ class _HomeScreenState extends State<HomeScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
+                              // photobox
                               height: isDesktop(context) ? 10.h : 8.h,
                               width: isDesktop(context) ? 10.w : 30.w,
                               color: Colors.lightBlue.withOpacity(0.2),
-                            ),
+                              child: homeController.serverImages?.isNotEmpty ==true 
+                              ? Image.memory(homeController.serverImages![index])
+                              : Image.asset('assets/images/placeholder.png',)
+                            )
+                              ,
+                            
                             SizedBox(width: 2.w),
                             Column(
                               mainAxisAlignment: MainAxisAlignment.start,
@@ -209,8 +215,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ),
                                     children: [
                                       TextSpan(
-                                        text: homeController.scanDoc[index]
-                                            ['status'],
+                                        text: "complete",
                                         style: GoogleFonts.poppins(
                                           fontSize:
                                               isDesktop(context) ? 14 : 10.sp,
@@ -349,9 +354,54 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               ),
                               SizedBox(height: 0.5.h),
-                              // Doctors comment text
+                              // benign comment text
                               Text(
-                                'Doctors Comment',
+                                'Benign',
+                                style: GoogleFonts.poppins(
+                                  fontSize: isDesktop(context) ? 16 : 12.sp,
+                                  fontWeight: FontWeight.w500,
+                                  color: const Color(0xff442C2E),
+                                ),
+                              ),
+                              // Benign comment description
+                              Container(
+                                constraints: BoxConstraints(
+                                  maxHeight: isDesktop(context) ? 15.h : 12.h,
+                                  maxWidth: isDesktop(context) ? 60.w : 85.w,
+                                ),
+                                padding: EdgeInsets.only(
+                                  left: isDesktop(context) ? 0.7.w : 2.5.w,
+                                  top: 0.5.h,
+                                  right: isDesktop(context) ? 0.5.w : 1.5.w,
+                                  bottom: 0.5.h,
+                                ),
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: AppColor.greyColor),
+                                  borderRadius: BorderRadius.circular(0),
+                                ),
+                                child: Scrollbar(
+                                  controller: homeController.doctorController,
+                                  radius: const Radius.circular(15),
+                                  child: SingleChildScrollView(
+                                    physics: const BouncingScrollPhysics(),
+                                    controller: homeController.doctorController,
+                                    child: Text(
+                                      homeController.scanDoc[index]['benign']!,
+                                      style: GoogleFonts.poppins(
+                                        color: AppColor.textBlackColor
+                                            .withOpacity(0.7),
+                                        fontSize:
+                                            isDesktop(context) ? 13 : 11.sp,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 1.h),
+                               SizedBox(height: 0.5.h),
+                              // Malignant comment text
+                              Text(
+                                'Malignent',
                                 style: GoogleFonts.poppins(
                                   fontSize: isDesktop(context) ? 16 : 12.sp,
                                   fontWeight: FontWeight.w500,
@@ -381,7 +431,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     physics: const BouncingScrollPhysics(),
                                     controller: homeController.doctorController,
                                     child: Text(
-                                      homeController.scanDoc[index]['doctor']!,
+                                      homeController.scanDoc[index]['malignent']!,
                                       style: GoogleFonts.poppins(
                                         color: AppColor.textBlackColor
                                             .withOpacity(0.7),
@@ -392,7 +442,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                 ),
                               ),
-                              SizedBox(height: 1.h),
                             ],
                           ),
                         ),

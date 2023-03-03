@@ -8,6 +8,7 @@ import '../Utils/app_colors.dart';
 import '../Utils/constant_widgets.dart';
 import '../Controllers/home_controller.dart';
 import '../main.dart';
+import '../Utils/preference.dart';
 
 class ViewDetailsScreen extends StatelessWidget {
   ViewDetailsScreen({Key? key}) : super(key: key);
@@ -187,13 +188,45 @@ class ViewDetailsScreen extends StatelessWidget {
               ),
             ),
             SizedBox(height: 2.h),
-            Text(
-              'PLEASE KEEP AN EYE OUT ON YOUR EMAIL WE WILL INFORM YOU WHEN OUR AI HAS REVIEWED YOUR SUMISSION THANK YOU',
-              textAlign: TextAlign.center,
-              style: GoogleFonts.poppins(
-                fontSize: isDesktop(context) ? 16 : 11.sp,
-                fontWeight: FontWeight.w400,
-                color: AppColor.textBlackColor,
+            Text.rich(
+              TextSpan(
+                text: 'Benign: ',
+                style: GoogleFonts.poppins(
+                  fontSize: isDesktop(context) ? 16 : 12.sp,
+                  fontWeight: FontWeight.normal,
+                  color: AppColor.textBlackColor,
+                ),
+                children: [
+                  TextSpan(
+                    text: homeController.bresult,
+                    style: GoogleFonts.poppins(
+                      fontSize: isDesktop(context) ? 16 : 12.sp,
+                      fontWeight: FontWeight.w600,
+                      color: AppColor.textBlackColor,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 2.h),
+            Text.rich(
+              TextSpan(
+                text: 'Malignent: ',
+                style: GoogleFonts.poppins(
+                  fontSize: isDesktop(context) ? 16 : 12.sp,
+                  fontWeight: FontWeight.normal,
+                  color: AppColor.textBlackColor,
+                ),
+                children: [
+                  TextSpan(
+                    text: homeController.mresult,
+                    style: GoogleFonts.poppins(
+                      fontSize: isDesktop(context) ? 16 : 12.sp,
+                      fontWeight: FontWeight.w600,
+                      color: AppColor.textBlackColor,
+                    ),
+                  ),
+                ],
               ),
             ),
             SizedBox(height: 1.h),
@@ -203,7 +236,12 @@ class ViewDetailsScreen extends StatelessWidget {
               width: isDesktop(context) ? 30.w : 90.w,
               text: 'Done',
               onTap: () {
-                Get.offNamedUntil(Routes.HOME_SCREEN, ((route) => false));
+                if (Preference.shared.getString('useremail')! ==
+                    'nullnullnull') {
+                  Get.offAllNamed(Routes.LOGIN_SCREEN);
+                } else {
+                  Get.offNamedUntil(Routes.HOME_SCREEN, ((route) => false));
+                }
               },
             ),
             SizedBox(height: 2.h),

@@ -212,7 +212,8 @@ class AddDetailsScreen extends StatelessWidget {
                   width: isDesktop(context) ? 30.w : 90.w,
                   text: 'Submit',
                   onTap: () {
-                    Get.toNamed(Routes.VIEW_DETAILS_SCREEN);
+                    homeController.addEntryHelper();
+                    //Get.toNamed(Routes.VIEW_DETAILS_SCREEN);
                   },
                 ),
                 SizedBox(height: 2.h),
