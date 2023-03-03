@@ -34,8 +34,16 @@ class SignUpScreen extends StatelessWidget {
                 // color: const Color(0xffFEEAE6),
                 borderRadius: BorderRadius.circular(20),
               ),
-              alignment: Alignment.center,
-              child: const Text('Image'),
+              child: Container(
+                    //padding: const EdgeInsets.only(top: 20),
+                    alignment: Alignment.center,
+                    child: Image.asset(
+                      'assets/images/bot.png',
+                      fit: BoxFit.cover,
+                    ),
+                  )
+              
+              //child: const Text('Image'),
             ),
             SizedBox(height: 2.h),
             Padding(
