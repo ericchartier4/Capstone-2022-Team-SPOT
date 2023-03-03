@@ -227,20 +227,20 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               ],
                             ),
-                            Expanded(
-                              child: GestureDetector(
-                                onTap: () {
-                                  errorSnackBar(
-                                      message:
-                                          "Scan $index deleted Successfully");
-                                },
-                                child: Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 5, vertical: 2),
-                                    alignment: Alignment.topRight,
-                                    child: const Icon(Icons.delete_outline)),
-                              ),
-                            ),
+                            //Expanded(
+                             // child: GestureDetector(
+                              //  onTap: () {
+                               //   errorSnackBar(
+                                //      message:
+                                //          "Scan $index deleted Successfully");
+                               // },
+                               // child: Container(
+                                //    padding: const EdgeInsets.symmetric(
+                                 //       horizontal: 5, vertical: 2),
+                                  //  alignment: Alignment.topRight,
+                                   // child: const Icon(Icons.delete_outline)),
+                              //),
+                           // ),
                           ],
                         ),
                         SizedBox(height: 0.5.h),
