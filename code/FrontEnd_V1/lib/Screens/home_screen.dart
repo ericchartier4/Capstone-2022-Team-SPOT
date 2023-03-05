@@ -189,16 +189,18 @@ class _HomeScreenState extends State<HomeScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
-                              // photobox
-                              height: isDesktop(context) ? 10.h : 8.h,
-                              width: isDesktop(context) ? 10.w : 30.w,
-                              color: Colors.lightBlue.withOpacity(0.2),
-                              child: homeController.serverImages?.isNotEmpty ==true 
-                              ? Image.memory(homeController.serverImages![index])
-                              : Image.asset('assets/images/placeholder.png',)
-                            )
-                              ,
-                            
+                                // photobox
+                                height: isDesktop(context) ? 10.h : 8.h,
+                                width: isDesktop(context) ? 10.w : 30.w,
+                                color: Colors.lightBlue.withOpacity(0.2),
+                                child:
+                                    homeController.serverImages?.isNotEmpty ==
+                                            true
+                                        ? Image.memory(
+                                            homeController.serverImages![index])
+                                        : Image.asset(
+                                            'assets/images/placeholder.png',
+                                          )),
                             SizedBox(width: 2.w),
                             Column(
                               mainAxisAlignment: MainAxisAlignment.start,
@@ -227,20 +229,21 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               ],
                             ),
-                            //Expanded(
-                             // child: GestureDetector(
-                              //  onTap: () {
-                               //   errorSnackBar(
-                                //      message:
-                                //          "Scan $index deleted Successfully");
-                               // },
-                               // child: Container(
-                                //    padding: const EdgeInsets.symmetric(
-                                 //       horizontal: 5, vertical: 2),
-                                  //  alignment: Alignment.topRight,
-                                   // child: const Icon(Icons.delete_outline)),
-                              //),
-                           // ),
+                            Expanded(
+                              child: GestureDetector(
+                                onTap: () {
+                                  homeController.deleteEntriesHelper(index);
+                                  //errorSnackBar(
+                                  //    message:
+                                  //        "Scan $index deleted Successfully");
+                                },
+                                child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 5, vertical: 2),
+                                    alignment: Alignment.topRight,
+                                    child: const Icon(Icons.delete_outline)),
+                              ),
+                            ),
                           ],
                         ),
                         SizedBox(height: 0.5.h),
@@ -398,7 +401,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               ),
                               SizedBox(height: 1.h),
-                               SizedBox(height: 0.5.h),
+                              SizedBox(height: 0.5.h),
                               // Malignant comment text
                               Text(
                                 'Malignent',
@@ -431,7 +434,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                     physics: const BouncingScrollPhysics(),
                                     controller: homeController.doctorController,
                                     child: Text(
-                                      homeController.scanDoc[index]['malignent']!,
+                                      homeController.scanDoc[index]
+                                          ['malignent']!,
                                       style: GoogleFonts.poppins(
                                         color: AppColor.textBlackColor
                                             .withOpacity(0.7),

@@ -12,6 +12,7 @@ import 'dart:convert';
 import 'package:http_parser/http_parser.dart';
 import '../Routes/routes.dart';
 import '../Utils/preference.dart';
+import '../Utils/constant_widgets.dart';
 
 class HomeController extends GetxController {
   var selectedBottomIndex = 0.obs;
@@ -100,7 +101,8 @@ class HomeController extends GetxController {
     _serverImages = [];
 
     for (var i = 0; i < map.length; i++) {
-      if (map[i]["benign"] == "NullList") { // no entries here 
+      if (map[i]["benign"] == "NullList") {
+        // no entries here
         scanDoc.value = [
           {
             "benign": "null",
@@ -171,6 +173,54 @@ class HomeController extends GetxController {
         getEntriesHelper();
       }
     });
+  }
+
+  /// delete entries
+  ///
+  ///
+  ///
+  Future<http.StreamedResponse> deleteEntries(int index) async {
+    http.MultipartRequest request = http.MultipartRequest(
+        'POST', Uri.parse('http://127.0.0.1:5000/deleteEntries'));
+
+    //request.headers.addAll(<String,String>{'Authorization': 'Bearer $token'});
+    //Check if Uint8List populated, it will or will not have an image, this image
+    request.fields['email'] = Preference.shared.getString('useremail')!;
+    request.fields['pass'] = Preference.shared.getString('userpass')!;
+    request.fields['entryID'] = scanDoc[index]["scan"]!;
+
+    http.StreamedResponse response = await request.send();
+    return response;
+  }
+
+  Future<void> deleteEntriesHelper(int index) async {
+    if (serverImages?.isEmpty == true) //  meaning there are no entries in this list when called
+    {
+      errorSnackBar(message: "no saved Enties to delete");
+      return;
+    }
+    http.StreamedResponse response = await deleteEntries(index);
+    if (response.statusCode == 200) {
+      serverImages?.removeAt(index);
+      if (serverImages?.isEmpty ==true) {
+        scanDoc.value = [
+          {
+            "benign": "null",
+            "malignent": "null",
+            "scan": "null",
+            "date": "null",
+            "about": "null",
+            "doctor": "null",
+          }
+        ];
+        return;
+      } else {
+        scanDoc.removeAt(index);
+        return;
+      }
+      //var map = jsonDecode(await response.stream.bytesToString());
+
+    }
   }
 
   ///

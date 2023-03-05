@@ -192,7 +192,7 @@ class AddEntry(Resource):
         if results == []:
             conn.close() 
             image = request.files['image']
-            imageName = image.filename+"."+image.content_type.split('/')[-1] # geting file extention 
+            imageName = "quickscanImage" # geting file extention 
             print(imageName)
             image.save(os.path.join(r".\uploads" , imageName))   
             img = load_img(fr".\uploads\{imageName}")
@@ -329,10 +329,63 @@ class GetEntries(Resource):
         response.headers.add('Access-Control-Allow-Origin', '*') # needed line to fix CORS error 
         print(response)
         return response
+
+class DeleteEntries(Resource):
+    def post(self):
+        
+         
+        email = request.values['email']
+        password = request.values['pass']
+        entryID = request.values['entryID']
+        print(email)
+        
+        conn = mariadb.connect(**config)
+        cur = conn.cursor()
+
+        
+
+        sql = "SELECT UserID  FROM users WHERE Email = %s AND Password = %s;"
+        
+        val = (email,password)
+        cur.execute(sql,val)
+        results = cur.fetchall()
+        userID_tuple = results[0]
+        userID = userID_tuple[0]
+        print( userID )
+        str_UserID = str
+
+
+        sql = "SELECT *  FROM entries WHERE UserID = %s  AND EntryID = %s;"
+        
+    
+        cur.execute(sql,(str(userID),entryID)) 
+        results = cur.fetchall()
+        for val in results: 
+            entryURL = val[6]
+            os.remove(fr".\uploads\{entryURL}")
+
+
+
+
+        sql = "DELETE FROM entries WHERE UserID = %s  AND EntryID = %s;"
+        print(str(entryID))
+        cur.execute(sql,(str(userID),entryID)) 
+        conn.commit()
+        conn.close() 
+        response = jsonify({'status':"200"})
+        response.headers.add('Access-Control-Allow-Origin', '*') # needed line to fix CORS error 
+        return response   
+
+
+      
+
+
 api.add_resource(SignUp, '/signUp')
 api.add_resource(LogIn, '/logIn')
 api.add_resource(AddEntry, '/addEntry')
 api.add_resource(GetEntries, '/getEntries')
+api.add_resource(DeleteEntries, '/deleteEntries')
+
 
 if __name__ == '__main__':
     app.run(debug=True)
