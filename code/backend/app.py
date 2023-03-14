@@ -14,15 +14,13 @@ import zipfile
 from PIL import Image
 import numpy as np
 from keras import layers
-from tensorflow.keras.applications import ResNet50,MobileNet, DenseNet201, InceptionV3, NASNetLarge, InceptionResNetV2, NASNetMobile
 from keras.callbacks import Callback, ModelCheckpoint, ReduceLROnPlateau, TensorBoard
 from keras.preprocessing.image import ImageDataGenerator
-from keras.preprocessing.image import load_img
+from keras.preprocessing.image import load_img 
 from keras.preprocessing.image import img_to_array
 from keras.preprocessing.image import array_to_img
 from keras.utils.np_utils import to_categorical
 from keras.models import Sequential, load_model
-from tensorflow.keras.optimizers import Adam
 import matplotlib.pyplot as plt
 import pandas as pd
 from sklearn.model_selection import train_test_split
@@ -43,16 +41,15 @@ import mariadb
 from datetime import date
 import base64
 
+from werkzeug.middleware.proxy_fix import ProxyFix
 
+#flutter build web --release --base-href=/web/
 #app.logger.info(datalist)
 #logging.basicConfig(level=logging.DEBUG)
  
 
  # assume you have created a uploads folder
  #DATE - format YYYY-MM-DD for sql 
-
-# CREATE DATABASE IF NOT EXISTS crab;
-# USE crab; 
 app = Flask(__name__)
 api = Api(app)
 if not os.path.exists(r".\uploads"):
@@ -60,34 +57,55 @@ if not os.path.exists(r".\uploads"):
 model = load_model(r".\model.h5")
 with open("config.json") as json_data_file:
     mysqlconfig = json.load(json_data_file)
-print (mysqlconfig['mysql']['passwd'])
-print (mysqlconfig['mysql']['port'])
-print (mysqlconfig['mysql']['host'])
-print (mysqlconfig['mysql']['user'])
-print (mysqlconfig['mysql']['db'])
 config = {
     'host': mysqlconfig['mysql']['host'],
     'port': mysqlconfig['mysql']['port'],
     'user': mysqlconfig['mysql']['user'],
     'password': mysqlconfig['mysql']['passwd'],
-    'database': mysqlconfig['mysql']['db']
+    'database': "crab"
 }
-
+conn = mariadb.connect(host=mysqlconfig['mysql']['host'],port=mysqlconfig['mysql']['port'],password=mysqlconfig['mysql']['passwd'],user=mysqlconfig['mysql']['user'])
+cur = conn.cursor()
+cur.execute('CREATE DATABASE IF NOT EXISTS crab;')
+conn.commit()
+conn.close()  
 conn = mariadb.connect(**config)
 # create a connection cursor
 cur = conn.cursor()
 # execute a SQL statement
 #to 
 
-cur.execute('CREATE TABLE IF NOT EXISTS users ( UserID INT NOT NULL PRIMARY KEY AUTO_INCREMENT, FirstName VARCHAR(255) NOT NULL, Email VARCHAR(255) NOT NULL, LastName VARCHAR(255) NOT NULL,  Password VARCHAR(255) NOT NULL, DOB DATE);')
+cur.execute('CREATE TABLE IF NOT EXISTS users ( UserID INT NOT NULL PRIMARY KEY AUTO_INCREMENT, FirstName VARCHAR(255) NOT NULL, Email VARCHAR(255) NOT NULL, LastName VARCHAR(255) NOT NULL,  Password VARCHAR(255) NOT NULL);')
 cur.execute('CREATE TABLE IF NOT EXISTS entries ( EntryID INT NOT NULL PRIMARY KEY AUTO_INCREMENT,UserID INT NOT NULL, FOREIGN KEY (UserID)  REFERENCES users(UserID), EntryText LONGTEXT, Benign FLOAT , Malignant FLOAT, EntryDate DATE,ImageURL LONGTEXT);')
-cur.execute('SELECT * FROM users') # need to use fetchall to print 
-#cur is a curser that contains mory of previous execution 
-rows = cur.fetchall()    # get all selected rows, as Barmar mentioned
-for r in rows:
-    print(r)
 conn.commit()
 conn.close() 
+
+app.wsgi_app = ProxyFix(
+    app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1
+)
+
+
+
+TEMPLATES_DIR = 'templates'
+
+@app.route('/')
+def render_page_web():
+    return render_template('index.html')
+
+@app.route('/web/<path:name>')
+def return_flutter_doc(name):
+
+    pathlist = str(name).split('/') # this splits the url path 
+    DIR_NAME = TEMPLATES_DIR
+
+    if len(pathlist) > 1:
+        for i in range(0, len(pathlist) - 1):
+            DIR_NAME += '/' + pathlist[i]
+
+    return send_from_directory(DIR_NAME, pathlist[-1])
+
+
+
 
 class SignUp(Resource):
     def post(self):
@@ -102,11 +120,11 @@ class SignUp(Resource):
         lName = request.values['lName']
         email = request.values['email']
         password = request.values['pass']
-        dOB  = request.values['dOB']
+       
         
         conn = mariadb.connect(**config)
         cur = conn.cursor()
-        cur.execute("INSERT INTO users (FirstName,LastName, Email,Password,DOB) VALUES (?, ?, ?, ?, ?)",(fName,lName,email,password,dOB))
+        cur.execute("INSERT INTO users (FirstName,LastName, Email,Password) VALUES (?, ?, ?, ?, ?)",(fName,lName,email,password))
         
         conn.commit()
         conn.close() 
@@ -216,7 +234,14 @@ class AddEntry(Resource):
      
 
         image = request.files['image']
-        imageName = image.filename+"."+image.content_type.split('/')[-1] # geting file extention 
+        dir_path = r'.\uploads'
+        filecount = 0
+        # Iterate directory
+        for path in os.listdir(dir_path):
+        # check if current path is a file
+            if os.path.isfile(os.path.join(dir_path, path)):
+                filecount += 1
+        imageName = image.filename+str(filecount)+"."+image.content_type.split('/')[-1] # geting file extention 
         print(imageName)
         image.save(os.path.join(r".\uploads" , imageName))   
         img = load_img(fr".\uploads\{imageName}")
@@ -388,5 +413,5 @@ api.add_resource(DeleteEntries, '/deleteEntries')
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
 #use  host='10.0.2.2' for non-browser

@@ -76,7 +76,7 @@ class HomeController extends GetxController {
   /// get entries
   Future<http.StreamedResponse> getEntries() async {
     http.MultipartRequest request = http.MultipartRequest(
-        'POST', Uri.parse('http://127.0.0.1:5000/getEntries'));
+        'POST', Uri.parse('http://192.168.0.127:8000/getEntries'));
 
     //request.headers.addAll(<String,String>{'Authorization': 'Bearer $token'});
     //Check if Uint8List populated, it will or will not have an image, this image
@@ -181,7 +181,7 @@ class HomeController extends GetxController {
   ///
   Future<http.StreamedResponse> deleteEntries(int index) async {
     http.MultipartRequest request = http.MultipartRequest(
-        'POST', Uri.parse('http://127.0.0.1:5000/deleteEntries'));
+        'POST', Uri.parse('http://192.168.0.127:8000/deleteEntries'));
 
     //request.headers.addAll(<String,String>{'Authorization': 'Bearer $token'});
     //Check if Uint8List populated, it will or will not have an image, this image
@@ -258,7 +258,7 @@ class HomeController extends GetxController {
   Future<http.StreamedResponse> addEntry(
       String? filename, String? fileextention, Uint8List? data) async {
     http.MultipartRequest request = http.MultipartRequest(
-        'POST', Uri.parse('http://127.0.0.1:5000/addEntry'));
+        'POST', Uri.parse('http://192.168.0.127:8000/addEntry'));
 
     //request.headers.addAll(<String,String>{'Authorization': 'Bearer $token'});
     //Check if Uint8List populated, it will or will not have an image, this image
