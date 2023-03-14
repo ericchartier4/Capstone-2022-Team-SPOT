@@ -11,10 +11,18 @@ import '../../Utils/Widgets/custom_textfield.dart';
 import '../../Utils/app_colors.dart';
 import '../../Utils/constant_widgets.dart';
 
-class LoginScreen extends StatelessWidget {
-  LoginScreen({Key? key}) : super(key: key);
-  final AuthController authController = Get.put(AuthController());
 
+class LogInScreen extends StatefulWidget{
+  LogInScreen({Key? key}) : super(key: key);
+  @override
+  State<StatefulWidget> createState() => LogInScreenState();
+
+}
+
+class LogInScreenState extends State<LogInScreen> {
+  
+  final AuthController authController = Get.put(AuthController());
+  bool isLoading = false;   
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,7 +34,11 @@ class LoginScreen extends StatelessWidget {
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 1.h),
-        child: Column(
+        child:
+        isLoading
+        ?    const Center(child: CircularProgressIndicator(),) 
+        :
+        Column(
           children: [
             Container(
               height: isDesktop(context) ? 30.h : 25.h,
@@ -112,7 +124,10 @@ class LoginScreen extends StatelessWidget {
               text: 'Login',
               onTap: () {
                 // login validation
-                authController.checkValidationForLoginDetails();
+                    setState(() {
+                      isLoading = true;
+                    });
+                authController.checkValidationForLoginDetails(context);
               },
             ),
             SizedBox(height: 2.h),

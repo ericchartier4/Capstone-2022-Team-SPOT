@@ -12,9 +12,19 @@ import '../../Utils/constant_widgets.dart';
 import '../Utils/preference.dart';
 import '../main.dart';
 
-class SignUpScreen extends StatelessWidget {
+class SignUpScreen extends StatefulWidget{
   SignUpScreen({Key? key}) : super(key: key);
+  @override
+  State<StatefulWidget> createState() => SignUpScreenState();
+
+}
+
+
+
+class SignUpScreenState extends State<SignUpScreen> {
+  
   final AuthController authController = Get.put(AuthController());
+  bool isLoading = false; 
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +36,10 @@ class SignUpScreen extends StatelessWidget {
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 1.h),
-        child: Column(
+        child: isLoading
+        ? const Center(child: CircularProgressIndicator(),) 
+        :
+        Column(
           children: [
             Container(
               height: isDesktop(context) ? 30.h : 25.h,
@@ -98,6 +111,7 @@ class SignUpScreen extends StatelessWidget {
                         obscureText: true,
                       ),
                       SizedBox(height: .5.h),
+                      
                       CustomTextField(
                         hint: 'Date of birth',
                         controller: authController.sDobController,
@@ -129,8 +143,10 @@ class SignUpScreen extends StatelessWidget {
                   width: isDesktop(context) ? 12.w : 40.w,
                   text: 'Sign Up',
                   onTap: () {
-                    // signup validation
-                    authController.checkValidationForSignUpDetails();
+                    setState(() {
+                      isLoading = true;
+                    });
+                    authController.checkValidationForSignUpDetails(context);
                   },
                 ),
               ],

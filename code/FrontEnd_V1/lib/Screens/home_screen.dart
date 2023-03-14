@@ -21,13 +21,17 @@ class _HomeScreenState extends State<HomeScreen> {
   final HomeController homeController = Get.put(HomeController());
   String? luserEmail;
   String? luserPass;
+ 
+
+
+  
   @override
   void initState() {
     super.initState();
 
     luserEmail = Preference.shared.getString('useremail');
     luserPass = Preference.shared.getString('userpass');
-    print("$luserEmail | $luserPass");
+    print("$luserEmail | $luserPass");  
   }
 
   @override
@@ -62,7 +66,8 @@ class _HomeScreenState extends State<HomeScreen> {
           }),
         ],
       ),
-      body: Obx(
+      body: 
+      Obx(
         () => homeController.selectedBottomIndex.value == 0
             ? home(context)
             : scan(context),
@@ -151,7 +156,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget scan(BuildContext context) {
     return Center(
-      child: Container(
+      child: 
+      Obx(() => homeController.isLoading.value
+      ? const Center(child: CircularProgressIndicator(),)
+       :
+      
+      
+      Container(
         constraints: BoxConstraints(
           maxWidth: isDesktop(context) ? 55.w : 100.w,
         ),
@@ -192,15 +203,45 @@ class _HomeScreenState extends State<HomeScreen> {
                                 // photobox
                                 height: isDesktop(context) ? 10.h : 8.h,
                                 width: isDesktop(context) ? 10.w : 30.w,
-                                color: Colors.lightBlue.withOpacity(0.2),
+      
                                 child:
+                                GestureDetector(
+                                  onTap: () {
+                                    showDialog(context: context,
+                                    barrierDismissible: true,
+                                     builder: (BuildContext context) {
+                                      return
+                                      Dialog(
+                                        child: SizedBox(
+                                // photobox
+                                height: isDesktop(context) ? 10.h : 8.h,
+                                width: isDesktop(context) ? 10.w : 30.w,
+                                child:
+                                homeController.serverImages?.isNotEmpty ==
+                                            true
+                                        ? Image.memory(
+                                            homeController.serverImages![index])
+                                        : Image.asset(
+                                            'assets/images/placeholder.png',
+                                          )
+
+
+                                    )
+                                     );
+                                      }
+                                      );
+                                
+                                  },
+                                  child:
                                     homeController.serverImages?.isNotEmpty ==
                                             true
                                         ? Image.memory(
                                             homeController.serverImages![index])
                                         : Image.asset(
                                             'assets/images/placeholder.png',
-                                          )),
+                                          )
+                                      )
+                                  ),
                             SizedBox(width: 2.w),
                             Column(
                               mainAxisAlignment: MainAxisAlignment.start,
@@ -457,6 +498,7 @@ class _HomeScreenState extends State<HomeScreen> {
             );
           },
         ),
+      ),
       ),
     );
   }

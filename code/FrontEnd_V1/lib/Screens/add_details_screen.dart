@@ -9,9 +9,17 @@ import '../Utils/app_colors.dart';
 import '../Utils/constant_widgets.dart';
 import '../main.dart';
 
-class AddDetailsScreen extends StatelessWidget {
+class AddDetailsScreen extends StatefulWidget {
   AddDetailsScreen({Key? key}) : super(key: key);
+  
+  @override
+  State<StatefulWidget> createState() => AddDetailsScreenState();
+
+}
+class AddDetailsScreenState extends State<AddDetailsScreen> {
+  
   final HomeController homeController = Get.find();
+  bool isLoading = false;   
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +36,11 @@ class AddDetailsScreen extends StatelessWidget {
         body: SizedBox(
           height: 100.h,
           width: 100.w,
-          child: SingleChildScrollView(
+          child: 
+          isLoading
+           ?    const Center(child: CircularProgressIndicator(),) 
+           :
+          SingleChildScrollView(
             child: Column(
               children: [
                 Padding(
@@ -211,9 +223,13 @@ class AddDetailsScreen extends StatelessWidget {
                   height: isDesktop(context) ? 6.h : 6.h,
                   width: isDesktop(context) ? 30.w : 90.w,
                   text: 'Submit',
-                  onTap: () {
-                    homeController.addEntryHelper();
+                  onTap: () { 
                     //Get.toNamed(Routes.VIEW_DETAILS_SCREEN);
+                     setState(() {
+                      isLoading = true;
+                    });
+                    homeController.addEntryHelper();
+                  
                   },
                 ),
                 SizedBox(height: 2.h),

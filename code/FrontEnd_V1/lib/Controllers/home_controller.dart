@@ -40,6 +40,9 @@ class HomeController extends GetxController {
   String? get bresult => _bresults;
   String? _mresults;
   String? get mresult => _mresults;
+  RxBool isLoading = false.obs;
+
+  
 
   var scanDoc = [
     {
@@ -90,6 +93,7 @@ class HomeController extends GetxController {
 
 // method to help get the scan doc
   Future<void> getEntriesHelper() async {
+    isLoading.value = true ;
     http.StreamedResponse response = await getEntries();
 
     //_isLoading = false;
@@ -114,6 +118,7 @@ class HomeController extends GetxController {
             "doctor": "null",
           }
         ];
+        isLoading.value = false ;
         return;
       }
       var about =
@@ -155,6 +160,7 @@ class HomeController extends GetxController {
       scanDoc.value = newList!;
     }
     print(scanDoc);
+    isLoading.value =false;
     //_imagePath=message;
     // _pickedFile = null;
     //await getUserInfo();

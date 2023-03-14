@@ -18,7 +18,7 @@ class AppPages {
   static final routes = [
     GetPage(
       name: Routes.LOGIN_SCREEN,
-      page: () => LoginScreen(),
+      page: () => LogInScreen(),
       transition: transition,
     ),
     GetPage(

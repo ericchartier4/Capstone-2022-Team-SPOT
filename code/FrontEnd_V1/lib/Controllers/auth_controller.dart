@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
@@ -21,6 +23,10 @@ class AuthController extends GetxController {
   TextEditingController sCPasswordController = TextEditingController();
   TextEditingController sDobController = TextEditingController();
   var isObsecureText = true.obs;
+  
+  
+  
+  
 
   // change obsecure value of password
   toggleObsecureValue() {
@@ -51,7 +57,11 @@ class AuthController extends GetxController {
     return response;
   }
 
-  Future<void> logInHelper() async {
+// ignore: non_constant_identifier_names
+
+  Future<void> logInHelper(BuildContext context) async {
+
+    
     http.StreamedResponse response = await logIn(
       lEmailController.text,
       lPasswordController.text,
@@ -87,7 +97,9 @@ class AuthController extends GetxController {
     String? lName,
     String? pass,
     String? dOB,
+    
   ) async {
+     
     http.MultipartRequest request = http.MultipartRequest(
         'POST', Uri.parse(API.URL + '/signUp'));
 
@@ -102,7 +114,8 @@ class AuthController extends GetxController {
     return response;
   }
 
-  Future<void> signUpHelper() async {
+  Future<void> signUpHelper(context) async {
+    
     http.StreamedResponse response = await signUp(
         sEmailController.text,
         sFNameController.text,
@@ -128,7 +141,7 @@ class AuthController extends GetxController {
   }
 
   // validation for login
-  checkValidationForLoginDetails() async {
+  checkValidationForLoginDetails(BuildContext context) async {
     bool emailValid = RegExp(
             r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
         .hasMatch(lEmailController.text);
@@ -142,12 +155,12 @@ class AuthController extends GetxController {
       //await Preference.shared.setString("useremail", lEmailController.text);
       //await Preference.shared.setString("userpass", lPasswordController.text);
       //Get.toNamed(Routes.HOME_SCREEN);
-      logInHelper();
+      logInHelper(context);
     }
   }
 
   // validation for signup
-  checkValidationForSignUpDetails() {
+  checkValidationForSignUpDetails(BuildContext context) {
     bool emailValid = RegExp(
             r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(sEmailController.text);
     bool dobValid = RegExp(r"\d{4}-\d{2}-\d{2}").hasMatch(sDobController.text);
@@ -170,7 +183,7 @@ class AuthController extends GetxController {
     } else if (!dobValid) {
       errorSnackBar(message: "Enter Date of Birth in form: yyyy-mm-dd");
     } else {
-      signUpHelper();
+      signUpHelper(context);
     }
   }
 }

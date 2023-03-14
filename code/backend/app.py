@@ -123,7 +123,7 @@ class SignUp(Resource):
         
         conn = mariadb.connect(**config)
         cur = conn.cursor()
-        cur.execute("INSERT INTO users (FirstName,LastName, Email,Password) VALUES (?, ?, ?, ?, ?)",(fName,lName,email,password))
+        cur.execute("INSERT INTO users (FirstName,LastName, Email,Password) VALUES (?, ?, ?, ?)",(fName,lName,email,password))
         
         conn.commit()
         conn.close() 

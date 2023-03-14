@@ -1,4 +1,4 @@
 // change this to the URL  of your server example : https://www.example.com OR http://192.168.0.107:8000
 class API {
-static const URL ="http://192.168.0.107:8000";
+static const URL ="http://127.0.0.1:5000";
 }
