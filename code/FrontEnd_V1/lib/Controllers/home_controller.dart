@@ -13,6 +13,7 @@ import 'package:http_parser/http_parser.dart';
 import '../Routes/routes.dart';
 import '../Utils/preference.dart';
 import '../Utils/constant_widgets.dart';
+import '../utils/api_manager.dart' ;
 
 class HomeController extends GetxController {
   var selectedBottomIndex = 0.obs;
@@ -76,7 +77,7 @@ class HomeController extends GetxController {
   /// get entries
   Future<http.StreamedResponse> getEntries() async {
     http.MultipartRequest request = http.MultipartRequest(
-        'POST', Uri.parse('http://192.168.0.127:8000/getEntries'));
+        'POST', Uri.parse(API.URL  +'/getEntries'));
 
     //request.headers.addAll(<String,String>{'Authorization': 'Bearer $token'});
     //Check if Uint8List populated, it will or will not have an image, this image
@@ -181,7 +182,7 @@ class HomeController extends GetxController {
   ///
   Future<http.StreamedResponse> deleteEntries(int index) async {
     http.MultipartRequest request = http.MultipartRequest(
-        'POST', Uri.parse('http://192.168.0.127:8000/deleteEntries'));
+        'POST', Uri.parse(API.URL +'/deleteEntries'));
 
     //request.headers.addAll(<String,String>{'Authorization': 'Bearer $token'});
     //Check if Uint8List populated, it will or will not have an image, this image
@@ -258,7 +259,7 @@ class HomeController extends GetxController {
   Future<http.StreamedResponse> addEntry(
       String? filename, String? fileextention, Uint8List? data) async {
     http.MultipartRequest request = http.MultipartRequest(
-        'POST', Uri.parse('http://192.168.0.127:8000/addEntry'));
+        'POST', Uri.parse(API.URL +'/addEntry'));
 
     //request.headers.addAll(<String,String>{'Authorization': 'Bearer $token'});
     //Check if Uint8List populated, it will or will not have an image, this image

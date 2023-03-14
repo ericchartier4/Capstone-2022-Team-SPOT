@@ -44,7 +44,6 @@ import base64
 from werkzeug.middleware.proxy_fix import ProxyFix
 
 #flutter build web --release --base-href=/web/
-#app.logger.info(datalist)
 #logging.basicConfig(level=logging.DEBUG)
  
 

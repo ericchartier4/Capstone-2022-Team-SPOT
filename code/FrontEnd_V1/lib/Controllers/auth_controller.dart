@@ -9,6 +9,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:http_parser/http_parser.dart';
 import '../Utils/preference.dart';
+import '../utils/api_manager.dart'; 
 
 class AuthController extends GetxController {
   TextEditingController lEmailController = TextEditingController();
@@ -39,7 +40,7 @@ class AuthController extends GetxController {
     String? pass,
   ) async {
     http.MultipartRequest request =
-        http.MultipartRequest('POST', Uri.parse('http://192.168.0.127:8000/logIn'));
+        http.MultipartRequest('POST', Uri.parse(API.URL +'/logIn'));
 
     //request.headers.addAll(<String,String>{'Authorization': 'Bearer $token'});
     //Check if Uint8List populated, it will or will not have an image, this image
@@ -88,7 +89,7 @@ class AuthController extends GetxController {
     String? dOB,
   ) async {
     http.MultipartRequest request = http.MultipartRequest(
-        'POST', Uri.parse('http://192.168.0.127:8000/signUp'));
+        'POST', Uri.parse(API.URL + '/signUp'));
 
     //request.headers.addAll(<String,String>{'Authorization': 'Bearer $token'});
     //Check if Uint8List populated, it will or will not have an image, this image
