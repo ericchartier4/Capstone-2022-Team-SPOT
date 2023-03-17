@@ -16,9 +16,9 @@ import numpy as np
 from keras import layers
 from keras.callbacks import Callback, ModelCheckpoint, ReduceLROnPlateau, TensorBoard
 from keras.preprocessing.image import ImageDataGenerator
-from keras.preprocessing.image import load_img 
-from keras.preprocessing.image import img_to_array
-from keras.preprocessing.image import array_to_img
+from keras_preprocessing.image import load_img 
+from keras_preprocessing.image import img_to_array
+from keras_preprocessing.image import array_to_img
 from keras.utils.np_utils import to_categorical
 from keras.models import Sequential, load_model
 import matplotlib.pyplot as plt
@@ -43,6 +43,31 @@ import base64
 
 from werkzeug.middleware.proxy_fix import ProxyFix
 
+# Dictionary :
+#     'NV': 'Melanocytic nevi',
+#     'Mel': 'Melanoma',
+#     'BKL': 'Benign keratosis-like lesions ',
+#     'BCC': 'Basal cell carcinoma',
+#     'Akiec': 'Actinic keratoses',
+#     'Vasc': 'Vascular lesions',
+#     'DF': 'Dermatofibroma'
+#     'MelBen' : 'Benign  Melanoma'
+#     'MelMalig' : 'Malignant Melanoma'
+
+lesion_type_dict = {
+    'nv': 'Melanocytic nevi',
+    'mel': 'Melanoma',
+    'bkl': 'Benign keratosis-like lesions ',
+    'bcc': 'Basal cell carcinoma',
+    'akiec': 'Actinic keratoses',
+    'vasc': 'Vascular lesions',
+    'df': 'Dermatofibroma'
+}
+
+
+
+
+
 #flutter build web --release --base-href=/web/
 #logging.basicConfig(level=logging.DEBUG)
  
@@ -53,7 +78,9 @@ app = Flask(__name__)
 api = Api(app)
 if not os.path.exists(r".\uploads"):
    os.makedirs(r".\uploads")
-model = load_model(r".\model.h5")
+#modelGen = load_model(r".\modelGen.h5")
+modelMel = load_model(r".\model77.h5")
+
 with open("config.json") as json_data_file:
     mysqlconfig = json.load(json_data_file)
 config = {
@@ -75,13 +102,29 @@ cur = conn.cursor()
 #to 
 
 cur.execute('CREATE TABLE IF NOT EXISTS users ( UserID INT NOT NULL PRIMARY KEY AUTO_INCREMENT, FirstName VARCHAR(255) NOT NULL, Email VARCHAR(255) NOT NULL, LastName VARCHAR(255) NOT NULL,  Password VARCHAR(255) NOT NULL);')
-cur.execute('CREATE TABLE IF NOT EXISTS entries ( EntryID INT NOT NULL PRIMARY KEY AUTO_INCREMENT,UserID INT NOT NULL, FOREIGN KEY (UserID)  REFERENCES users(UserID), EntryText LONGTEXT, Benign FLOAT , Malignant FLOAT, EntryDate DATE,ImageURL LONGTEXT);')
+cur.execute('CREATE TABLE IF NOT EXISTS entries ( EntryID INT NOT NULL PRIMARY KEY AUTO_INCREMENT,UserID INT NOT NULL, FOREIGN KEY (UserID)  REFERENCES users(UserID), EntryText LONGTEXT, NV FLOAT,  Mel FLOAT,  BLK FLOAT,  BCC FLOAT,  Akiec FLOAT ,  Vasc FLOAT ,  DF FLOAT, MelBen FLOAT , MelMalig FLOAT, EntryDate DATE,ImageURL LONGTEXT);')
 conn.commit()
 conn.close() 
 
 app.wsgi_app = ProxyFix(
     app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1
 )
+
+def analyzePhoto(img_4d):
+    genPrediction = modelGen.predict(img_4d)[0]
+    melPrediction = modelMel.predict(img_4d)[0]  
+    melResult = ((genPrediction[4])*100)
+    melBenResult = ((melPrediction[0])*100)
+    melMaligResult = ((melPrediction[1])*100)
+    nVResult = ((genPrediction[5])*100)
+    bKLResult = ((genPrediction[2])*100)
+    bCCResult = ((genPrediction[1])*100)
+    akiecResult =  ((genPrediction[0])*100)
+    vascResult = ((genPrediction[6])*100)
+    dFResult = ((genPrediction[3])*100)
+
+    return   melResult,   melBenResult,  melMaligResult, nVResult, bKLResult, bCCResult, akiecResult, vascResult, dFResult
+
 
 
 
@@ -188,16 +231,31 @@ class LogIn(Resource):
         response.headers.add('Access-Control-Allow-Origin', '*') # needed line to fix CORS error 
         return response
 
+
+
 class AddEntry(Resource):
     def post(self):
+
+        melResult = 0
+        melBenResult = 0   
+        melMaligResult = 0  
+        nVResult = 0  
+        bKLResult = 0 
+        bCCResult = 0  
+        akiecResult = 0
+        vascResult = 0 
+        dFResult = 0 
         
+        upload_path = r'.\uploads'
+        filecount = 0
+        # Iterate uplad direct
+        for path in os.listdir(upload_path):
+            if os.path.isfile(os.path.join(upload_path, path)):
+                filecount += 1
          
         email = request.values['email']
         password = request.values['pass']
         details = request.values['details']
-
-        print(email)
-        
         conn = mariadb.connect(**config)
         cur = conn.cursor()
 
@@ -209,76 +267,39 @@ class AddEntry(Resource):
         if results == []:
             conn.close() 
             image = request.files['image']
-            imageName = "quickscanImage" # geting file extention 
-            print(imageName)
+            imageName = "quickscanImage"+str(filecount) # geting file extention 
             image.save(os.path.join(r".\uploads" , imageName))   
             img = load_img(fr".\uploads\{imageName}")
             img_array = img_to_array(img)
             img_4d = img_array.reshape(-1,224,224,3)
-            prediction=model.predict(img_4d)[0]
-            benignResult = str((prediction[0])*100)
-            malignentResult = str((prediction[1])*100)
-            print("benign:" + benignResult + "malignent:" + malignentResult)
+            melResult,   melBenResult,  melMaligResult, nVResult, bKLResult, bCCResult, akiecResult, vascResult, dFResult =analyzePhoto(img_4d)
             os.remove(fr".\uploads\{imageName}")
-            response = jsonify({'benign': benignResult,'malignent':malignentResult})
-            response.headers.add('Access-Control-Allow-Origin', '*') # needed line to fix CORS error 
-            return response   
+        else:
+            userID_tuple = results[0]
+            userID = userID_tuple[0]
+            image = request.files['image']
+            imageName = image.filename+str(filecount)+"."+image.content_type.split('/')[-1] # geting file extention 
+            image.save(os.path.join(r".\uploads" , imageName))   
+            img = load_img(fr".\uploads\{imageName}")
+            img_array = img_to_array(img)
+            img_4d = img_array.reshape(-1,224,224,3)
+            melResult,   melBenResult,  melMaligResult, nVResult, bKLResult, bCCResult, akiecResult, vascResult, dFResult = analyzePhoto(img_4d)
+            cur.execute("INSERT INTO entries (UserID,EntryText,NV, Mel,BCC, BLK, Akiec, Vasc, DF, MelBen, MelMalig,EntryDate,ImageURL) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",(userID,details,nVResult,melResult,bCCResult,bKLResult,akiecResult,vascResult,dFResult,melBenResult,melMaligResult,date.today(),imageName))
+            conn.commit()
+            conn.close() 
 
-
-        userID_tuple = results[0]
-        userID = userID_tuple[0]
-        print( userID )
-
-
-     
-
-        image = request.files['image']
-        dir_path = r'.\uploads'
-        filecount = 0
-        # Iterate directory
-        for path in os.listdir(dir_path):
-        # check if current path is a file
-            if os.path.isfile(os.path.join(dir_path, path)):
-                filecount += 1
-        imageName = image.filename+str(filecount)+"."+image.content_type.split('/')[-1] # geting file extention 
-        print(imageName)
-        image.save(os.path.join(r".\uploads" , imageName))   
-        img = load_img(fr".\uploads\{imageName}")
-        img_array = img_to_array(img)
-        img_4d = img_array.reshape(-1,224,224,3)
-        prediction=model.predict(img_4d)[0]
-        benignResult = str((prediction[0])*100)
-        malignentResult = str((prediction[1])*100)
-        print("benign:" + benignResult + "malignent:" + malignentResult)
-
-        cur.execute("INSERT INTO entries (UserID,EntryText,Benign,Malignant,EntryDate,ImageURL) VALUES (?, ?, ?, ?, ?,?)",(userID,details,benignResult,malignentResult,date.today(),imageName))
+        
         #os.remove(fr".\uploads\{image.filename}")   
-        conn.commit()
-        conn.close() 
+        
         #image = request.files('image');
         #image.save(os.path.join(uploads_path , image.filename))
-        response = jsonify({'benign': benignResult,'malignent':malignentResult})
+        response = jsonify({'nVResult':str(nVResult),'melResult':str(melResult),'bCCResult':str(bCCResult),'bKLResult':str(bKLResult),'akiecResult':str(akiecResult),'vascResult':str(vascResult),'dFResult':str(dFResult),'melBenResult':str(melBenResult),'melMaligResult':str(melMaligResult)})
         response.headers.add('Access-Control-Allow-Origin', '*') # needed line to fix CORS error 
         return response
+    
 
 
 
-
-        ##image = request.files['image']
-        #image.save(os.path.join(r".\uploads" , image.filename))   
-        #img = load_img(fr".\uploads\{image.filename}")
-        #img_array = img_to_array(img)
-        #img_4d = img_array.reshape(-1,224,224,3)
-        #prediction=model.predict(img_4d)[0]
-        #benignResult = str((prediction[0])*100)
-        #melignentResult = str((prediction[1])*100)
-        #print("benign:" + benignResult + "malignent:" + melignentResult)
-        #os.remove(fr".\uploads\{image.filename}")
-        #image = request.files('image');
-        
-        #image.save(os.path.join(uploads_path , image.filename))
-        #response.headers.add('Access-Control-Allow-Origin', '*') # needed line to fix CORS error 
-        #return response
 class GetEntries(Resource):
     def post(self):
         
@@ -309,7 +330,7 @@ class GetEntries(Resource):
         entriesList =[]
         if results == []:
             conn.close() 
-            entriesList.append({'benign':"NullList"})
+            entriesList.append({'EntryDate':"NullList"})
             response = jsonify(entriesList)
         
             response.headers.add('Access-Control-Allow-Origin', '*') # needed line to fix CORS error 
@@ -319,14 +340,14 @@ class GetEntries(Resource):
 
         for val in results:
             
-            entryID,userID,entryText,benignResult,malignentResult,entryDate,entryURL = val
+            entryID,userID,entryText,nVResult, melResult, bKLResult, bCCResult, akiecResult, vascResult, dFResult,   melBenResult,  melMaligResult, entryDate,entryURL = val
             imageBinary = "null"
             with open(os.path.join(r".\uploads" , entryURL),"rb") as imageData:
                   imageBinary = imageData.read()
                   imageBinary = base64.b64encode(imageBinary).decode('ascii')
                   print(imageBinary)
                   
-            entryDict = {'benign':str(benignResult),"malignent":malignentResult,'scan':str(entryID),'date':str(entryDate),'about':entryText,'doctor':entryURL,'imageBinary':imageBinary}
+            entryDict = {'nVResult':str(nVResult),'melResult':str(melResult),'bCCResult':str(bCCResult),'bKLResult':str(bKLResult),'akiecResult':str(akiecResult),'vascResult':str(vascResult),'dFResult':str(dFResult),'melBenResult':str(melBenResult),'melMaligResult':str(melMaligResult),'scan':str(entryID),'date':str(entryDate),'about':entryText,'imageBinary':imageBinary}
             entriesList.append(entryDict)
         response = jsonify(entriesList)
         print(response)
@@ -337,19 +358,6 @@ class GetEntries(Resource):
 
         conn.commit()
         conn.close() 
-        ##image = request.files['image']
-        #image.save(os.path.join(r".\uploads" , image.filename))   
-        #img = load_img(fr".\uploads\{image.filename}")
-        #img_array = img_to_array(img)
-        #img_4d = img_array.reshape(-1,224,224,3)
-        #prediction=model.predict(img_4d)[0]
-        #benignResult = str((prediction[0])*100)
-        #melignentResult = str((prediction[1])*100)
-        #print("benign:" + benignResult + "malignent:" + melignentResult)
-        #os.remove(fr".\uploads\{image.filename}")
-        #image = request.files('image');
-        
-        #image.save(os.path.join(uploads_path , image.filename))
         response.headers.add('Access-Control-Allow-Origin', '*') # needed line to fix CORS error 
         print(response)
         return response

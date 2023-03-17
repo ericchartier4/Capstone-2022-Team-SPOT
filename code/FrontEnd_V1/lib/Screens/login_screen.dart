@@ -128,6 +128,9 @@ class LogInScreenState extends State<LogInScreen> {
                       isLoading = true;
                     });
                 authController.checkValidationForLoginDetails(context);
+                  setState(() {
+                      isLoading = false;
+                    });
               },
             ),
             SizedBox(height: 2.h),
