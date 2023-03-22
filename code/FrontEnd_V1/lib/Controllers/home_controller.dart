@@ -20,7 +20,6 @@ class HomeController extends GetxController {
   var selectedIndex = 0.obs;
   var isExpanded = false.obs;
   final ScrollController aboutController = ScrollController();
-  final ScrollController doctorController = ScrollController();
   TextEditingController detailsController = TextEditingController();
   final ImagePicker imagePicker = ImagePicker();
   // Rx<File> selectedImageFile = File('').obs;
@@ -36,22 +35,45 @@ class HomeController extends GetxController {
 
   XFile? _pickedFile;
   XFile? get pickedFile => _pickedFile;
-  String? _bresults;
-  String? get bresult => _bresults;
-  String? _mresults;
-  String? get mresult => _mresults;
-  RxBool isLoading = false.obs;
+  String? _melResultViewDetails;
+  String? get melResultViewDetails =>_melResultViewDetails ;
+  String? _melBenResultViewDetails; 
+  String? get melBenResultViewDetails => _melBenResultViewDetails ; 
+  String? _melMaligResultViewDetails;
+  String? get melMaligResultViewDetails  => _melMaligResultViewDetails ;
+  String? _nVResultViewDetails;
+  String? get nVResultViewDetails => _nVResultViewDetails ;
+  String? _bKLResultViewDetails;
+  String? get bKLResultViewDetails => _bKLResultViewDetails ; 
+  String? _bCCResultViewDetails;
+  String? get bCCResultViewDetails => _bCCResultViewDetails ;
+  String? _akiecResultViewDetails;
+  String? get akiecResultViewDetails => _akiecResultViewDetails ; 
+  String? _vascResultViewDetails;
+  String? get vascResultViewDetails => _vascResultViewDetails ;
+  String? _dFResultViewDetails;
+  String? get dFResultViewDetails => _dFResultViewDetails ;
+
+  RxBool homeIsLoading = false.obs;
 
   
 
   var scanDoc = [
     {
-      "benign": "null",
-      "malignent": "null",
-      "scan": "null",
-      "date": "null",
-      "about": "null",
-      "doctor": "null",
+    'NV': 'null',
+     'Mel': 'null',
+     'BKL': 'null ',
+     'BCC': 'null',
+     'Akiec': 'null',
+     'Vasc': 'null',
+     'DF': 'null',
+     'MelBen' : 'null',
+     'MelMalig' : 'null',
+      "Scan": "null",
+      "Date": "null",
+      "About": "null",
+      "Area": "null"
+      
     },
   ].obs;
   var selectedArea = 'selectArea'.obs;
@@ -82,8 +104,7 @@ class HomeController extends GetxController {
     http.MultipartRequest request = http.MultipartRequest(
         'POST', Uri.parse(API.URL  +'/getEntries'));
 
-    //request.headers.addAll(<String,String>{'Authorization': 'Bearer $token'});
-    //Check if Uint8List populated, it will or will not have an image, this image
+    
     request.fields['email'] = Preference.shared.getString('useremail')!;
     request.fields['pass'] = Preference.shared.getString('userpass')!;
 
@@ -93,81 +114,85 @@ class HomeController extends GetxController {
 
 // method to help get the scan doc
   Future<void> getEntriesHelper() async {
-    isLoading.value = true ;
+    homeIsLoading.value = true ;
     http.StreamedResponse response = await getEntries();
 
-    //_isLoading = false;
-    //if (response.statusCode == 200) {
+    
 
     var map = jsonDecode(await response.stream.bytesToString());
 
-    print(map);
     var newList;
     _serverImages = [];
 
     for (var i = 0; i < map.length; i++) {
-      if (map[i]["benign"] == "NullList") {
+      if (map[i]["EntryDate"] == "NullList") {
         // no entries here
         scanDoc.value = [
           {
-            "benign": "null",
-            "malignent": "null",
-            "scan": "null",
-            "date": "null",
-            "about": "null",
-            "doctor": "null",
+     'nV': 'null',
+     'mel': 'null',
+     'bKL': 'null ',
+     'bCC': 'null',
+     'akiec': 'null',
+     'vasc': 'null',
+     'dF': 'null',
+     'melBen' : 'null',
+     'melMalig' : 'null',
+      "scan": "null",
+      "date": "null",
+      "about": "null",
+      "area": "null",
+      
           }
         ];
-        isLoading.value = false ;
+        homeIsLoading.value = false ;
         return;
       }
       var about =
           (map[i]["about"] != null) ? (map[i]['about']).toString() : " ";
       var scan = (map[i]["scan"] != null) ? (map[i]['scan']).toString() : " ";
-      var benign =
-          (map[i]["benign"] != null) ? (map[i]['benign']).toString() : " ";
-      var malignent = (map[i]["malignent"] != null)
-          ? (map[i]['malignent']).toString()
-          : " ";
+      var nVResult = (map[i]["nVResult"] != null) ? (map[i]['nVResult']).toString() : " ";
+      var bKLResult = (map[i]["bKLResult"] != null) ? (map[i]['bKLResult']).toString() : " ";
+      var bCCResult = (map[i]["bCCResult"] != null) ? (map[i]['bCCResult']).toString() : " ";
+      var akiecResult = (map[i]["akiecResult"] != null) ? (map[i]['akiecResult']).toString() : " ";
+      var vascResult = (map[i]["vascResult"] != null) ? (map[i]['vascResult']).toString() : " ";
+      var dFResult = (map[i]["dFResult"] != null) ? (map[i]['dFResult']).toString() : " ";
+      var melResult = (map[i]["melResult"] != null) ? (map[i]['melResult']).toString() : " ";
+      var melBenResult = (map[i]["melBenResult"] != null) ? (map[i]['melBenResult']).toString() : " ";
+      var melMaligResult = (map[i]["melMaligResult"] != null) ? (map[i]['melMaligResult']).toString() : " ";
       var date = (map[i]["date"] != null) ? (map[i]['date']).toString() : " ";
-      var doctor =
-          (map[i]["doctor"] != null) ? (map[i]['doctor']).toString() : " ";
-      print(about);
-      print(scan);
-
-      print(date);
-      print(doctor);
+      var area = (map[i]["area"] != null) ? (map[i]['area']).toString() : " ";
+    
       var newScan = {
-        "benign": benign,
-        "malignent": malignent,
-        "scan": scan,
-        "date": date,
-        "about": about,
-        "doctor": doctor,
+      'nV': nVResult,
+     'mel': melResult,
+     'bKL': bKLResult,
+     'bCC': bCCResult,
+     'akiec': akiecResult,
+     'vasc': vascResult,
+     'dF': dFResult,
+     'melBen' : melBenResult,
+     'melMalig' : melMaligResult,
+      "scan": scan,
+      "date": date,
+      "about": about,
+      "area" : area,
       };
       var imageBin = map[i]["imageBinary"];
       var imageDec = base64Decode(imageBin);
       _serverImages?.add(imageDec);
-      print(imageDec);
       if (i == 0) {
         newList = [newScan];
       } else {
         newList!.add(newScan);
       }
     }
-    print(scanDoc);
+ 
     if (newList != null) {
       scanDoc.value = newList!;
     }
-    print(scanDoc);
-    isLoading.value =false;
-    //_imagePath=message;
-    // _pickedFile = null;
-    //await getUserInfo();
-    //print(message);
-    //} else {
-    //print("error posting the image");
-    //} // having this here to transition to next page
+    homeIsLoading.value =false;
+  
   }
 
 // creating listener to call a method to change the scan doc when ever bottom index is changed
@@ -212,20 +237,29 @@ class HomeController extends GetxController {
       if (serverImages?.isEmpty ==true) {
         scanDoc.value = [
           {
-            "benign": "null",
-            "malignent": "null",
-            "scan": "null",
-            "date": "null",
-            "about": "null",
-            "doctor": "null",
+         'nV': 'null',
+     'mel': 'null',
+     'bKL': 'null ',
+     'bCC': 'null',
+     'akiec': 'null',
+     'vasc': 'null',
+     'dF': 'null',
+     'melBen' : 'null',
+     'melMalig' : 'null',
+      "scan": "null",
+      "date": "null",
+      "about": "null",
+      "area":"null"
           }
         ];
         return;
-      } else {
+      } 
+      else 
+      {
         scanDoc.removeAt(index);
         return;
       }
-      //var map = jsonDecode(await response.stream.bytesToString());
+     
 
     }
   }
@@ -267,7 +301,7 @@ class HomeController extends GetxController {
     http.MultipartRequest request = http.MultipartRequest(
         'POST', Uri.parse(API.URL +'/addEntry'));
 
-    //request.headers.addAll(<String,String>{'Authorization': 'Bearer $token'});
+   
     //Check if Uint8List populated, it will or will not have an image, this image
     if (data != null) {
       request.files.add(http.MultipartFile.fromBytes("image", data,
@@ -277,6 +311,7 @@ class HomeController extends GetxController {
       request.fields['email'] = Preference.shared.getString('useremail')!;
       request.fields['pass'] = Preference.shared.getString('userpass')!;
       request.fields['details'] = detailsController.text;
+      request.fields["area"] = selectedArea.value;
     }
 
     http.StreamedResponse response = await request.send();
@@ -287,22 +322,20 @@ class HomeController extends GetxController {
     http.StreamedResponse response = await addEntry(
         _imagefilename, _imagefileextention, selectedImageBytes?.value);
 
-    //_isLoading = false;
-    //if (response.statusCode == 200) {
     Map map = jsonDecode(await response.stream.bytesToString());
-    String benign = map["benign"];
-    //malignent
-    String malignent = map["malignent"];
 
-    _mresults = malignent;
-    _bresults = benign;
-    //_imagePath=message;
-    // _pickedFile = null;
-    //await getUserInfo();
-    //print(message);
-    //} else {
-    //print("error posting the image");
-    //}
+
+      _nVResultViewDetails = (map["nVResult"] != null) ? (map['nVResult']).toString() : " ";
+      _bKLResultViewDetails = (map["bKLResult"] != null) ? (map['bKLResult']).toString() : " ";
+      _bCCResultViewDetails = (map["bCCResult"] != null) ? (map['bCCResult']).toString() : " ";
+      _akiecResultViewDetails = (map["akiecResult"] != null) ? (map['akiecResult']).toString() : " ";
+      _vascResultViewDetails = (map["vascResult"] != null) ? (map['vascResult']).toString() : " ";
+      _dFResultViewDetails = (map["dFResult"] != null) ? (map['dFResult']).toString() : " ";
+      _melResultViewDetails= (map["melResult"] != null) ? (map['melResult']).toString() : " ";
+      _melBenResultViewDetails = (map["melBenResult"] != null) ? (map['melBenResult']).toString() : " ";
+      _melMaligResultViewDetails= (map["melMaligResult"] != null) ? (map['melMaligResult']).toString() : " ";
+
+   
     Get.toNamed(Routes
         .VIEW_DETAILS_SCREEN); // having this here to transition to next page
   }

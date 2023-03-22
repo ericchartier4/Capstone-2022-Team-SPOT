@@ -9,6 +9,7 @@ import '../main.dart';
 import '../Routes/routes.dart';
 import '../Utils/app_colors.dart';
 import '../Utils/constant_widgets.dart';
+import 'package:pie_chart/pie_chart.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -157,12 +158,10 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget scan(BuildContext context) {
     return Center(
       child: 
-      Obx(() => homeController.isLoading.value
-      ? const Center(child: CircularProgressIndicator(),)
+      Obx(() => homeController.homeIsLoading.value
+      ? const Center(child: CircularProgressIndicator())
        :
-      
-      
-      Container(
+       Container(
         constraints: BoxConstraints(
           maxWidth: isDesktop(context) ? 55.w : 100.w,
         ),
@@ -214,8 +213,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                       Dialog(
                                         child: SizedBox(
                                 // photobox
-                                height: isDesktop(context) ? 10.h : 8.h,
-                                width: isDesktop(context) ? 10.w : 30.w,
+                                height: isDesktop(context) ? 60.h : 80.h,
+                                width: isDesktop(context) ? 80.w : 80.w,
                                 child:
                                 homeController.serverImages?.isNotEmpty ==
                                             true
@@ -232,6 +231,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                       );
                                 
                                   },
+
+
                                   child:
                                     homeController.serverImages?.isNotEmpty ==
                                             true
@@ -305,8 +306,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                   children: [
                                     TextSpan(
-                                      text: homeController.scanDoc[index]
-                                          ['scan'],
+                                      text: homeController.scanDoc[index]['scan'],
                                       style: GoogleFonts.poppins(
                                         fontSize:
                                             isDesktop(context) ? 14 : 10.sp,
@@ -330,8 +330,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                   children: [
                                     TextSpan(
-                                      text: homeController.scanDoc[index]
-                                          ['date'],
+                                      text: homeController.scanDoc[index]['date'],
                                       style: GoogleFonts.poppins(
                                         fontSize:
                                             isDesktop(context) ? 14 : 10.sp,
@@ -397,17 +396,479 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                 ),
                               ),
+
+
+
+
+
+
+                            
                               SizedBox(height: 0.5.h),
-                              // benign comment text
+                              //    header
                               Text(
-                                'Benign',
+                                'Area Affected:',
                                 style: GoogleFonts.poppins(
                                   fontSize: isDesktop(context) ? 16 : 12.sp,
                                   fontWeight: FontWeight.w500,
                                   color: const Color(0xff442C2E),
                                 ),
                               ),
-                              // Benign comment description
+                              // Area affected text
+                              Container(
+                                constraints: BoxConstraints(
+                                  maxHeight: isDesktop(context) ? 15.h : 12.h,
+                                  maxWidth: isDesktop(context) ? 60.w : 85.w,
+                                ),
+                                padding: EdgeInsets.only(
+                                  left: isDesktop(context) ? 0.7.w : 2.5.w,
+                                  top: 0.5.h,
+                                  right: isDesktop(context) ? 0.5.w : 1.5.w,
+                                  bottom: 0.5.h,
+                                ),
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: AppColor.greyColor),
+                                  borderRadius: BorderRadius.circular(0),
+                                ),
+                                child: Scrollbar(           
+                                  radius: const Radius.circular(15),
+                                  child: SingleChildScrollView(
+                                    physics: const BouncingScrollPhysics(),
+                                    child: Text(
+                                      homeController.scanDoc[index]['area']!,
+                                      style: GoogleFonts.poppins(
+                                        color: AppColor.textBlackColor
+                                            .withOpacity(0.7),
+                                        fontSize:
+                                            isDesktop(context) ? 13 : 11.sp,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+
+
+                
+                 
+                          SizedBox(height: 0.5.h),
+                          Text("What our AI is predicting about your scan:"),
+                       
+                        Container(
+                          height: isDesktop(context) ? 10.w : 5.h,
+                          width: isDesktop(context) ? 15.w :  7.5.w,
+                          child: PieChart(dataMap: {"Melanocytic Nevi (Heathy Skin)":double.parse(homeController.scanDoc[index]['nV']!),
+                          "Benign Keratosis-Like Lesions":double.parse(homeController.scanDoc[index]['bKL']!),
+                          "Basal Cell Carcinoma":double.parse(homeController.scanDoc[index]['bCC']!),
+                          "Actinic Keratose":double.parse(homeController.scanDoc[index]['akiec']!),
+                          "Vascular Lesions":double.parse(homeController.scanDoc[index]['vasc']!),
+                          "Dermatofibroma":double.parse(homeController.scanDoc[index]['dF']!),
+                          "Melanoma":double.parse(homeController.scanDoc[index]['mel']!),      
+                        }),
+                    ),
+                      SizedBox(height: 0.5.h),
+                          Text("More deatailed information on the melanoma prediction:"),
+                        Container(
+                          height: isDesktop(context) ? 10.w : 5.h,
+                          width: isDesktop(context) ? 15.w :  7.5.w,
+                          child: PieChart(dataMap: {"Benign":double.parse(homeController.scanDoc[index]['melBen']!), "Mlignent":double.parse(homeController.scanDoc[index]['melMalig']!)}),
+                    ),
+                 
+
+
+
+
+
+                              
+
+
+                              SizedBox(height: 0.5.h),
+                              //  Melanocytic nevi header
+                              Text(
+                                'Melanocytic Nevi (Heathy Skin) prediction:',
+                                style: GoogleFonts.poppins(
+                                  fontSize: isDesktop(context) ? 16 : 12.sp,
+                                  fontWeight: FontWeight.w500,
+                                  color: const Color(0xff442C2E),
+                                ),
+                              ),
+                              // Melanocytic nevi text
+                              Container(
+                                constraints: BoxConstraints(
+                                  maxHeight: isDesktop(context) ? 15.h : 12.h,
+                                  maxWidth: isDesktop(context) ? 60.w : 85.w,
+                                ),
+                                padding: EdgeInsets.only(
+                                  left: isDesktop(context) ? 0.7.w : 2.5.w,
+                                  top: 0.5.h,
+                                  right: isDesktop(context) ? 0.5.w : 1.5.w,
+                                  bottom: 0.5.h,
+                                ),
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: AppColor.greyColor),
+                                  borderRadius: BorderRadius.circular(0),
+                                ),
+                                child: Scrollbar(           
+                                  radius: const Radius.circular(15),
+                                  child: SingleChildScrollView(
+                                    physics: const BouncingScrollPhysics(),
+                                    child: Text(
+                                      homeController.scanDoc[index]['nV']!,
+                                      style: GoogleFonts.poppins(
+                                        color: AppColor.textBlackColor
+                                            .withOpacity(0.7),
+                                        fontSize:
+                                            isDesktop(context) ? 13 : 11.sp,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+
+
+
+
+
+
+
+                              
+                               SizedBox(height: 0.5.h),
+                              //  Benign Keratosis-Like Lesions header
+                              Text(
+                                'Benign Keratosis-Like Lesions prediction:',
+                                style: GoogleFonts.poppins(
+                                  fontSize: isDesktop(context) ? 16 : 12.sp,
+                                  fontWeight: FontWeight.w500,
+                                  color: const Color(0xff442C2E),
+                                ),
+                              ),
+                              // Benign keratosis-like lesions text
+                              Container(
+                                constraints: BoxConstraints(
+                                  maxHeight: isDesktop(context) ? 15.h : 12.h,
+                                  maxWidth: isDesktop(context) ? 60.w : 85.w,
+                                ),
+                                padding: EdgeInsets.only(
+                                  left: isDesktop(context) ? 0.7.w : 2.5.w,
+                                  top: 0.5.h,
+                                  right: isDesktop(context) ? 0.5.w : 1.5.w,
+                                  bottom: 0.5.h,
+                                ),
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: AppColor.greyColor),
+                                  borderRadius: BorderRadius.circular(0),
+                                ),
+                                child: Scrollbar(           
+                                  radius: const Radius.circular(15),
+                                  child: SingleChildScrollView(
+                                    physics: const BouncingScrollPhysics(),
+                                    child: Text(
+                                      homeController.scanDoc[index]['bKL']!,
+                                      style: GoogleFonts.poppins(
+                                        color: AppColor.textBlackColor
+                                            .withOpacity(0.7),
+                                        fontSize:
+                                            isDesktop(context) ? 13 : 11.sp,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+
+
+
+
+
+                               SizedBox(height: 0.5.h),
+                              //  Basal cell carcinoma header
+                              Text(
+                                ' Basal Cell Carcinoma prediction:',
+                                style: GoogleFonts.poppins(
+                                  fontSize: isDesktop(context) ? 16 : 12.sp,
+                                  fontWeight: FontWeight.w500,
+                                  color: const Color(0xff442C2E),
+                                ),
+                              ),
+                              // Basal cell carcinoma text
+                              Container(
+                                constraints: BoxConstraints(
+                                  maxHeight: isDesktop(context) ? 15.h : 12.h,
+                                  maxWidth: isDesktop(context) ? 60.w : 85.w,
+                                ),
+                                padding: EdgeInsets.only(
+                                  left: isDesktop(context) ? 0.7.w : 2.5.w,
+                                  top: 0.5.h,
+                                  right: isDesktop(context) ? 0.5.w : 1.5.w,
+                                  bottom: 0.5.h,
+                                ),
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: AppColor.greyColor),
+                                  borderRadius: BorderRadius.circular(0),
+                                ),
+                                child: Scrollbar(           
+                                  radius: const Radius.circular(15),
+                                  child: SingleChildScrollView(
+                                    physics: const BouncingScrollPhysics(),
+                                    child: Text(
+                                      homeController.scanDoc[index]['bCC']!,
+                                      style: GoogleFonts.poppins(
+                                        color: AppColor.textBlackColor
+                                            .withOpacity(0.7),
+                                        fontSize:
+                                            isDesktop(context) ? 13 : 11.sp,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+
+
+
+
+
+                              SizedBox(height: 0.5.h),
+                              //  Actinic keratose header
+                              Text(
+                                ' Actinic Keratose prediction:',
+                                style: GoogleFonts.poppins(
+                                  fontSize: isDesktop(context) ? 16 : 12.sp,
+                                  fontWeight: FontWeight.w500,
+                                  color: const Color(0xff442C2E),
+                                ),
+                              ),
+                              // Actinic keratose text
+                              Container(
+                                constraints: BoxConstraints(
+                                  maxHeight: isDesktop(context) ? 15.h : 12.h,
+                                  maxWidth: isDesktop(context) ? 60.w : 85.w,
+                                ),
+                                padding: EdgeInsets.only(
+                                  left: isDesktop(context) ? 0.7.w : 2.5.w,
+                                  top: 0.5.h,
+                                  right: isDesktop(context) ? 0.5.w : 1.5.w,
+                                  bottom: 0.5.h,
+                                ),
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: AppColor.greyColor),
+                                  borderRadius: BorderRadius.circular(0),
+                                ),
+                                child: Scrollbar(           
+                                  radius: const Radius.circular(15),
+                                  child: SingleChildScrollView(
+                                    physics: const BouncingScrollPhysics(),
+                                    child: Text(
+                                      homeController.scanDoc[index]['akiec']!,
+                                      style: GoogleFonts.poppins(
+                                        color: AppColor.textBlackColor
+                                            .withOpacity(0.7),
+                                        fontSize:
+                                            isDesktop(context) ? 13 : 11.sp,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+
+
+
+
+                              SizedBox(height: 0.5.h),
+                              //  Vascular lesions header
+                              Text(
+                                ' Vascular Lesions prediction:',
+                                style: GoogleFonts.poppins(
+                                  fontSize: isDesktop(context) ? 16 : 12.sp,
+                                  fontWeight: FontWeight.w500,
+                                  color: const Color(0xff442C2E),
+                                ),
+                              ),
+                              // Vascular lesions text
+                              Container(
+                                constraints: BoxConstraints(
+                                  maxHeight: isDesktop(context) ? 15.h : 12.h,
+                                  maxWidth: isDesktop(context) ? 60.w : 85.w,
+                                ),
+                                padding: EdgeInsets.only(
+                                  left: isDesktop(context) ? 0.7.w : 2.5.w,
+                                  top: 0.5.h,
+                                  right: isDesktop(context) ? 0.5.w : 1.5.w,
+                                  bottom: 0.5.h,
+                                ),
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: AppColor.greyColor),
+                                  borderRadius: BorderRadius.circular(0),
+                                ),
+                                child: Scrollbar(           
+                                  radius: const Radius.circular(15),
+                                  child: SingleChildScrollView(
+                                    physics: const BouncingScrollPhysics(),
+                                    child: Text(
+                                      homeController.scanDoc[index]['vasc']!,
+                                      style: GoogleFonts.poppins(
+                                        color: AppColor.textBlackColor
+                                            .withOpacity(0.7),
+                                        fontSize:
+                                            isDesktop(context) ? 13 : 11.sp,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+
+
+
+
+                              SizedBox(height: 0.5.h),
+                              //  Dermatofibroma header
+                              Text(
+                                ' Dermatofibroma prediction:',
+                                style: GoogleFonts.poppins(
+                                  fontSize: isDesktop(context) ? 16 : 12.sp,
+                                  fontWeight: FontWeight.w500,
+                                  color: const Color(0xff442C2E),
+                                ),
+                              ),
+                              // Dermatofibroma text
+                              Container(
+                                constraints: BoxConstraints(
+                                  maxHeight: isDesktop(context) ? 15.h : 12.h,
+                                  maxWidth: isDesktop(context) ? 60.w : 85.w,
+                                ),
+                                padding: EdgeInsets.only(
+                                  left: isDesktop(context) ? 0.7.w : 2.5.w,
+                                  top: 0.5.h,
+                                  right: isDesktop(context) ? 0.5.w : 1.5.w,
+                                  bottom: 0.5.h,
+                                ),
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: AppColor.greyColor),
+                                  borderRadius: BorderRadius.circular(0),
+                                ),
+                                child: Scrollbar(           
+                                  radius: const Radius.circular(15),
+                                  child: SingleChildScrollView(
+                                    physics: const BouncingScrollPhysics(),
+                                    child: Text(
+                                      homeController.scanDoc[index]['dF']!,
+                                      style: GoogleFonts.poppins(
+                                        color: AppColor.textBlackColor
+                                            .withOpacity(0.7),
+                                        fontSize:
+                                            isDesktop(context) ? 13 : 11.sp,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+
+
+
+
+
+
+
+
+
+                              SizedBox(height: 0.5.h),
+                              //  melanoma header
+                              Text(
+                                ' Melanoma prediction:',
+                                style: GoogleFonts.poppins(
+                                  fontSize: isDesktop(context) ? 16 : 12.sp,
+                                  fontWeight: FontWeight.w500,
+                                  color: const Color(0xff442C2E),
+                                ),
+                              ),
+                              // melanoma text
+                              Container(
+                                constraints: BoxConstraints(
+                                  maxHeight: isDesktop(context) ? 15.h : 12.h,
+                                  maxWidth: isDesktop(context) ? 60.w : 85.w,
+                                ),
+                                padding: EdgeInsets.only(
+                                  left: isDesktop(context) ? 0.7.w : 2.5.w,
+                                  top: 0.5.h,
+                                  right: isDesktop(context) ? 0.5.w : 1.5.w,
+                                  bottom: 0.5.h,
+                                ),
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: AppColor.greyColor),
+                                  borderRadius: BorderRadius.circular(0),
+                                ),
+                                child: Scrollbar(           
+                                  radius: const Radius.circular(15),
+                                  child: SingleChildScrollView(
+                                    physics: const BouncingScrollPhysics(),
+                                    child: Text(
+                                      homeController.scanDoc[index]['melBen']!,
+                                      style: GoogleFonts.poppins(
+                                        color: AppColor.textBlackColor
+                                            .withOpacity(0.7),
+                                        fontSize:
+                                            isDesktop(context) ? 13 : 11.sp,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+
+
+
+
+                              SizedBox(height: 0.5.h),
+                              //  benign header
+                              Text(
+                                'Benign Melanoma prediction:',
+                                style: GoogleFonts.poppins(
+                                  fontSize: isDesktop(context) ? 16 : 12.sp,
+                                  fontWeight: FontWeight.w500,
+                                  color: const Color(0xff442C2E),
+                                ),
+                              ),
+                              // benign text
+                              Container(
+                                constraints: BoxConstraints(
+                                  maxHeight: isDesktop(context) ? 15.h : 12.h,
+                                  maxWidth: isDesktop(context) ? 60.w : 85.w,
+                                ),
+                                padding: EdgeInsets.only(
+                                  left: isDesktop(context) ? 0.7.w : 2.5.w,
+                                  top: 0.5.h,
+                                  right: isDesktop(context) ? 0.5.w : 1.5.w,
+                                  bottom: 0.5.h,
+                                ),
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: AppColor.greyColor),
+                                  borderRadius: BorderRadius.circular(0),
+                                ),
+                                child: Scrollbar(           
+                                  radius: const Radius.circular(15),
+                                  child: SingleChildScrollView(
+                                    physics: const BouncingScrollPhysics(),
+                                    child: Text(
+                                      homeController.scanDoc[index]['melBen']!,
+                                      style: GoogleFonts.poppins(
+                                        color: AppColor.textBlackColor
+                                            .withOpacity(0.7),
+                                        fontSize:
+                                            isDesktop(context) ? 13 : 11.sp,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+
+
+
+                              SizedBox(height: 0.5.h),
+                              // Malignant  header
+                              Text(
+                                'Malignent Melanoma prediction',
+                                style: GoogleFonts.poppins(
+                                  fontSize: isDesktop(context) ? 16 : 12.sp,
+                                  fontWeight: FontWeight.w500,
+                                  color: const Color(0xff442C2E),
+                                ),
+                              ),
+                              // Malignant Melanoma text 
                               Container(
                                 constraints: BoxConstraints(
                                   maxHeight: isDesktop(context) ? 15.h : 12.h,
@@ -424,13 +885,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                   borderRadius: BorderRadius.circular(0),
                                 ),
                                 child: Scrollbar(
-                                  controller: homeController.doctorController,
                                   radius: const Radius.circular(15),
                                   child: SingleChildScrollView(
                                     physics: const BouncingScrollPhysics(),
-                                    controller: homeController.doctorController,
                                     child: Text(
-                                      homeController.scanDoc[index]['benign']!,
+                                      homeController.scanDoc[index]['melMalig']!,
                                       style: GoogleFonts.poppins(
                                         color: AppColor.textBlackColor
                                             .withOpacity(0.7),
@@ -441,52 +900,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                 ),
                               ),
-                              SizedBox(height: 1.h),
-                              SizedBox(height: 0.5.h),
-                              // Malignant comment text
-                              Text(
-                                'Malignent',
-                                style: GoogleFonts.poppins(
-                                  fontSize: isDesktop(context) ? 16 : 12.sp,
-                                  fontWeight: FontWeight.w500,
-                                  color: const Color(0xff442C2E),
-                                ),
-                              ),
-                              // Doctors comment description
-                              Container(
-                                constraints: BoxConstraints(
-                                  maxHeight: isDesktop(context) ? 15.h : 12.h,
-                                  maxWidth: isDesktop(context) ? 60.w : 85.w,
-                                ),
-                                padding: EdgeInsets.only(
-                                  left: isDesktop(context) ? 0.7.w : 2.5.w,
-                                  top: 0.5.h,
-                                  right: isDesktop(context) ? 0.5.w : 1.5.w,
-                                  bottom: 0.5.h,
-                                ),
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: AppColor.greyColor),
-                                  borderRadius: BorderRadius.circular(0),
-                                ),
-                                child: Scrollbar(
-                                  controller: homeController.doctorController,
-                                  radius: const Radius.circular(15),
-                                  child: SingleChildScrollView(
-                                    physics: const BouncingScrollPhysics(),
-                                    controller: homeController.doctorController,
-                                    child: Text(
-                                      homeController.scanDoc[index]
-                                          ['malignent']!,
-                                      style: GoogleFonts.poppins(
-                                        color: AppColor.textBlackColor
-                                            .withOpacity(0.7),
-                                        fontSize:
-                                            isDesktop(context) ? 13 : 11.sp,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
+
+
+
                             ],
                           ),
                         ),

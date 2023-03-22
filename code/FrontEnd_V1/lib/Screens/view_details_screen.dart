@@ -9,6 +9,7 @@ import '../Utils/constant_widgets.dart';
 import '../Controllers/home_controller.dart';
 import '../main.dart';
 import '../Utils/preference.dart';
+import 'package:pie_chart/pie_chart.dart';
 
 class ViewDetailsScreen extends StatelessWidget {
   ViewDetailsScreen({Key? key}) : super(key: key);
@@ -23,9 +24,8 @@ class ViewDetailsScreen extends StatelessWidget {
         isShowMenuIcon: false,
         title: 'View Details',
       ),
-      body: SizedBox(
-        height: 100.h,
-        width: 100.w,
+      body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
         child: Column(
           children: [
             Padding(
@@ -68,7 +68,7 @@ class ViewDetailsScreen extends StatelessWidget {
             ),
             SizedBox(height: 1.h),
             // Selected Image
-            Expanded(
+            Container(
               child: Container(
                 padding: const EdgeInsets.all(8),
                 height: isDesktop(context) ? 30.w : 35.h,
@@ -187,10 +187,57 @@ class ViewDetailsScreen extends StatelessWidget {
                 color: AppColor.textBlackColor,
               ),
             ),
+          SizedBox(height: 0.5.h),
+           Text(
+                    "Predictions of your scan: ",
+                    style: GoogleFonts.poppins(
+                      fontSize: isDesktop(context) ? 16 : 12.sp,
+                      fontWeight: FontWeight.w600,
+                      color: AppColor.textBlackColor,
+                    ),
+                  ),
             SizedBox(height: 2.h),
+            Container(
+               height: isDesktop(context) ? 20.w : 10.h,
+               width: isDesktop(context) ? 30.w :  15.w,
+              child: PieChart(dataMap: {"Melanocytic Nevi (Heathy Skin)":double.parse(homeController.melResultViewDetails ?? '0'),
+               "Benign Keratosis-Like Lesions":double.parse(homeController.bKLResultViewDetails ?? '0'),
+               "Basal Cell Carcinoma":double.parse(homeController.bCCResultViewDetails ?? '0'),
+               "Actinic Keratose":double.parse(homeController.akiecResultViewDetails ?? '0'),
+                "Vascular Lesions":double.parse(homeController.vascResultViewDetails ?? '0'),
+                "Dermatofibroma":double.parse(homeController.dFResultViewDetails ?? '0'),
+                 "Melanoma":double.parse(homeController.dFResultViewDetails ?? '0'),
+               
+                }),
+
+            ),
+          SizedBox(height: 0.5.h),
+           Text(
+                    "expanded view of Melanoma Predictions ",
+                    style: GoogleFonts.poppins(
+                      fontSize: isDesktop(context) ? 16 : 12.sp,
+                      fontWeight: FontWeight.w600,
+                      color: AppColor.textBlackColor,
+                    ),
+                  ),
+            SizedBox(height: 2.h),
+            Container(
+               height: isDesktop(context) ? 20.w : 10.h,
+               width: isDesktop(context) ? 30.w : 15.w,
+              child: PieChart(dataMap: {"Benign":double.parse(homeController.melBenResultViewDetails ?? '0'), "Mlignent":double.parse(homeController.melMaligResultViewDetails?? '0' )}),
+
+            ),
+          
+
+          
+
+
+
+
+          SizedBox(height: 2.h), 
             Text.rich(
               TextSpan(
-                text: 'Benign: ',
+                text: 'Melanocytic Nevi (Heathy Skin) prediction:: ',
                 style: GoogleFonts.poppins(
                   fontSize: isDesktop(context) ? 16 : 12.sp,
                   fontWeight: FontWeight.normal,
@@ -198,7 +245,7 @@ class ViewDetailsScreen extends StatelessWidget {
                 ),
                 children: [
                   TextSpan(
-                    text: homeController.bresult,
+                    text: homeController.bKLResultViewDetails,
                     style: GoogleFonts.poppins(
                       fontSize: isDesktop(context) ? 16 : 12.sp,
                       fontWeight: FontWeight.w600,
@@ -208,10 +255,17 @@ class ViewDetailsScreen extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(height: 2.h),
+
+
+
+
+
+
+
+          SizedBox(height: 2.h), 
             Text.rich(
               TextSpan(
-                text: 'Malignent: ',
+                text: 'Benign Keratosis-Like Lesions prediction: ',
                 style: GoogleFonts.poppins(
                   fontSize: isDesktop(context) ? 16 : 12.sp,
                   fontWeight: FontWeight.normal,
@@ -219,7 +273,190 @@ class ViewDetailsScreen extends StatelessWidget {
                 ),
                 children: [
                   TextSpan(
-                    text: homeController.mresult,
+                    text: homeController.bKLResultViewDetails,
+                    style: GoogleFonts.poppins(
+                      fontSize: isDesktop(context) ? 16 : 12.sp,
+                      fontWeight: FontWeight.w600,
+                      color: AppColor.textBlackColor,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+
+
+
+
+
+
+            SizedBox(height: 2.h), 
+            Text.rich(
+              TextSpan(
+                text: 'Basal Cell Carcinoma prediction: ',
+                style: GoogleFonts.poppins(
+                  fontSize: isDesktop(context) ? 16 : 12.sp,
+                  fontWeight: FontWeight.normal,
+                  color: AppColor.textBlackColor,
+                ),
+                children: [
+                  TextSpan(
+                    text: homeController.bCCResultViewDetails,
+                    style: GoogleFonts.poppins(
+                      fontSize: isDesktop(context) ? 16 : 12.sp,
+                      fontWeight: FontWeight.w600,
+                      color: AppColor.textBlackColor,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+
+
+
+
+
+          
+            SizedBox(height: 2.h), 
+            Text.rich(
+              TextSpan(
+                text: 'Actinic Keratose prediction: ',
+                style: GoogleFonts.poppins(
+                  fontSize: isDesktop(context) ? 16 : 12.sp,
+                  fontWeight: FontWeight.normal,
+                  color: AppColor.textBlackColor,
+                ),
+                children: [
+                  TextSpan(
+                    text: homeController.akiecResultViewDetails,
+                    style: GoogleFonts.poppins(
+                      fontSize: isDesktop(context) ? 16 : 12.sp,
+                      fontWeight: FontWeight.w600,
+                      color: AppColor.textBlackColor,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+
+
+
+
+            SizedBox(height: 2.h), 
+            Text.rich(
+              TextSpan(
+                text: 'Vascular Lesions prediction: ',
+                style: GoogleFonts.poppins(
+                  fontSize: isDesktop(context) ? 16 : 12.sp,
+                  fontWeight: FontWeight.normal,
+                  color: AppColor.textBlackColor,
+                ),
+                children: [
+                  TextSpan(
+                    text: homeController.vascResultViewDetails,
+                    style: GoogleFonts.poppins(
+                      fontSize: isDesktop(context) ? 16 : 12.sp,
+                      fontWeight: FontWeight.w600,
+                      color: AppColor.textBlackColor,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+
+
+
+            SizedBox(height: 2.h), 
+            Text.rich(
+              TextSpan(
+                text: 'Dermatofibroma prediction: ',
+                style: GoogleFonts.poppins(
+                  fontSize: isDesktop(context) ? 16 : 12.sp,
+                  fontWeight: FontWeight.normal,
+                  color: AppColor.textBlackColor,
+                ),
+                children: [
+                  TextSpan(
+                    text: homeController.dFResultViewDetails,
+                    style: GoogleFonts.poppins(
+                      fontSize: isDesktop(context) ? 16 : 12.sp,
+                      fontWeight: FontWeight.w600,
+                      color: AppColor.textBlackColor,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+
+
+             SizedBox(height: 2.h), 
+            Text.rich(
+              TextSpan(
+                text: 'Melanoma prediction: ',
+                style: GoogleFonts.poppins(
+                  fontSize: isDesktop(context) ? 16 : 12.sp,
+                  fontWeight: FontWeight.normal,
+                  color: AppColor.textBlackColor,
+                ),
+                children: [
+                  TextSpan(
+                    text: homeController.melResultViewDetails,
+                    style: GoogleFonts.poppins(
+                      fontSize: isDesktop(context) ? 16 : 12.sp,
+                      fontWeight: FontWeight.w600,
+                      color: AppColor.textBlackColor,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+
+
+
+            SizedBox(height: 2.h), 
+            Text.rich(
+              TextSpan(
+                text: 'Benign Melanoma prediction : ',
+                style: GoogleFonts.poppins(
+                  fontSize: isDesktop(context) ? 16 : 12.sp,
+                  fontWeight: FontWeight.normal,
+                  color: AppColor.textBlackColor,
+                ),
+                children: [
+                  TextSpan(
+                    text: homeController.melBenResultViewDetails,
+                    style: GoogleFonts.poppins(
+                      fontSize: isDesktop(context) ? 16 : 12.sp,
+                      fontWeight: FontWeight.w600,
+                      color: AppColor.textBlackColor,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+
+
+
+
+
+            SizedBox(height: 2.h),
+            Text.rich(
+              TextSpan(
+                text: 'Malignent Melanoma prediction: ',
+                style: GoogleFonts.poppins(
+                  fontSize: isDesktop(context) ? 16 : 12.sp,
+                  fontWeight: FontWeight.normal,
+                  color: AppColor.textBlackColor,
+                ),
+                children: [
+                  TextSpan(
+                    text: homeController.melMaligResultViewDetails,
                     style: GoogleFonts.poppins(
                       fontSize: isDesktop(context) ? 16 : 12.sp,
                       fontWeight: FontWeight.w600,
