@@ -72,6 +72,7 @@ class HomeController extends GetxController {
       "Scan": "null",
       "Date": "null",
       "About": "null",
+      "Area": "null"
       
     },
   ].obs;
@@ -128,18 +129,19 @@ class HomeController extends GetxController {
         // no entries here
         scanDoc.value = [
           {
-     'NV': 'null',
-     'Mel': 'null',
-     'BKL': 'null ',
-     'BCC': 'null',
-     'Akiec': 'null',
-     'Vasc': 'null',
-     'DF': 'null',
-     'MelBen' : 'null',
-     'MelMalig' : 'null',
-      "Scan": "null",
-      "Date": "null",
-      "About": "null",
+     'nV': 'null',
+     'mel': 'null',
+     'bKL': 'null ',
+     'bCC': 'null',
+     'akiec': 'null',
+     'vasc': 'null',
+     'dF': 'null',
+     'melBen' : 'null',
+     'melMalig' : 'null',
+      "scan": "null",
+      "date": "null",
+      "about": "null",
+      "area": "null",
       
           }
         ];
@@ -157,34 +159,35 @@ class HomeController extends GetxController {
       var dFResult = (map[i]["dFResult"] != null) ? (map[i]['dFResult']).toString() : " ";
       var melResult = (map[i]["melResult"] != null) ? (map[i]['melResult']).toString() : " ";
       var melBenResult = (map[i]["melBenResult"] != null) ? (map[i]['melBenResult']).toString() : " ";
-      var melMaligResult = (map[i][" melMaligResult"] != null) ? (map[i][' melMaligResult']).toString() : " ";
+      var melMaligResult = (map[i]["melMaligResult"] != null) ? (map[i]['melMaligResult']).toString() : " ";
       var date = (map[i]["date"] != null) ? (map[i]['date']).toString() : " ";
+      var area = (map[i]["area"] != null) ? (map[i]['area']).toString() : " ";
     
       var newScan = {
-      'NV': nVResult,
-     'Mel': melResult,
-     'BKL': bKLResult,
-     'BCC': bCCResult,
-     'Akiec': akiecResult,
-     'Vasc': vascResult,
-     'DF': dFResult,
-     'MelBen' : melBenResult,
-     'MelMalig' : melMaligResult,
-      "Scan": scan,
-      "Date": date,
-      "About": about,
+      'nV': nVResult,
+     'mel': melResult,
+     'bKL': bKLResult,
+     'bCC': bCCResult,
+     'akiec': akiecResult,
+     'vasc': vascResult,
+     'dF': dFResult,
+     'melBen' : melBenResult,
+     'melMalig' : melMaligResult,
+      "scan": scan,
+      "date": date,
+      "about": about,
+      "area" : area,
       };
       var imageBin = map[i]["imageBinary"];
       var imageDec = base64Decode(imageBin);
       _serverImages?.add(imageDec);
-      print(imageDec);
       if (i == 0) {
         newList = [newScan];
       } else {
         newList!.add(newScan);
       }
     }
-    print(scanDoc);
+ 
     if (newList != null) {
       scanDoc.value = newList!;
     }
@@ -234,18 +237,19 @@ class HomeController extends GetxController {
       if (serverImages?.isEmpty ==true) {
         scanDoc.value = [
           {
-         'NV': 'null',
-     'Mel': 'null',
-     'BKL': 'null ',
-     'BCC': 'null',
-     'Akiec': 'null',
-     'Vasc': 'null',
-     'DF': 'null',
-     'MelBen' : 'null',
-     'MelMalig' : 'null',
-      "Scan": "null",
-      "Date": "null",
-      "About": "null",
+         'nV': 'null',
+     'mel': 'null',
+     'bKL': 'null ',
+     'bCC': 'null',
+     'akiec': 'null',
+     'vasc': 'null',
+     'dF': 'null',
+     'melBen' : 'null',
+     'melMalig' : 'null',
+      "scan": "null",
+      "date": "null",
+      "about": "null",
+      "area":"null"
           }
         ];
         return;
@@ -307,6 +311,7 @@ class HomeController extends GetxController {
       request.fields['email'] = Preference.shared.getString('useremail')!;
       request.fields['pass'] = Preference.shared.getString('userpass')!;
       request.fields['details'] = detailsController.text;
+      request.fields["area"] = selectedArea.value;
     }
 
     http.StreamedResponse response = await request.send();
@@ -328,7 +333,7 @@ class HomeController extends GetxController {
       _dFResultViewDetails = (map["dFResult"] != null) ? (map['dFResult']).toString() : " ";
       _melResultViewDetails= (map["melResult"] != null) ? (map['melResult']).toString() : " ";
       _melBenResultViewDetails = (map["melBenResult"] != null) ? (map['melBenResult']).toString() : " ";
-      _melMaligResultViewDetails= (map[" melMaligResult"] != null) ? (map[' melMaligResult']).toString() : " ";
+      _melMaligResultViewDetails= (map["melMaligResult"] != null) ? (map['melMaligResult']).toString() : " ";
 
    
     Get.toNamed(Routes

@@ -187,13 +187,48 @@ class ViewDetailsScreen extends StatelessWidget {
                 color: AppColor.textBlackColor,
               ),
             ),
+          SizedBox(height: 0.5.h),
+           Text(
+                    "Predictions of your scan: ",
+                    style: GoogleFonts.poppins(
+                      fontSize: isDesktop(context) ? 16 : 12.sp,
+                      fontWeight: FontWeight.w600,
+                      color: AppColor.textBlackColor,
+                    ),
+                  ),
             SizedBox(height: 2.h),
             Container(
-               height: isDesktop(context) ? 30.w : 35.h,
-               width: isDesktop(context) ? 30.w : 80.w,
-              child: PieChart(dataMap: {"benign":double.parse(homeController.melBenResultViewDetails ?? '0'), "Mlignent":double.parse(homeController.melMaligResultViewDetails??'')}),
+               height: isDesktop(context) ? 20.w : 10.h,
+               width: isDesktop(context) ? 30.w :  15.w,
+              child: PieChart(dataMap: {"Melanocytic Nevi (Heathy Skin)":double.parse(homeController.melResultViewDetails ?? '0'),
+               "Benign Keratosis-Like Lesions":double.parse(homeController.bKLResultViewDetails ?? '0'),
+               "Basal Cell Carcinoma":double.parse(homeController.bCCResultViewDetails ?? '0'),
+               "Actinic Keratose":double.parse(homeController.akiecResultViewDetails ?? '0'),
+                "Vascular Lesions":double.parse(homeController.vascResultViewDetails ?? '0'),
+                "Dermatofibroma":double.parse(homeController.dFResultViewDetails ?? '0'),
+                 "Melanoma":double.parse(homeController.dFResultViewDetails ?? '0'),
+               
+                }),
 
             ),
+          SizedBox(height: 0.5.h),
+           Text(
+                    "expanded view of Melanoma Predictions ",
+                    style: GoogleFonts.poppins(
+                      fontSize: isDesktop(context) ? 16 : 12.sp,
+                      fontWeight: FontWeight.w600,
+                      color: AppColor.textBlackColor,
+                    ),
+                  ),
+            SizedBox(height: 2.h),
+            Container(
+               height: isDesktop(context) ? 20.w : 10.h,
+               width: isDesktop(context) ? 30.w : 15.w,
+              child: PieChart(dataMap: {"Benign":double.parse(homeController.melBenResultViewDetails ?? '0'), "Mlignent":double.parse(homeController.melMaligResultViewDetails?? '0' )}),
+
+            ),
+          
+
           
 
 

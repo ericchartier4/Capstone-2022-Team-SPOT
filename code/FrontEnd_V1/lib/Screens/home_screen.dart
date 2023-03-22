@@ -9,6 +9,7 @@ import '../main.dart';
 import '../Routes/routes.dart';
 import '../Utils/app_colors.dart';
 import '../Utils/constant_widgets.dart';
+import 'package:pie_chart/pie_chart.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -158,11 +159,9 @@ class _HomeScreenState extends State<HomeScreen> {
     return Center(
       child: 
       Obx(() => homeController.homeIsLoading.value
-      ? const Center(child: CircularProgressIndicator(),)
+      ? const Center(child: CircularProgressIndicator())
        :
-      
-      
-      Container(
+       Container(
         constraints: BoxConstraints(
           maxWidth: isDesktop(context) ? 55.w : 100.w,
         ),
@@ -214,8 +213,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                       Dialog(
                                         child: SizedBox(
                                 // photobox
-                                height: isDesktop(context) ? 10.h : 8.h,
-                                width: isDesktop(context) ? 10.w : 30.w,
+                                height: isDesktop(context) ? 60.h : 80.h,
+                                width: isDesktop(context) ? 80.w : 80.w,
                                 child:
                                 homeController.serverImages?.isNotEmpty ==
                                             true
@@ -232,6 +231,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                       );
                                 
                                   },
+
+
                                   child:
                                     homeController.serverImages?.isNotEmpty ==
                                             true
@@ -305,8 +306,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                   children: [
                                     TextSpan(
-                                      text: homeController.scanDoc[index]
-                                          ['scan'],
+                                      text: homeController.scanDoc[index]['scan'],
                                       style: GoogleFonts.poppins(
                                         fontSize:
                                             isDesktop(context) ? 14 : 10.sp,
@@ -330,8 +330,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                   children: [
                                     TextSpan(
-                                      text: homeController.scanDoc[index]
-                                          ['date'],
+                                      text: homeController.scanDoc[index]['date'],
                                       style: GoogleFonts.poppins(
                                         fontSize:
                                             isDesktop(context) ? 14 : 10.sp,
@@ -402,6 +401,85 @@ class _HomeScreenState extends State<HomeScreen> {
 
 
 
+
+                            
+                              SizedBox(height: 0.5.h),
+                              //    header
+                              Text(
+                                'Area Affected:',
+                                style: GoogleFonts.poppins(
+                                  fontSize: isDesktop(context) ? 16 : 12.sp,
+                                  fontWeight: FontWeight.w500,
+                                  color: const Color(0xff442C2E),
+                                ),
+                              ),
+                              // Area affected text
+                              Container(
+                                constraints: BoxConstraints(
+                                  maxHeight: isDesktop(context) ? 15.h : 12.h,
+                                  maxWidth: isDesktop(context) ? 60.w : 85.w,
+                                ),
+                                padding: EdgeInsets.only(
+                                  left: isDesktop(context) ? 0.7.w : 2.5.w,
+                                  top: 0.5.h,
+                                  right: isDesktop(context) ? 0.5.w : 1.5.w,
+                                  bottom: 0.5.h,
+                                ),
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: AppColor.greyColor),
+                                  borderRadius: BorderRadius.circular(0),
+                                ),
+                                child: Scrollbar(           
+                                  radius: const Radius.circular(15),
+                                  child: SingleChildScrollView(
+                                    physics: const BouncingScrollPhysics(),
+                                    child: Text(
+                                      homeController.scanDoc[index]['area']!,
+                                      style: GoogleFonts.poppins(
+                                        color: AppColor.textBlackColor
+                                            .withOpacity(0.7),
+                                        fontSize:
+                                            isDesktop(context) ? 13 : 11.sp,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+
+
+                
+                 
+                          SizedBox(height: 0.5.h),
+                          Text("What our AI is predicting about your scan:"),
+                       
+                        Container(
+                          height: isDesktop(context) ? 10.w : 5.h,
+                          width: isDesktop(context) ? 15.w :  7.5.w,
+                          child: PieChart(dataMap: {"Melanocytic Nevi (Heathy Skin)":double.parse(homeController.scanDoc[index]['nV']!),
+                          "Benign Keratosis-Like Lesions":double.parse(homeController.scanDoc[index]['bKL']!),
+                          "Basal Cell Carcinoma":double.parse(homeController.scanDoc[index]['bCC']!),
+                          "Actinic Keratose":double.parse(homeController.scanDoc[index]['akiec']!),
+                          "Vascular Lesions":double.parse(homeController.scanDoc[index]['vasc']!),
+                          "Dermatofibroma":double.parse(homeController.scanDoc[index]['dF']!),
+                          "Melanoma":double.parse(homeController.scanDoc[index]['mel']!),      
+                        }),
+                    ),
+                      SizedBox(height: 0.5.h),
+                          Text("More deatailed information on the melanoma prediction:"),
+                        Container(
+                          height: isDesktop(context) ? 10.w : 5.h,
+                          width: isDesktop(context) ? 15.w :  7.5.w,
+                          child: PieChart(dataMap: {"Benign":double.parse(homeController.scanDoc[index]['melBen']!), "Mlignent":double.parse(homeController.scanDoc[index]['melMalig']!)}),
+                    ),
+                 
+
+
+
+
+
+                              
+
+
                               SizedBox(height: 0.5.h),
                               //  Melanocytic nevi header
                               Text(
@@ -433,7 +511,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   child: SingleChildScrollView(
                                     physics: const BouncingScrollPhysics(),
                                     child: Text(
-                                      homeController.scanDoc[index]['NV']!,
+                                      homeController.scanDoc[index]['nV']!,
                                       style: GoogleFonts.poppins(
                                         color: AppColor.textBlackColor
                                             .withOpacity(0.7),
@@ -483,7 +561,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   child: SingleChildScrollView(
                                     physics: const BouncingScrollPhysics(),
                                     child: Text(
-                                      homeController.scanDoc[index]['BKL']!,
+                                      homeController.scanDoc[index]['bKL']!,
                                       style: GoogleFonts.poppins(
                                         color: AppColor.textBlackColor
                                             .withOpacity(0.7),
@@ -530,7 +608,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   child: SingleChildScrollView(
                                     physics: const BouncingScrollPhysics(),
                                     child: Text(
-                                      homeController.scanDoc[index]['BCC']!,
+                                      homeController.scanDoc[index]['bCC']!,
                                       style: GoogleFonts.poppins(
                                         color: AppColor.textBlackColor
                                             .withOpacity(0.7),
@@ -577,7 +655,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   child: SingleChildScrollView(
                                     physics: const BouncingScrollPhysics(),
                                     child: Text(
-                                      homeController.scanDoc[index]['Akiec']!,
+                                      homeController.scanDoc[index]['akiec']!,
                                       style: GoogleFonts.poppins(
                                         color: AppColor.textBlackColor
                                             .withOpacity(0.7),
@@ -623,7 +701,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   child: SingleChildScrollView(
                                     physics: const BouncingScrollPhysics(),
                                     child: Text(
-                                      homeController.scanDoc[index]['Vasc']!,
+                                      homeController.scanDoc[index]['vasc']!,
                                       style: GoogleFonts.poppins(
                                         color: AppColor.textBlackColor
                                             .withOpacity(0.7),
@@ -669,7 +747,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   child: SingleChildScrollView(
                                     physics: const BouncingScrollPhysics(),
                                     child: Text(
-                                      homeController.scanDoc[index]['DF']!,
+                                      homeController.scanDoc[index]['dF']!,
                                       style: GoogleFonts.poppins(
                                         color: AppColor.textBlackColor
                                             .withOpacity(0.7),
@@ -680,6 +758,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                 ),
                               ),
+
+
+
 
 
 
@@ -717,7 +798,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   child: SingleChildScrollView(
                                     physics: const BouncingScrollPhysics(),
                                     child: Text(
-                                      homeController.scanDoc[index]['MelBen']!,
+                                      homeController.scanDoc[index]['melBen']!,
                                       style: GoogleFonts.poppins(
                                         color: AppColor.textBlackColor
                                             .withOpacity(0.7),
@@ -763,7 +844,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   child: SingleChildScrollView(
                                     physics: const BouncingScrollPhysics(),
                                     child: Text(
-                                      homeController.scanDoc[index]['MelBen']!,
+                                      homeController.scanDoc[index]['melBen']!,
                                       style: GoogleFonts.poppins(
                                         color: AppColor.textBlackColor
                                             .withOpacity(0.7),
@@ -808,7 +889,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   child: SingleChildScrollView(
                                     physics: const BouncingScrollPhysics(),
                                     child: Text(
-                                      homeController.scanDoc[index]['MelMalig']!,
+                                      homeController.scanDoc[index]['melMalig']!,
                                       style: GoogleFonts.poppins(
                                         color: AppColor.textBlackColor
                                             .withOpacity(0.7),
