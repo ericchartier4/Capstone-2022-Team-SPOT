@@ -147,6 +147,9 @@ class SignUpScreenState extends State<SignUpScreen> {
                       isLoading = true;
                     });
                     authController.checkValidationForSignUpDetails(context);
+                      setState(() {
+                      isLoading = true;
+                    });
                   },
                 ),
               ],

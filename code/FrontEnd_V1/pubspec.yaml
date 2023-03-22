@@ -25,6 +25,7 @@ dependencies:
   glassmorphism: ^3.0.0
   shared_preferences: ^2.0.17
   saf: ^1.0.3+4
+  pie_chart: ^5.3.2
 
 dev_dependencies:
   flutter_test:

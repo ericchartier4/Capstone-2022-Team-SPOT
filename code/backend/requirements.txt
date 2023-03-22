@@ -3,8 +3,8 @@ Flask-RESTful
 opencv-python
 pytest-shutil
 Pillow
-keras==2.8
-tensorflow==2.8.0
+keras 
+tensorflow 
 mariadb
 matplotlib
 pandas
@@ -12,4 +12,7 @@ scikit-learn
 scipy
 numpy
 tqdm 
-protobuf== 3.20.1
+protobuf
+keras-utils
+Keras-Preprocessing
+h5py
