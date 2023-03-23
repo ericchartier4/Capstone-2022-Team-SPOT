@@ -309,7 +309,11 @@ class AddEntry(Resource):
         
         #image = request.files('image');
         #image.save(os.path.join(uploads_path , image.filename))
-        response = jsonify({'nVResult':str(nVResult),'melResult':str(melResult),'bCCResult':str(bCCResult),'bKLResult':str(bKLResult),'akiecResult':str(akiecResult),'vascResult':str(vascResult),'dFResult':str(dFResult),'melBenResult':str(melBenResult),'melMaligResult':str(melMaligResult)})
+        entryDict = {'nVResult':str(nVResult),'melResult':str(melResult),'bCCResult':str(bCCResult),'bKLResult':str(bKLResult),'akiecResult':str(akiecResult),'vascResult':str(vascResult),'dFResult':str(dFResult),'melBenResult':str(melBenResult),'melMaligResult':str(melMaligResult),'scan':'null','date':'null','about':'null','area':'null','imageBinary':'null'}
+        entriesList = []
+        entriesList.append(entryDict)
+        response = jsonify(entriesList)
+ 
         response.headers.add('Access-Control-Allow-Origin', '*') # needed line to fix CORS error 
         return response
     
@@ -346,7 +350,7 @@ class GetEntries(Resource):
         entriesList =[]
         if results == []:
             conn.close() 
-            entriesList.append({'EntryDate':"NullList"})
+            entriesList.append({'date':"NullList"})
             response = jsonify(entriesList)
         
             response.headers.add('Access-Control-Allow-Origin', '*') # needed line to fix CORS error 
@@ -409,7 +413,7 @@ class DeleteEntries(Resource):
         cur.execute(sql,(str(userID),entryID)) 
         results = cur.fetchall()
         for val in results: 
-            entryURL = val[6]
+            entryURL = val[-1]
             os.remove(fr".\uploads\{entryURL}")
 
 

@@ -188,292 +188,56 @@ class ViewDetailsScreen extends StatelessWidget {
               ),
             ),
           SizedBox(height: 0.5.h),
-           Text(
-                    "Predictions of your scan: ",
-                    style: GoogleFonts.poppins(
-                      fontSize: isDesktop(context) ? 16 : 12.sp,
-                      fontWeight: FontWeight.w600,
-                      color: AppColor.textBlackColor,
-                    ),
-                  ),
-            SizedBox(height: 2.h),
-            Container(
-             width: MediaQuery.of(context).size.width * 0.40,
-             height: MediaQuery.of(context).size.width * 0.40,
-              child: PieChart(dataMap: {"Melanocytic Nevi (Heathy Skin)":double.parse(homeController.melResultViewDetails ?? '0'),
-               "Benign Keratosis-Like Lesions":double.parse(homeController.bKLResultViewDetails ?? '0'),
-               "Basal Cell Carcinoma":double.parse(homeController.bCCResultViewDetails ?? '0'),
-               "Actinic Keratose":double.parse(homeController.akiecResultViewDetails ?? '0'),
-                "Vascular Lesions":double.parse(homeController.vascResultViewDetails ?? '0'),
-                "Dermatofibroma":double.parse(homeController.dFResultViewDetails ?? '0'),
-                 "Melanoma":double.parse(homeController.dFResultViewDetails ?? '0'),
-               
-                }),
-
-            ),
-          SizedBox(height: 0.5.h),
           
 
 
 
+           SizedBox(height: 0.5.h),
+                      
+            
+                                  Text("What our AI is predicting about your scan:"),
+                            PieChart(chartRadius: 40.w ,legendOptions: LegendOptions(legendPosition: LegendPosition.bottom), dataMap: {"Melanocytic nevi":double.parse(homeController.scanDoc[0]['Melanocytic nevi']!),
+                          "Benign keratosis-like lesions":double.parse(homeController.scanDoc[0]['Benign keratosis-like lesions']!),
+                          "Basal cell carcinoma":double.parse(homeController.scanDoc[0]['Basal cell carcinoma']!),
+                          "Actinic keratoses":double.parse(homeController.scanDoc[0]['Actinic keratoses']!),
+                          "Vascular lesions":double.parse(homeController.scanDoc[0]['Vascular lesions']!),
+                          "Dermatofibroma":double.parse(homeController.scanDoc[0]['Dermatofibroma']!),
+                          "Melanoma":double.parse(homeController.scanDoc[0]['Melanoma']!),      
+                            }),
+                            
 
 
-           Text(
-                    "expanded view of Melanoma Predictions ",
-                    style: GoogleFonts.poppins(
-                      fontSize: isDesktop(context) ? 16 : 12.sp,
-                      fontWeight: FontWeight.w600,
-                      color: AppColor.textBlackColor,
-                    ),
-                  ),
-            SizedBox(height: 2.h),
-            Container(
-             width: MediaQuery.of(context).size.width * 0.40,
-             height: MediaQuery.of(context).size.width * 0.40,
-              child: PieChart(dataMap: {"Benign":double.parse(homeController.melBenResultViewDetails ?? '0'), "Mlignent":double.parse(homeController.melMaligResultViewDetails?? '0' )}),
+                              
+                          
+                                   Text("More deatailed information on the melanoma prediction"),
+                          
+                                   PieChart(chartRadius: 40.w, legendOptions: LegendOptions(legendPosition: LegendPosition.bottom),  dataMap: {"Benign":double.parse(homeController.scanDoc[0]['Benign']!), "Malignant":double.parse(homeController.scanDoc[0]['Malignant']!)}),
+                     
 
-            ),
-          
-
-          
-
-          
-
-
-
-
-          SizedBox(height: 2.h), 
-            Text.rich(
-              TextSpan(
-                text: 'Melanocytic Nevi (Heathy Skin) prediction:: ',
-                style: GoogleFonts.poppins(
-                  fontSize: isDesktop(context) ? 16 : 12.sp,
-                  fontWeight: FontWeight.normal,
-                  color: AppColor.textBlackColor,
-                ),
-                children: [
-                  TextSpan(
-                    text: homeController.bKLResultViewDetails,
-                    style: GoogleFonts.poppins(
-                      fontSize: isDesktop(context) ? 16 : 12.sp,
-                      fontWeight: FontWeight.w600,
-                      color: AppColor.textBlackColor,
-                    ),
-                  ),
-                ],
-              ),
-            ),
+                           
+                       
+                          
+                        
+                          SizedBox(height: 0.5.h),
+                            
+                 ExpansionTile(
+                  title: Text("expand this for a more detailed representation:"),
+                  children:[
+                 getHomeCard(context,"Melanocytic nevi", 0, homeController),
+                 getHomeCard(context,"Benign keratosis-like lesions", 0, homeController),
+                 getHomeCard(context, "Basal cell carcinoma", 0, homeController),
+                 getHomeCard(context, "Actinic keratoses", 0, homeController),
+                 getHomeCard(context, "Vascular lesions", 0, homeController),
+                 getHomeCard(context, "Dermatofibroma", 0, homeController),
+                 getHomeCard(context, "Melanoma", 0, homeController),
+                 getHomeCard(context, "Benign", 0, homeController),
+                 getHomeCard(context, "Malignant", 0, homeController),
+                  ],
+                 ),
 
 
 
 
-
-
-
-          SizedBox(height: 2.h), 
-            Text.rich(
-              TextSpan(
-                text: 'Benign Keratosis-Like Lesions prediction: ',
-                style: GoogleFonts.poppins(
-                  fontSize: isDesktop(context) ? 16 : 12.sp,
-                  fontWeight: FontWeight.normal,
-                  color: AppColor.textBlackColor,
-                ),
-                children: [
-                  TextSpan(
-                    text: homeController.bKLResultViewDetails,
-                    style: GoogleFonts.poppins(
-                      fontSize: isDesktop(context) ? 16 : 12.sp,
-                      fontWeight: FontWeight.w600,
-                      color: AppColor.textBlackColor,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-
-
-
-
-
-
-            SizedBox(height: 2.h), 
-            Text.rich(
-              TextSpan(
-                text: 'Basal Cell Carcinoma prediction: ',
-                style: GoogleFonts.poppins(
-                  fontSize: isDesktop(context) ? 16 : 12.sp,
-                  fontWeight: FontWeight.normal,
-                  color: AppColor.textBlackColor,
-                ),
-                children: [
-                  TextSpan(
-                    text: homeController.bCCResultViewDetails,
-                    style: GoogleFonts.poppins(
-                      fontSize: isDesktop(context) ? 16 : 12.sp,
-                      fontWeight: FontWeight.w600,
-                      color: AppColor.textBlackColor,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-
-
-
-
-
-          
-            SizedBox(height: 2.h), 
-            Text.rich(
-              TextSpan(
-                text: 'Actinic Keratose prediction: ',
-                style: GoogleFonts.poppins(
-                  fontSize: isDesktop(context) ? 16 : 12.sp,
-                  fontWeight: FontWeight.normal,
-                  color: AppColor.textBlackColor,
-                ),
-                children: [
-                  TextSpan(
-                    text: homeController.akiecResultViewDetails,
-                    style: GoogleFonts.poppins(
-                      fontSize: isDesktop(context) ? 16 : 12.sp,
-                      fontWeight: FontWeight.w600,
-                      color: AppColor.textBlackColor,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-
-
-
-
-            SizedBox(height: 2.h), 
-            Text.rich(
-              TextSpan(
-                text: 'Vascular Lesions prediction: ',
-                style: GoogleFonts.poppins(
-                  fontSize: isDesktop(context) ? 16 : 12.sp,
-                  fontWeight: FontWeight.normal,
-                  color: AppColor.textBlackColor,
-                ),
-                children: [
-                  TextSpan(
-                    text: homeController.vascResultViewDetails,
-                    style: GoogleFonts.poppins(
-                      fontSize: isDesktop(context) ? 16 : 12.sp,
-                      fontWeight: FontWeight.w600,
-                      color: AppColor.textBlackColor,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-
-
-
-            SizedBox(height: 2.h), 
-            Text.rich(
-              TextSpan(
-                text: 'Dermatofibroma prediction: ',
-                style: GoogleFonts.poppins(
-                  fontSize: isDesktop(context) ? 16 : 12.sp,
-                  fontWeight: FontWeight.normal,
-                  color: AppColor.textBlackColor,
-                ),
-                children: [
-                  TextSpan(
-                    text: homeController.dFResultViewDetails,
-                    style: GoogleFonts.poppins(
-                      fontSize: isDesktop(context) ? 16 : 12.sp,
-                      fontWeight: FontWeight.w600,
-                      color: AppColor.textBlackColor,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-
-
-             SizedBox(height: 2.h), 
-            Text.rich(
-              TextSpan(
-                text: 'Melanoma prediction: ',
-                style: GoogleFonts.poppins(
-                  fontSize: isDesktop(context) ? 16 : 12.sp,
-                  fontWeight: FontWeight.normal,
-                  color: AppColor.textBlackColor,
-                ),
-                children: [
-                  TextSpan(
-                    text: homeController.melResultViewDetails,
-                    style: GoogleFonts.poppins(
-                      fontSize: isDesktop(context) ? 16 : 12.sp,
-                      fontWeight: FontWeight.w600,
-                      color: AppColor.textBlackColor,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-
-
-
-            SizedBox(height: 2.h), 
-            Text.rich(
-              TextSpan(
-                text: 'Benign Melanoma prediction : ',
-                style: GoogleFonts.poppins(
-                  fontSize: isDesktop(context) ? 16 : 12.sp,
-                  fontWeight: FontWeight.normal,
-                  color: AppColor.textBlackColor,
-                ),
-                children: [
-                  TextSpan(
-                    text: homeController.melBenResultViewDetails,
-                    style: GoogleFonts.poppins(
-                      fontSize: isDesktop(context) ? 16 : 12.sp,
-                      fontWeight: FontWeight.w600,
-                      color: AppColor.textBlackColor,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-
-
-
-
-
-            SizedBox(height: 2.h),
-            Text.rich(
-              TextSpan(
-                text: 'Malignent Melanoma prediction: ',
-                style: GoogleFonts.poppins(
-                  fontSize: isDesktop(context) ? 16 : 12.sp,
-                  fontWeight: FontWeight.normal,
-                  color: AppColor.textBlackColor,
-                ),
-                children: [
-                  TextSpan(
-                    text: homeController.melMaligResultViewDetails,
-                    style: GoogleFonts.poppins(
-                      fontSize: isDesktop(context) ? 16 : 12.sp,
-                      fontWeight: FontWeight.w600,
-                      color: AppColor.textBlackColor,
-                    ),
-                  ),
-                ],
-              ),
-            ),
             SizedBox(height: 1.h),
             // Submit button
             CustomButton(

@@ -39,28 +39,9 @@ class HomeController extends GetxController {
   List<Uint8List>? _serverImages = [];
   List<Uint8List>? get serverImages => _serverImages;
 
-  XFile? _pickedFile;
-  XFile? get pickedFile => _pickedFile;
-  String? _melResultViewDetails;
-  String? get melResultViewDetails =>_melResultViewDetails ;
-  String? _melBenResultViewDetails; 
-  String? get melBenResultViewDetails => _melBenResultViewDetails ; 
-  String? _melMaligResultViewDetails;
-  String? get melMaligResultViewDetails  => _melMaligResultViewDetails ;
-  String? _nVResultViewDetails;
-  String? get nVResultViewDetails => _nVResultViewDetails ;
-  String? _bKLResultViewDetails;
-  String? get bKLResultViewDetails => _bKLResultViewDetails ; 
-  String? _bCCResultViewDetails;
-  String? get bCCResultViewDetails => _bCCResultViewDetails ;
-  String? _akiecResultViewDetails;
-  String? get akiecResultViewDetails => _akiecResultViewDetails ; 
-  String? _vascResultViewDetails;
-  String? get vascResultViewDetails => _vascResultViewDetails ;
-  String? _dFResultViewDetails;
-  String? get dFResultViewDetails => _dFResultViewDetails ;
 
   RxBool homeIsLoading = false.obs;
+  RxBool noEntries = true.obs;
 
   var scanDocTemplate = 
   [
@@ -107,7 +88,7 @@ void addToScanDoc(map)
 {
    var newList;
   for (var i = 0; i < map.length; i++) {
-      if (map[i]["EntryDate"] == "NullList") {
+      if (map[i]["date"] == "NullList") {
         // no entries here
         scanDoc.value = scanDocTemplate;
         homeIsLoading.value = false ;
@@ -198,7 +179,7 @@ void addToScanDoc(map)
     _serverImages = [];
 
     for (var i = 0; i < map.length; i++) {
-      if (map[i]["EntryDate"] == "NullList") {
+      if (map[i]["date"] == "NullList") {
         // no entries here
         scanDoc.value = scanDocTemplate;
         homeIsLoading.value = false ;
@@ -211,7 +192,14 @@ void addToScanDoc(map)
     }
     addToScanDoc(map);
  
- 
+    if(_serverImages!.isEmpty == true)
+    {
+      noEntries.value = true;
+    }
+    else 
+    {
+      noEntries.value = false;
+    }
     homeIsLoading.value =false;
   
   }
@@ -240,8 +228,8 @@ void addToScanDoc(map)
     //Check if Uint8List populated, it will or will not have an image, this image
     request.fields['email'] = Preference.shared.getString('useremail')!;
     request.fields['pass'] = Preference.shared.getString('userpass')!;
-    request.fields['entryID'] = scanDoc[index]["scan"]!;
-
+    request.fields['entryID'] = scanDoc[index]["Scan"]!;
+    print("a");
     http.StreamedResponse response = await request.send();
     return response;
   }
@@ -257,13 +245,20 @@ void addToScanDoc(map)
       serverImages?.removeAt(index);
       if (serverImages?.isEmpty ==true) {
         scanDoc.value = scanDocTemplate;
-        return;
       } 
       else 
       {
         scanDoc.removeAt(index);
-        return;
       }
+
+      if(_serverImages!.isEmpty == true)
+     {
+      noEntries.value = true;
+     }
+    else 
+    {
+      noEntries.value = false;
+    }
      
 
     }
@@ -327,18 +322,9 @@ void addToScanDoc(map)
     http.StreamedResponse response = await addEntry(
         _imagefilename, _imagefileextention, selectedImageBytes?.value);
 
-    Map map = jsonDecode(await response.stream.bytesToString());
-
-
-      _nVResultViewDetails = (map["nVResult"] != null) ? (map['nVResult']).toString() : " ";
-      _bKLResultViewDetails = (map["bKLResult"] != null) ? (map['bKLResult']).toString() : " ";
-      _bCCResultViewDetails = (map["bCCResult"] != null) ? (map['bCCResult']).toString() : " ";
-      _akiecResultViewDetails = (map["akiecResult"] != null) ? (map['akiecResult']).toString() : " ";
-      _vascResultViewDetails = (map["vascResult"] != null) ? (map['vascResult']).toString() : " ";
-      _dFResultViewDetails = (map["dFResult"] != null) ? (map['dFResult']).toString() : " ";
-      _melResultViewDetails= (map["melResult"] != null) ? (map['melResult']).toString() : " ";
-      _melBenResultViewDetails = (map["melBenResult"] != null) ? (map['melBenResult']).toString() : " ";
-      _melMaligResultViewDetails= (map["melMaligResult"] != null) ? (map['melMaligResult']).toString() : " ";
+    var map = jsonDecode(await response.stream.bytesToString());
+    
+    addToScanDoc(map);
 
    
     Get.toNamed(Routes

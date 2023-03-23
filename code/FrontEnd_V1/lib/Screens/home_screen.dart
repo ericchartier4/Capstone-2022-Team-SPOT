@@ -166,7 +166,13 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget scan(BuildContext context) {
-    return Center(
+    
+    return 
+    Center(
+      child: Obx(() => homeController.noEntries.value
+      ? const Text("You do not have any saved entries in your History")
+      :
+    Center(
       child: 
       Obx(() => homeController.homeIsLoading.value
       ? const Center(child: CircularProgressIndicator())
@@ -186,14 +192,20 @@ class _HomeScreenState extends State<HomeScreen> {
                 onTap: () {
                   homeController.selectedIndex.value = index;
                 },
-                child: Card(
+                child: 
+                  
+                   
+                Card(
+                  
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15.0),
                   ),
                   elevation: 2,
                   shadowColor: const Color(0xffFEDBD0),
                   margin: const EdgeInsets.symmetric(vertical: 5),
-                  child: Container(
+                  child:  
+                
+                   Container(
                     padding: const EdgeInsets.only(
                         left: 7, top: 7, right: 7, bottom: 3),
                     decoration: BoxDecoration(
@@ -460,18 +472,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 
                  
                           SizedBox(height: 0.5.h),
-                      
-                            Row(
-                         
-                            children: [
-                              Expanded(
-                                flex: 2,
-                                child:
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
+
+            
                                   Text("What our AI is predicting about your scan:"),
-                            PieChart(dataMap: {"Melanocytic nevi":double.parse(homeController.scanDoc[index]['Melanocytic nevi']!),
+                            PieChart(chartRadius: 40.w ,legendOptions: LegendOptions(legendPosition: LegendPosition.bottom), dataMap: {"Melanocytic nevi":double.parse(homeController.scanDoc[index]['Melanocytic nevi']!),
                           "Benign keratosis-like lesions":double.parse(homeController.scanDoc[index]['Benign keratosis-like lesions']!),
                           "Basal cell carcinoma":double.parse(homeController.scanDoc[index]['Basal cell carcinoma']!),
                           "Actinic keratoses":double.parse(homeController.scanDoc[index]['Actinic keratoses']!),
@@ -482,31 +486,25 @@ class _HomeScreenState extends State<HomeScreen> {
                             
 
 
-                                ],
-                              ),
-                              ),
-                              Expanded(child:
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
+                              
+                          
                                    Text("More deatailed information on the melanoma prediction"),
                           
-                                   PieChart(  dataMap: {"Benign":double.parse(homeController.scanDoc[index]['Benign']!), "Malignant":double.parse(homeController.scanDoc[index]['Malignant']!)}),
+                                   PieChart(chartRadius: 40.w, legendOptions: LegendOptions(legendPosition: LegendPosition.bottom),  dataMap: {"Benign":double.parse(homeController.scanDoc[index]['Benign']!), "Malignant":double.parse(homeController.scanDoc[index]['Malignant']!)}),
                      
 
-                                ],
-                                
-                              )
-                              ),
-                            ],
-                          ),
-                       
+                           
+                        
+                            
+
+                  
+                             
                           
                         
                           SizedBox(height: 0.5.h),
                             
                  ExpansionTile(
-                  title: Text("expand this for a more detailed representation:"),
+                  title: Text("Expand this for a  detailed representation:"),
                   children:[
                  getHomeCard(context,"Melanocytic nevi", index, homeController),
                  getHomeCard(context,"Benign keratosis-like lesions", index, homeController),
@@ -550,7 +548,10 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       ),
+    ),
+    ),
     );
+    
   }
 }
 
