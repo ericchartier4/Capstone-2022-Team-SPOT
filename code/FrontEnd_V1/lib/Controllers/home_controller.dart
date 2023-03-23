@@ -35,6 +35,7 @@ class HomeController extends GetxController {
 
   XFile? _pickedFile;
   XFile? get pickedFile => _pickedFile;
+<<<<<<< Updated upstream
   String? _melResultViewDetails;
   String? get melResultViewDetails =>_melResultViewDetails ;
   String? _melBenResultViewDetails; 
@@ -75,6 +76,15 @@ class HomeController extends GetxController {
       
     },
   ];
+=======
+  String? _bresults;
+  String? get bresult => _bresults;
+  String? _mresults;
+  String? get mresult => _mresults;
+  RxBool isLoading = false.obs;
+
+  
+>>>>>>> Stashed changes
 
   var scanDoc = [
     {
@@ -140,7 +150,11 @@ class HomeController extends GetxController {
 
 // method to help get the scan doc
   Future<void> getEntriesHelper() async {
+<<<<<<< Updated upstream
     homeIsLoading.value = true ;
+=======
+    isLoading.value = true ;
+>>>>>>> Stashed changes
     http.StreamedResponse response = await getEntries();
 
     
@@ -153,8 +167,22 @@ class HomeController extends GetxController {
     for (var i = 0; i < map.length; i++) {
       if (map[i]["EntryDate"] == "NullList") {
         // no entries here
+<<<<<<< Updated upstream
         scanDoc.value = scanDocTemplate;
         homeIsLoading.value = false ;
+=======
+        scanDoc.value = [
+          {
+            "benign": "null",
+            "malignent": "null",
+            "scan": "null",
+            "date": "null",
+            "about": "null",
+            "doctor": "null",
+          }
+        ];
+        isLoading.value = false ;
+>>>>>>> Stashed changes
         return;
       }
       
@@ -187,8 +215,20 @@ class HomeController extends GetxController {
     if (newList != null) {
       scanDoc.value = newList!;
     }
+<<<<<<< Updated upstream
     homeIsLoading.value =false;
   
+=======
+    print(scanDoc);
+    isLoading.value =false;
+    //_imagePath=message;
+    // _pickedFile = null;
+    //await getUserInfo();
+    //print(message);
+    //} else {
+    //print("error posting the image");
+    //} // having this here to transition to next page
+>>>>>>> Stashed changes
   }
 
 // creating listener to call a method to change the scan doc when ever bottom index is changed

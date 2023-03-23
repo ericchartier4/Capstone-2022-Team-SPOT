@@ -25,9 +25,12 @@ class _HomeScreenState extends State<HomeScreen> {
   final HomeController homeController = Get.put(HomeController());
   String? luserEmail;
   String? luserPass;
+<<<<<<< Updated upstream
   
   
   
+=======
+>>>>>>> Stashed changes
  
 
 
@@ -168,10 +171,19 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget scan(BuildContext context) {
     return Center(
       child: 
+<<<<<<< Updated upstream
       Obx(() => homeController.homeIsLoading.value
       ? const Center(child: CircularProgressIndicator())
        :
        Container(
+=======
+      Obx(() => homeController.isLoading.value
+      ? const Center(child: CircularProgressIndicator(),)
+       :
+      
+      
+      Container(
+>>>>>>> Stashed changes
         constraints: BoxConstraints(
           maxWidth: isDesktop(context) ? 55.w : 100.w,
         ),
@@ -223,8 +235,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                       Dialog(
                                         child: SizedBox(
                                 // photobox
+<<<<<<< Updated upstream
                                 height: isDesktop(context) ? 60.h : 80.h,
                                 width: isDesktop(context) ? 80.w : 80.w,
+=======
+                                height: isDesktop(context) ? 10.h : 8.h,
+                                width: isDesktop(context) ? 10.w : 30.w,
+>>>>>>> Stashed changes
                                 child:
                                 homeController.serverImages?.isNotEmpty ==
                                             true
@@ -241,8 +258,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                       );
                                 
                                   },
+<<<<<<< Updated upstream
 
 
+=======
+>>>>>>> Stashed changes
                                   child:
                                     homeController.serverImages?.isNotEmpty ==
                                             true
