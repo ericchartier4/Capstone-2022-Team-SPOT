@@ -56,7 +56,25 @@ class HomeController extends GetxController {
 
   RxBool homeIsLoading = false.obs;
 
-  
+  var scanDocTemplate = 
+  [
+    {
+    'NV': 'null',
+     'Mel': 'null',
+     'BKL': 'null ',
+     'BCC': 'null',
+     'Akiec': 'null',
+     'Vasc': 'null',
+     'DF': 'null',
+     'MelBen' : 'null',
+     'MelMalig' : 'null',
+      "Scan": "null",
+      "Date": "null",
+      "About": "null",
+      "Area": "null"
+      
+    },
+  ];
 
   var scanDoc = [
     {
@@ -76,6 +94,14 @@ class HomeController extends GetxController {
       
     },
   ].obs;
+
+
+
+
+
+
+
+
   var selectedArea = 'selectArea'.obs;
   List<DropdownMenuItem<String>> get dropdownItems {
     List<DropdownMenuItem<String>> menuItems = [
@@ -127,56 +153,26 @@ class HomeController extends GetxController {
     for (var i = 0; i < map.length; i++) {
       if (map[i]["EntryDate"] == "NullList") {
         // no entries here
-        scanDoc.value = [
-          {
-     'nV': 'null',
-     'mel': 'null',
-     'bKL': 'null ',
-     'bCC': 'null',
-     'akiec': 'null',
-     'vasc': 'null',
-     'dF': 'null',
-     'melBen' : 'null',
-     'melMalig' : 'null',
-      "scan": "null",
-      "date": "null",
-      "about": "null",
-      "area": "null",
-      
-          }
-        ];
+        scanDoc.value = scanDocTemplate;
         homeIsLoading.value = false ;
         return;
       }
-      var about =
-          (map[i]["about"] != null) ? (map[i]['about']).toString() : " ";
-      var scan = (map[i]["scan"] != null) ? (map[i]['scan']).toString() : " ";
-      var nVResult = (map[i]["nVResult"] != null) ? (map[i]['nVResult']).toString() : " ";
-      var bKLResult = (map[i]["bKLResult"] != null) ? (map[i]['bKLResult']).toString() : " ";
-      var bCCResult = (map[i]["bCCResult"] != null) ? (map[i]['bCCResult']).toString() : " ";
-      var akiecResult = (map[i]["akiecResult"] != null) ? (map[i]['akiecResult']).toString() : " ";
-      var vascResult = (map[i]["vascResult"] != null) ? (map[i]['vascResult']).toString() : " ";
-      var dFResult = (map[i]["dFResult"] != null) ? (map[i]['dFResult']).toString() : " ";
-      var melResult = (map[i]["melResult"] != null) ? (map[i]['melResult']).toString() : " ";
-      var melBenResult = (map[i]["melBenResult"] != null) ? (map[i]['melBenResult']).toString() : " ";
-      var melMaligResult = (map[i]["melMaligResult"] != null) ? (map[i]['melMaligResult']).toString() : " ";
-      var date = (map[i]["date"] != null) ? (map[i]['date']).toString() : " ";
-      var area = (map[i]["area"] != null) ? (map[i]['area']).toString() : " ";
+      
     
       var newScan = {
-      'nV': nVResult,
-     'mel': melResult,
-     'bKL': bKLResult,
-     'bCC': bCCResult,
-     'akiec': akiecResult,
-     'vasc': vascResult,
-     'dF': dFResult,
-     'melBen' : melBenResult,
-     'melMalig' : melMaligResult,
-      "scan": scan,
-      "date": date,
-      "about": about,
-      "area" : area,
+      'nV': (map[i]["nVResult"] != null) ? (map[i]['nVResult']).toString() : " ",
+     'mel':  (map[i]["melResult"] != null) ? (map[i]['melResult']).toString() : " ",
+     'bKL':  (map[i]["bKLResult"] != null) ? (map[i]['bKLResult']).toString() : " " ,
+     'bCC': (map[i]["bCCResult"] != null) ? (map[i]['bCCResult']).toString() : " ",
+     'akiec': (map[i]["akiecResult"] != null) ? (map[i]['akiecResult']).toString() : " " ,
+     'vasc': (map[i]["vascResult"] != null) ? (map[i]['vascResult']).toString() : " " ,
+     'dF': (map[i]["dFResult"] != null) ? (map[i]['dFResult']).toString() : " ",
+     'melBen' : (map[i]["melBenResult"] != null) ? (map[i]['melBenResult']).toString() : " ",
+     'melMalig' :  (map[i]["melMaligResult"] != null) ? (map[i]['melMaligResult']).toString() : " ",
+      "scan": (map[i]["scan"] != null) ? (map[i]['scan']).toString() : " ",
+      "date": (map[i]["date"] != null) ? (map[i]['date']).toString() : " ",
+      "about":  (map[i]["about"] != null) ? (map[i]['about']).toString() : " ",
+      "area" : (map[i]["area"] != null) ? (map[i]['area']).toString() : " ",
       };
       var imageBin = map[i]["imageBinary"];
       var imageDec = base64Decode(imageBin);
@@ -235,23 +231,7 @@ class HomeController extends GetxController {
     if (response.statusCode == 200) {
       serverImages?.removeAt(index);
       if (serverImages?.isEmpty ==true) {
-        scanDoc.value = [
-          {
-         'nV': 'null',
-     'mel': 'null',
-     'bKL': 'null ',
-     'bCC': 'null',
-     'akiec': 'null',
-     'vasc': 'null',
-     'dF': 'null',
-     'melBen' : 'null',
-     'melMalig' : 'null',
-      "scan": "null",
-      "date": "null",
-      "about": "null",
-      "area":"null"
-          }
-        ];
+        scanDoc.value = scanDocTemplate;
         return;
       } 
       else 

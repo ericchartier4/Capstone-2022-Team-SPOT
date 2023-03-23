@@ -24,6 +24,7 @@ from keras.models import Sequential, load_model
 import matplotlib.pyplot as plt
 import pandas as pd
 from sklearn.model_selection import train_test_split
+import keras.applications.mobilenet
 from sklearn.metrics import cohen_kappa_score, accuracy_score
 import scipy
 from tqdm import tqdm
@@ -118,13 +119,13 @@ def analyzePhoto(img_4d):
    # melResult = ((genPrediction[4])*100)
     melBenResult = ((melPrediction[0])*100)
     melMaligResult = ((melPrediction[1])*100)
-    melResult = 14.2857143
-    nVResult = 14.2857143
-    bKLResult = 14.2857143
-    bCCResult = 14.2857143
-    akiecResult =  14.2857143
-    vascResult = 14.2857143
-    dFResult = 14.2857143
+    melResult = 10
+    nVResult = 40
+    bKLResult = 10
+    bCCResult = 10
+    akiecResult =  10
+    vascResult = 10
+    dFResult = 10
 
 
 

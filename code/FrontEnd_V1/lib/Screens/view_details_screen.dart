@@ -198,8 +198,8 @@ class ViewDetailsScreen extends StatelessWidget {
                   ),
             SizedBox(height: 2.h),
             Container(
-               height: isDesktop(context) ? 20.w : 10.h,
-               width: isDesktop(context) ? 30.w :  15.w,
+             width: MediaQuery.of(context).size.width * 0.40,
+             height: MediaQuery.of(context).size.width * 0.40,
               child: PieChart(dataMap: {"Melanocytic Nevi (Heathy Skin)":double.parse(homeController.melResultViewDetails ?? '0'),
                "Benign Keratosis-Like Lesions":double.parse(homeController.bKLResultViewDetails ?? '0'),
                "Basal Cell Carcinoma":double.parse(homeController.bCCResultViewDetails ?? '0'),
@@ -222,8 +222,8 @@ class ViewDetailsScreen extends StatelessWidget {
                   ),
             SizedBox(height: 2.h),
             Container(
-               height: isDesktop(context) ? 20.w : 10.h,
-               width: isDesktop(context) ? 30.w : 15.w,
+             width: MediaQuery.of(context).size.width * 0.40,
+             height: MediaQuery.of(context).size.width * 0.40,
               child: PieChart(dataMap: {"Benign":double.parse(homeController.melBenResultViewDetails ?? '0'), "Mlignent":double.parse(homeController.melMaligResultViewDetails?? '0' )}),
 
             ),

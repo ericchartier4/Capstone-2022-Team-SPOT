@@ -4,12 +4,15 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
 import '../Controllers/home_controller.dart';
+import '../Controllers/home_controller.dart';
 import '../Utils/preference.dart';
+import '../Utils/tilesbuilder.dart';
 import '../main.dart';
 import '../Routes/routes.dart';
 import '../Utils/app_colors.dart';
 import '../Utils/constant_widgets.dart';
 import 'package:pie_chart/pie_chart.dart';
+
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -22,6 +25,9 @@ class _HomeScreenState extends State<HomeScreen> {
   final HomeController homeController = Get.put(HomeController());
   String? luserEmail;
   String? luserPass;
+  
+  
+  
  
 
 
@@ -41,7 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: customAppBar(
         isShowBackIcon: false,
         isShowMenuIcon: false,
-        title: 'Demo',
+        title: 'Home',
         actions: [
           // IconButton(
           //   icon: const Icon(Icons.more_vert),
@@ -89,7 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Icons.document_scanner,
                 color: Color(0xff442C2E),
               ),
-              label: 'Scan',
+              label: 'History',
             ),
           ],
           type: BottomNavigationBarType.fixed,
@@ -134,22 +140,26 @@ class _HomeScreenState extends State<HomeScreen> {
             child: const Text('Image'),
           ),
           SizedBox(height: 2.h),
-          Text(
-            'About the App',
-            style: GoogleFonts.poppins(
-              color: AppColor.textBlackColor,
-              fontSize: isDesktop(context) ? 20 : 15.sp,
-              fontWeight: FontWeight.w600,
+           SizedBox(
+            height: MediaQuery.of(context).size.height,
+            child: 
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+            Expanded(
+            child:
+            ListView(
+            shrinkWrap: true,
+            children: homeExpndable.map(buildTile).toList(),),
+           
+            
             ),
-          ),
-          SizedBox(height: 1.h),
-          Text(
-            "Getting a medical evaluation for every minor skin blemish can be a costly and time-consuming hassle that many individuals simply cannot afford. However, the consequences of neglecting skin health can be dire, as even small changes in the appearance or texture of the skin may indicate the presence of skin cancers or diseases. Unfortunately, not everyone has access to medical facilities or the necessary knowledge to identify such conditions. That's where SPOT steps in as a game-changing solution – a cutting-edge AI-powered medical diary that provides users with a comprehensive and accurate assessment of their skin's health status. By utilizing advanced artificial intelligence technology, SPOT offers a quick, easy, and affordable alternative to traditional medical evaluations. Users can simply upload images of their skin blemishes or areas of concern, and SPOT's algorithms will analyze them to identify any potential skin cancers or diseases. With SPOT, you can have peace of mind knowing that your skin health is being monitored by advanced technology, providing you with accurate and reliable evaluations. Although SPOT's assessment is not a substitute for professional medical advice, it empowers users to take informed action and seek professional assistance where necessary. By taking control of your skin health with SPOT, you can make informed decisions and take proactive steps towards maintaining your overall well-being.",
-            style: GoogleFonts.poppins(
-              color: AppColor.textBlackColor.withOpacity(0.7),
-              fontSize: isDesktop(context) ? 15 : 11.sp,
+            ],
+
             ),
-          ),
+            
+           ),
+           
         ],
       ),
     );
@@ -404,7 +414,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                             
                               SizedBox(height: 0.5.h),
-                              //    header
+                              //  Area   header
                               Text(
                                 'Area Affected:',
                                 style: GoogleFonts.poppins(
@@ -453,8 +463,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           Text("What our AI is predicting about your scan:"),
                        
                         Container(
-                          height: isDesktop(context) ? 10.w : 5.h,
-                          width: isDesktop(context) ? 15.w :  7.5.w,
+                          width: MediaQuery.of(context).size.width * 0.40,
+                          height: MediaQuery.of(context).size.width * 0.40,
                           child: PieChart(dataMap: {"Melanocytic Nevi (Heathy Skin)":double.parse(homeController.scanDoc[index]['nV']!),
                           "Benign Keratosis-Like Lesions":double.parse(homeController.scanDoc[index]['bKL']!),
                           "Basal Cell Carcinoma":double.parse(homeController.scanDoc[index]['bCC']!),
@@ -466,11 +476,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                       SizedBox(height: 0.5.h),
                           Text("More deatailed information on the melanoma prediction:"),
-                        Container(
-                          height: isDesktop(context) ? 10.w : 5.h,
-                          width: isDesktop(context) ? 15.w :  7.5.w,
-                          child: PieChart(dataMap: {"Benign":double.parse(homeController.scanDoc[index]['melBen']!), "Mlignent":double.parse(homeController.scanDoc[index]['melMalig']!)}),
-                    ),
+                           Container(
+                           width: MediaQuery.of(context).size.width * 0.30,
+                           height: MediaQuery.of(context).size.width * 0.30,
+                           child: PieChart(  dataMap: {"Benign":double.parse(homeController.scanDoc[index]['melBen']!), "Mlignent":double.parse(homeController.scanDoc[index]['melMalig']!)}),
+                     ),
                  
 
 
@@ -919,3 +929,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
+
+
+
+
