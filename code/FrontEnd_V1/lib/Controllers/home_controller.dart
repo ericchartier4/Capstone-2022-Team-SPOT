@@ -103,7 +103,48 @@ class HomeController extends GetxController {
 
 
 
+void addToScanDoc(map)
+{
+   var newList;
+  for (var i = 0; i < map.length; i++) {
+      if (map[i]["EntryDate"] == "NullList") {
+        // no entries here
+        scanDoc.value = scanDocTemplate;
+        homeIsLoading.value = false ;
+        return;
+      }
+      
+    
+      var newScan = {
+      'Melanocytic nevi': (map[i]["nVResult"] != null) ? (map[i]['nVResult']).toString() : " ",
+     'Melanoma':  (map[i]["melResult"] != null) ? (map[i]['melResult']).toString() : " ",
+     'Benign keratosis-like lesions':  (map[i]["bKLResult"] != null) ? (map[i]['bKLResult']).toString() : " " ,
+     'Basal cell carcinoma': (map[i]["bCCResult"] != null) ? (map[i]['bCCResult']).toString() : " ",
+     'Actinic keratoses': (map[i]["akiecResult"] != null) ? (map[i]['akiecResult']).toString() : " " ,
+     'Vascular lesions': (map[i]["vascResult"] != null) ? (map[i]['vascResult']).toString() : " " ,
+     'Dermatofibroma': (map[i]["dFResult"] != null) ? (map[i]['dFResult']).toString() : " ",
+     'Benign' : (map[i]["melBenResult"] != null) ? (map[i]['melBenResult']).toString() : " ",
+     'Malignant' :  (map[i]["melMaligResult"] != null) ? (map[i]['melMaligResult']).toString() : " ",
+      "Scan": (map[i]["scan"] != null) ? (map[i]['scan']).toString() : " ",
+      "Date": (map[i]["date"] != null) ? (map[i]['date']).toString() : " ",
+      "About":  (map[i]["about"] != null) ? (map[i]['about']).toString() : " ",
+      "Area" : (map[i]["area"] != null) ? (map[i]['area']).toString() : " ",
+      };
+     
+      if (i == 0) {
+        newList = [newScan];
+      } else {
+        newList!.add(newScan);
+      }
 
+    }
+
+   
+    if (newList != null) {
+      scanDoc.value = newList!;
+    }
+  
+}
 
 
 
@@ -163,36 +204,14 @@ class HomeController extends GetxController {
         homeIsLoading.value = false ;
         return;
       }
-      
-    
-      var newScan = {
-      'Melanocytic nevi': (map[i]["nVResult"] != null) ? (map[i]['nVResult']).toString() : " ",
-     'Melanoma':  (map[i]["melResult"] != null) ? (map[i]['melResult']).toString() : " ",
-     'Benign keratosis-like lesions':  (map[i]["bKLResult"] != null) ? (map[i]['bKLResult']).toString() : " " ,
-     'Basal cell carcinoma': (map[i]["bCCResult"] != null) ? (map[i]['bCCResult']).toString() : " ",
-     'Actinic keratoses': (map[i]["akiecResult"] != null) ? (map[i]['akiecResult']).toString() : " " ,
-     'Vascular lesions': (map[i]["vascResult"] != null) ? (map[i]['vascResult']).toString() : " " ,
-     'Dermatofibroma': (map[i]["dFResult"] != null) ? (map[i]['dFResult']).toString() : " ",
-     'Benign' : (map[i]["melBenResult"] != null) ? (map[i]['melBenResult']).toString() : " ",
-     'Malignant' :  (map[i]["melMaligResult"] != null) ? (map[i]['melMaligResult']).toString() : " ",
-      "Scan": (map[i]["scan"] != null) ? (map[i]['scan']).toString() : " ",
-      "Date": (map[i]["date"] != null) ? (map[i]['date']).toString() : " ",
-      "About":  (map[i]["about"] != null) ? (map[i]['about']).toString() : " ",
-      "Area" : (map[i]["area"] != null) ? (map[i]['area']).toString() : " ",
-      };
       var imageBin = map[i]["imageBinary"];
       var imageDec = base64Decode(imageBin);
       _serverImages?.add(imageDec);
-      if (i == 0) {
-        newList = [newScan];
-      } else {
-        newList!.add(newScan);
-      }
+    
     }
+    addToScanDoc(map);
  
-    if (newList != null) {
-      scanDoc.value = newList!;
-    }
+ 
     homeIsLoading.value =false;
   
   }
