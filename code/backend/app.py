@@ -55,22 +55,14 @@ from werkzeug.middleware.proxy_fix import ProxyFix
 #     'MelBen' : 'Benign  Melanoma'
 #     'MelMalig' : 'Malignant Melanoma'
 
-lesion_type_dict = {
-    'nv': 'Melanocytic nevi',
-    'mel': 'Melanoma',
-    'bkl': 'Benign keratosis-like lesions ',
-    'bcc': 'Basal cell carcinoma',
-    'akiec': 'Actinic keratoses',
-    'vasc': 'Vascular lesions',
-    'df': 'Dermatofibroma'
-}
+
 
 
 
 
 
 #flutter build web --release --base-href=/web/
-#logging.basicConfig(level=logging.DEBUG)
+
  
 
  # assume you have created a uploads folder
@@ -168,11 +160,6 @@ class SignUp(Resource):
     def post(self):
         
          
-        print (request.values['email'])
-        print (request.values['email'])
-        print (request.values['email'])
-        print (request.values['email'])
-        print (request.values['email'])
         fName = request.values['fName']
         lName = request.values['lName']
         email = request.values['email']
@@ -185,19 +172,7 @@ class SignUp(Resource):
         
         conn.commit()
         conn.close() 
-        ##image = request.files['image']
-        #image.save(os.path.join(r".\uploads" , image.filename))   
-        #img = load_img(fr".\uploads\{image.filename}")
-        #img_array = img_to_array(img)
-        #img_4d = img_array.reshape(-1,224,224,3)
-        #prediction=model.predict(img_4d)[0]
-        #benignResult = str((prediction[0])*100)
-        #melignentResult = str((prediction[1])*100)
-        #print("benign:" + benignResult + "malignent:" + melignentResult)
-        #os.remove(fr".\uploads\{image.filename}")
-        #image = request.files('image');
-        
-        #image.save(os.path.join(uploads_path , image.filename))
+     
         response = jsonify({'status':"200"})
         response.headers.add('Access-Control-Allow-Origin', '*') # needed line to fix CORS error 
         return response
@@ -208,7 +183,7 @@ class LogIn(Resource):
          
         email = request.values['email']
         password = request.values['pass']
-        print(email)
+      
         
         conn = mariadb.connect(**config)
         cur = conn.cursor()
@@ -218,7 +193,7 @@ class LogIn(Resource):
         val = (email,password)
         cur.execute(sql,val)
         results = cur.fetchall()
-        print(results)
+        
         if (len(results) > 0):
             response = jsonify({'Result': True})
         else:
@@ -230,19 +205,7 @@ class LogIn(Resource):
         
         conn.commit()
         conn.close() 
-        ##image = request.files['image']
-        #image.save(os.path.join(r".\uploads" , image.filename))   
-        #img = load_img(fr".\uploads\{image.filename}")
-        #img_array = img_to_array(img)
-        #img_4d = img_array.reshape(-1,224,224,3)
-        #prediction=model.predict(img_4d)[0]
-        #benignResult = str((prediction[0])*100)
-        #melignentResult = str((prediction[1])*100)
-        #print("benign:" + benignResult + "malignent:" + melignentResult)
-        #os.remove(fr".\uploads\{image.filename}")
-        #image = request.files('image');
-        
-        #image.save(os.path.join(uploads_path , image.filename))
+       
         response.headers.add('Access-Control-Allow-Origin', '*') # needed line to fix CORS error 
         return response
 
@@ -305,10 +268,7 @@ class AddEntry(Resource):
             conn.close() 
 
         
-        #os.remove(fr".\uploads\{image.filename}")   
-        
-        #image = request.files('image');
-        #image.save(os.path.join(uploads_path , image.filename))
+     
         entryDict = {'nVResult':str(nVResult),'melResult':str(melResult),'bCCResult':str(bCCResult),'bKLResult':str(bKLResult),'akiecResult':str(akiecResult),'vascResult':str(vascResult),'dFResult':str(dFResult),'melBenResult':str(melBenResult),'melMaligResult':str(melMaligResult),'scan':'null','date':'null','about':'null','area':'null','imageBinary':'null'}
         entriesList = []
         entriesList.append(entryDict)
@@ -326,8 +286,7 @@ class GetEntries(Resource):
          
         email = request.values['email']
         password = request.values['pass']
-        print(email)
-        
+      
         conn = mariadb.connect(**config)
         cur = conn.cursor()
 
@@ -338,7 +297,7 @@ class GetEntries(Resource):
         results = cur.fetchall()
         userID_tuple = results[0]
         userID = userID_tuple[0]
-        print( userID )
+       
         str_UserID = str
 
 
@@ -365,13 +324,13 @@ class GetEntries(Resource):
             with open(os.path.join(r".\uploads" , entryURL),"rb") as imageData:
                   imageBinary = imageData.read()
                   imageBinary = base64.b64encode(imageBinary).decode('ascii')
-                  print(imageBinary)
+                 
                   
             entryDict = {'nVResult':str(nVResult),'melResult':str(melResult),'bCCResult':str(bCCResult),'bKLResult':str(bKLResult),'akiecResult':str(akiecResult),'vascResult':str(vascResult),'dFResult':str(dFResult),'melBenResult':str(melBenResult),'melMaligResult':str(melMaligResult),'scan':str(entryID),'date':str(entryDate),'about':entryText,'area':entryArea,'imageBinary':imageBinary}
             entriesList.append(entryDict)
         response = jsonify(entriesList)
-        print(response)
-        #final = json.dumps(entriesList,indent=1)
+     
+       
     
 
 
@@ -379,7 +338,7 @@ class GetEntries(Resource):
         conn.commit()
         conn.close() 
         response.headers.add('Access-Control-Allow-Origin', '*') # needed line to fix CORS error 
-        print(response)
+        
         return response
 
 class DeleteEntries(Resource):
@@ -389,7 +348,7 @@ class DeleteEntries(Resource):
         email = request.values['email']
         password = request.values['pass']
         entryID = request.values['entryID']
-        print(email)
+       
         
         conn = mariadb.connect(**config)
         cur = conn.cursor()
@@ -403,7 +362,7 @@ class DeleteEntries(Resource):
         results = cur.fetchall()
         userID_tuple = results[0]
         userID = userID_tuple[0]
-        print( userID )
+        
         str_UserID = str
 
 
@@ -420,7 +379,7 @@ class DeleteEntries(Resource):
 
 
         sql = "DELETE FROM entries WHERE UserID = %s  AND EntryID = %s;"
-        print(str(entryID))
+       
         cur.execute(sql,(str(userID),entryID)) 
         conn.commit()
         conn.close() 

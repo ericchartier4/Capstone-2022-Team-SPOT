@@ -21,7 +21,7 @@ class AuthController extends GetxController {
   TextEditingController sEmailController = TextEditingController();
   TextEditingController sPasswordController = TextEditingController();
   TextEditingController sCPasswordController = TextEditingController();
-  TextEditingController sDobController = TextEditingController();
+
   var isObsecureText = true.obs;
   
   
@@ -82,13 +82,6 @@ class AuthController extends GetxController {
           message: "Your Email or Password is Wrong, please try again");
     }
 
-    //_imagePath=message;
-    // _pickedFile = null;
-    //await getUserInfo();
-    //print(message);
-    //} else {
-    //print("error posting the image");
-    //}
   }
 
   Future<http.StreamedResponse> signUp(
@@ -96,20 +89,18 @@ class AuthController extends GetxController {
     String? fName,
     String? lName,
     String? pass,
-    String? dOB,
+ 
     
   ) async {
      
     http.MultipartRequest request = http.MultipartRequest(
         'POST', Uri.parse(API.URL + '/signUp'));
 
-    //request.headers.addAll(<String,String>{'Authorization': 'Bearer $token'});
-    //Check if Uint8List populated, it will or will not have an image, this image
     request.fields['email'] = email!;
     request.fields['fName'] = fName!;
     request.fields['lName'] = lName!;
     request.fields['pass'] = pass!;
-    request.fields['dOB'] = dOB!;
+  
     http.StreamedResponse response = await request.send();
     return response;
   }
@@ -121,23 +112,16 @@ class AuthController extends GetxController {
         sFNameController.text,
         sLNameController.text,
         sPasswordController.text,
-        sDobController.text);
+        );
 
-    //_isLoading = false;
-    //if (response.statusCode == 200) {
+ 
     Map map = jsonDecode(await response.stream.bytesToString());
 
-    //_imagePath=message;
-    // _pickedFile = null;
-    //await getUserInfo();
-    //print(message);
-    //} else {
-    //print("error posting the image");
-    //}
+   
     await Preference.shared.setString("useremail", sEmailController.text);
     await Preference.shared.setString("userpass", sPasswordController.text);
     Get.toNamed(
-        Routes.HOME_SCREEN); // having this here to transition to next page
+        Routes.HOME_SCREEN); 
   }
 
   // validation for login
@@ -152,9 +136,7 @@ class AuthController extends GetxController {
     } else if (lPasswordController.text.isEmpty) {
       errorSnackBar(message: "Enter your Password");
     } else {
-      //await Preference.shared.setString("useremail", lEmailController.text);
-      //await Preference.shared.setString("userpass", lPasswordController.text);
-      //Get.toNamed(Routes.HOME_SCREEN);
+     
       logInHelper(context);
     }
   }
@@ -163,7 +145,7 @@ class AuthController extends GetxController {
   checkValidationForSignUpDetails(BuildContext context) {
     bool emailValid = RegExp(
             r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(sEmailController.text);
-    bool dobValid = RegExp(r"\d{4}-\d{2}-\d{2}").hasMatch(sDobController.text);
+
     if (sFNameController.text.isEmpty) {
       errorSnackBar(message: "Enter your First Name");
     } else if (!emailValid) {
@@ -178,10 +160,7 @@ class AuthController extends GetxController {
       errorSnackBar(message: "Enter Correct Password");
     } else if (sCPasswordController.text.isEmpty) {
       errorSnackBar(message: "Enter Confirm Password");
-    } else if (sDobController.text.isEmpty) {
-      errorSnackBar(message: "Enter your DOB");
-    } else if (!dobValid) {
-      errorSnackBar(message: "Enter Date of Birth in form: yyyy-mm-dd");
+    
     } else {
       signUpHelper(context);
     }

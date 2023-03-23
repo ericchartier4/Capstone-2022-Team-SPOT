@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
     return Sizer(
       builder: (context, orientation, builder) {
         return GetMaterialApp(
-          title: 'Cancer App',
+          title: 'SPOT',
           debugShowCheckedModeBanner: false,
           builder: EasyLoading.init(),
           getPages: AppPages.routes,

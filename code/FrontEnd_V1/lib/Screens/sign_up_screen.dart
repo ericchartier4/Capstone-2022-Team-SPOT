@@ -112,12 +112,6 @@ class SignUpScreenState extends State<SignUpScreen> {
                       ),
                       SizedBox(height: .5.h),
                       
-                      CustomTextField(
-                        hint: 'Date of birth',
-                        controller: authController.sDobController,
-                        textInputType: TextInputType.datetime,
-                        textInputAction: TextInputAction.done,
-                      ),
                     ],
                   ),
                 ),

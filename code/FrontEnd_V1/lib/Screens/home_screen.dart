@@ -38,7 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     luserEmail = Preference.shared.getString('useremail');
     luserPass = Preference.shared.getString('userpass');
-    print("$luserEmail | $luserPass");  
+  
   }
 
   @override

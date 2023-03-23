@@ -28,7 +28,7 @@ class HomeController extends GetxController {
   final ScrollController aboutController = ScrollController();
   TextEditingController detailsController = TextEditingController();
   final ImagePicker imagePicker = ImagePicker();
-  // Rx<File> selectedImageFile = File('').obs;
+ 
   Rxn<Uint8List>? selectedImageBytes = Rxn<Uint8List>();
   String? _imagefilename;
   String? get imagefilename => _imagefilename;
@@ -204,8 +204,7 @@ void addToScanDoc(map)
   
   }
 
-// creating listener to call a method to change the scan doc when ever bottom index is changed
-//calls get entries helper to get the entries of the scan doc
+
   void onInit() {
     super.onInit();
     ever(selectedBottomIndex, (value) {
@@ -224,12 +223,9 @@ void addToScanDoc(map)
     http.MultipartRequest request = http.MultipartRequest(
         'POST', Uri.parse(API.URL +'/deleteEntries'));
 
-    //request.headers.addAll(<String,String>{'Authorization': 'Bearer $token'});
-    //Check if Uint8List populated, it will or will not have an image, this image
     request.fields['email'] = Preference.shared.getString('useremail')!;
     request.fields['pass'] = Preference.shared.getString('userpass')!;
     request.fields['entryID'] = scanDoc[index]["Scan"]!;
-    print("a");
     http.StreamedResponse response = await request.send();
     return response;
   }
@@ -275,7 +271,7 @@ void addToScanDoc(map)
       );
       if (result != null) {
         Uint8List? file = result.files.first.bytes;
-        print(file);
+      
         selectedImageBytes!.value = file;
         _imagefilename = result.files.first.name.split(".").first;
         _imagefileextention = result.files.first.name.split(".").last;
