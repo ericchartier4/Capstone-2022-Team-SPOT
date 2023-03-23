@@ -212,6 +212,12 @@ class ViewDetailsScreen extends StatelessWidget {
 
             ),
           SizedBox(height: 0.5.h),
+          
+
+
+
+
+
            Text(
                     "expanded view of Melanoma Predictions ",
                     style: GoogleFonts.poppins(
@@ -227,6 +233,8 @@ class ViewDetailsScreen extends StatelessWidget {
               child: PieChart(dataMap: {"Benign":double.parse(homeController.melBenResultViewDetails ?? '0'), "Mlignent":double.parse(homeController.melMaligResultViewDetails?? '0' )}),
 
             ),
+          
+
           
 
           

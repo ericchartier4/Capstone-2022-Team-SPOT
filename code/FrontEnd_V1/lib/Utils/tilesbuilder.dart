@@ -3,6 +3,8 @@
 
 import 'package:flutter/material.dart';
 
+import 'glossery.dart';
+
 
 
 class TileOfTiles{
@@ -69,16 +71,5 @@ return ExpansionTile(
 }
 
 
-const  Map<String,String> glosseryTerms = 
-{
-  "Actinic keratoses": "Actinic keratoses are rough, scaly patches that appear on skin that has been exposed to the sun. They are usually found on the face, scalp, ears, neck, hands, and forearms. They are not cancerous but can sometimes develop into squamous cell carcinoma, a type of skin cancer. Treatment for actinic keratoses includes cryotherapy, topical medications, and photodynamic therapy.",
-  "Basal cell carcinoma": "Basal cell carcinoma is the most common type of skin cancer. It appears as a raised, pearly bump on the skin that may bleed or develop a crust. It is usually found on areas of the skin that are frequently exposed to the sun, such as the face and neck. Treatment for basal cell carcinoma includes surgical removal, radiation therapy, and topical medications.",
-  "Benign keratosis-like lesions":  "Benign keratosis-like lesions are rough, scaly patches that are not cancerous but may be cosmetically undesirable. They are usually found on the face, scalp, ears, neck, hands, and forearms. Treatment for these lesions may include cryotherapy, topical medications, or surgical removal.",
-  "Dermatofibroma": "Dermatofibroma is a common benign skin growth that appears as a small, firm bump on the skin. It is usually found on the legs and may be brown or reddish-brown in color. Treatment is not necessary, but some people may choose to have them removed for cosmetic reasons.",
-  "Melanoma": "Melanoma is a type of skin cancer that develops from melanocytes, the cells that produce pigment in the skin. It appears as a new or changing mole on the skin that is asymmetrical, has irregular borders, has different colors, is larger than a pencil eraser, or is evolving in shape, size, or color. Treatment for melanoma includes surgical removal, radiation therapy, chemotherapy, and immunotherapy.",
-  "Melanocytic nevi": "Melanocytic nevi, also known as moles, are common benign skin growths that appear as brown or black spots on the skin. They can appear anywhere on the body and vary in size and shape. Most melanocytic nevi do not require treatment, but some may be removed for cosmetic reasons or if they show signs of changing.",
-  "Vascular lesions": "Vascular lesions are abnormalities in the blood vessels of the skin. They can appear as red or purple spots or patches on the skin, and may be flat or raised. Types of vascular lesions include hemangiomas, port-wine stains, and spider veins. Treatment for vascular lesions may include laser therapy, surgical removal, or sclerotherapy.",
-  "Benign": "Benign skin conditions are non-cancerous growths or conditions that typically do not pose a threat to one's health. These can include skin tags, warts, moles, and seborrheic keratosis. While they may be aesthetically unpleasing, they are usually not harmful and do not require treatment unless they cause discomfort or irritation.",
-  "Malignant":"Malignant skin conditions refer to cancerous growths or conditions that can be life-threatening if left untreated. These can include melanoma, squamous cell carcinoma, and basal cell carcinoma. These conditions require prompt diagnosis and treatment to prevent the cancer from spreading and causing severe harm to one's health. Treatment options can vary depending on the type and severity of cancer but may include surgery, radiation therapy, chemotherapy, or immunotherapy.",
-};
+
 

@@ -1,19 +1,25 @@
 import 'dart:developer';
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:demo/Utils/glossery.dart';
 import 'package:demo/Utils/preference.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:http_parser/http_parser.dart';
+import 'package:sizer/sizer.dart';
 import '../Routes/routes.dart';
+import '../Utils/app_colors.dart';
 import '../Utils/preference.dart';
 import '../Utils/constant_widgets.dart';
+import '../main.dart';
 import '../utils/api_manager.dart' ;
+import '../Utils/glossery.dart';
 
 class HomeController extends GetxController {
   var selectedBottomIndex = 0.obs;
@@ -35,7 +41,6 @@ class HomeController extends GetxController {
 
   XFile? _pickedFile;
   XFile? get pickedFile => _pickedFile;
-<<<<<<< Updated upstream
   String? _melResultViewDetails;
   String? get melResultViewDetails =>_melResultViewDetails ;
   String? _melBenResultViewDetails; 
@@ -60,15 +65,15 @@ class HomeController extends GetxController {
   var scanDocTemplate = 
   [
     {
-    'NV': 'null',
-     'Mel': 'null',
-     'BKL': 'null ',
-     'BCC': 'null',
-     'Akiec': 'null',
-     'Vasc': 'null',
-     'DF': 'null',
-     'MelBen' : 'null',
-     'MelMalig' : 'null',
+    'Melanocytic nevi': 'null',
+     'Melanoma': 'null',
+     'Benign keratosis-like lesions': 'null ',
+     'Basal cell carcinoma': 'null',
+     'Actinic keratoses': 'null',
+     'Vascular lesions': 'null',
+     'Dermatofibroma': 'null',
+     'Benign' : 'null',
+     'Malignant' : 'null',
       "Scan": "null",
       "Date": "null",
       "About": "null",
@@ -76,27 +81,18 @@ class HomeController extends GetxController {
       
     },
   ];
-=======
-  String? _bresults;
-  String? get bresult => _bresults;
-  String? _mresults;
-  String? get mresult => _mresults;
-  RxBool isLoading = false.obs;
-
-  
->>>>>>> Stashed changes
 
   var scanDoc = [
-    {
-    'NV': 'null',
-     'Mel': 'null',
-     'BKL': 'null ',
-     'BCC': 'null',
-     'Akiec': 'null',
-     'Vasc': 'null',
-     'DF': 'null',
-     'MelBen' : 'null',
-     'MelMalig' : 'null',
+ {
+    'Melanocytic nevi': 'null',
+     'Melanoma': 'null',
+     'Benign keratosis-like lesions': 'null ',
+     'Basal cell carcinoma': 'null',
+     'Actinic keratoses': 'null',
+     'Vascular lesions': 'null',
+     'Dermatofibroma': 'null',
+     'Benign' : 'null',
+     'Malignant' : 'null',
       "Scan": "null",
       "Date": "null",
       "About": "null",
@@ -150,11 +146,7 @@ class HomeController extends GetxController {
 
 // method to help get the scan doc
   Future<void> getEntriesHelper() async {
-<<<<<<< Updated upstream
     homeIsLoading.value = true ;
-=======
-    isLoading.value = true ;
->>>>>>> Stashed changes
     http.StreamedResponse response = await getEntries();
 
     
@@ -167,40 +159,26 @@ class HomeController extends GetxController {
     for (var i = 0; i < map.length; i++) {
       if (map[i]["EntryDate"] == "NullList") {
         // no entries here
-<<<<<<< Updated upstream
         scanDoc.value = scanDocTemplate;
         homeIsLoading.value = false ;
-=======
-        scanDoc.value = [
-          {
-            "benign": "null",
-            "malignent": "null",
-            "scan": "null",
-            "date": "null",
-            "about": "null",
-            "doctor": "null",
-          }
-        ];
-        isLoading.value = false ;
->>>>>>> Stashed changes
         return;
       }
       
     
       var newScan = {
-      'nV': (map[i]["nVResult"] != null) ? (map[i]['nVResult']).toString() : " ",
-     'mel':  (map[i]["melResult"] != null) ? (map[i]['melResult']).toString() : " ",
-     'bKL':  (map[i]["bKLResult"] != null) ? (map[i]['bKLResult']).toString() : " " ,
-     'bCC': (map[i]["bCCResult"] != null) ? (map[i]['bCCResult']).toString() : " ",
-     'akiec': (map[i]["akiecResult"] != null) ? (map[i]['akiecResult']).toString() : " " ,
-     'vasc': (map[i]["vascResult"] != null) ? (map[i]['vascResult']).toString() : " " ,
-     'dF': (map[i]["dFResult"] != null) ? (map[i]['dFResult']).toString() : " ",
-     'melBen' : (map[i]["melBenResult"] != null) ? (map[i]['melBenResult']).toString() : " ",
-     'melMalig' :  (map[i]["melMaligResult"] != null) ? (map[i]['melMaligResult']).toString() : " ",
-      "scan": (map[i]["scan"] != null) ? (map[i]['scan']).toString() : " ",
-      "date": (map[i]["date"] != null) ? (map[i]['date']).toString() : " ",
-      "about":  (map[i]["about"] != null) ? (map[i]['about']).toString() : " ",
-      "area" : (map[i]["area"] != null) ? (map[i]['area']).toString() : " ",
+      'Melanocytic nevi': (map[i]["nVResult"] != null) ? (map[i]['nVResult']).toString() : " ",
+     'Melanoma':  (map[i]["melResult"] != null) ? (map[i]['melResult']).toString() : " ",
+     'Benign keratosis-like lesions':  (map[i]["bKLResult"] != null) ? (map[i]['bKLResult']).toString() : " " ,
+     'Basal cell carcinoma': (map[i]["bCCResult"] != null) ? (map[i]['bCCResult']).toString() : " ",
+     'Actinic keratoses': (map[i]["akiecResult"] != null) ? (map[i]['akiecResult']).toString() : " " ,
+     'Vascular lesions': (map[i]["vascResult"] != null) ? (map[i]['vascResult']).toString() : " " ,
+     'Dermatofibroma': (map[i]["dFResult"] != null) ? (map[i]['dFResult']).toString() : " ",
+     'Benign' : (map[i]["melBenResult"] != null) ? (map[i]['melBenResult']).toString() : " ",
+     'Malignant' :  (map[i]["melMaligResult"] != null) ? (map[i]['melMaligResult']).toString() : " ",
+      "Scan": (map[i]["scan"] != null) ? (map[i]['scan']).toString() : " ",
+      "Date": (map[i]["date"] != null) ? (map[i]['date']).toString() : " ",
+      "About":  (map[i]["about"] != null) ? (map[i]['about']).toString() : " ",
+      "Area" : (map[i]["area"] != null) ? (map[i]['area']).toString() : " ",
       };
       var imageBin = map[i]["imageBinary"];
       var imageDec = base64Decode(imageBin);
@@ -215,20 +193,8 @@ class HomeController extends GetxController {
     if (newList != null) {
       scanDoc.value = newList!;
     }
-<<<<<<< Updated upstream
     homeIsLoading.value =false;
   
-=======
-    print(scanDoc);
-    isLoading.value =false;
-    //_imagePath=message;
-    // _pickedFile = null;
-    //await getUserInfo();
-    //print(message);
-    //} else {
-    //print("error posting the image");
-    //} // having this here to transition to next page
->>>>>>> Stashed changes
   }
 
 // creating listener to call a method to change the scan doc when ever bottom index is changed
@@ -359,4 +325,65 @@ class HomeController extends GetxController {
     Get.toNamed(Routes
         .VIEW_DETAILS_SCREEN); // having this here to transition to next page
   }
+}
+
+
+
+Card getHomeCard(context,cardName,index,homeController)
+{
+  Card cardMaker = 
+   Card(
+            child:
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children:  [
+                Text(cardName),
+                Text(":"),
+                SizedBox(width: 0.5.w),
+                Text(
+                                      homeController.scanDoc[index][cardName]!,
+                                      style: GoogleFonts.poppins(
+                                        color: AppColor.textBlackColor
+                                            .withOpacity(0.7),
+                                        fontSize:
+                                            isDesktop(context) ? 13 : 11.sp,
+                                      ),
+                ),
+                SizedBox(width: 0.5.w),
+                Text("|"),
+                IconButton(onPressed: ()
+                {
+
+
+
+                 showDialog(context: context,
+                                    barrierDismissible: true,
+                                     builder: (BuildContext context) {
+                                      return
+                                      AlertDialog(
+                                        title:  Text(cardName),
+                                        content: Text(glosseryTerms[cardName]!),
+                                        actions: <Widget>[
+                                        TextButton(
+                                        onPressed: () => Navigator.pop(context, 'OK'),
+                                        child: const Text('OK'),
+                                          ),
+                                        ],
+
+                                     );
+                                      }
+                                      );
+
+
+
+
+                },
+                icon: const  Icon(Icons.question_mark_sharp)
+                ),
+              ],
+            ),
+           );
+
+  return cardMaker;
+  
 }
