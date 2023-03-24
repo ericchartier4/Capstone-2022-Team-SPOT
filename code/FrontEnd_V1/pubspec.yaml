@@ -38,3 +38,8 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/images/FullLogo_NoBuffer.jpg
+    - assets/images/FullLogo_Transparent_NoBuffer.png
+    - assets/images/FullLogo_Transparent.png
+
+

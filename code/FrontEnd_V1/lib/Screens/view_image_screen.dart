@@ -131,7 +131,7 @@ class _ViewImageScreenState extends State<ViewImageScreen> {
                     borderRadius: BorderRadius.circular(25),
                   ),
                   child: Text(
-                    'CHOOSE PHOTO',
+                    'NEXT',
                     style: GoogleFonts.poppins(
                       fontSize: isDesktop(context) ? 20 : 14.sp,
                       color: AppColor.textBlackColor,

@@ -119,12 +119,14 @@ class _HomeScreenState extends State<HomeScreen> {
           },
         ),
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: FloatingActionButton.extended(
+        
         onPressed: () {
           Get.toNamed(Routes.NEW_SCAN_SCREEN);
         },
+        label: const Text(" New Scan"),
         backgroundColor: const Color(0xff442C2E),
-        child: const Icon(
+        icon: const Icon(
           Icons.add,
           size: 30,
         ),
@@ -143,15 +145,16 @@ class _HomeScreenState extends State<HomeScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            height: isDesktop(context) ? 30.h : 25.h,
-            width: isDesktop(context) ? 100.w : 100.w,
-            decoration: BoxDecoration(
-              color: const Color(0xffFEEAE6),
-              borderRadius: BorderRadius.circular(20),
-            ),
-            alignment: Alignment.center,
-            child: const Text('Image'),
-          ),
+                    padding: const EdgeInsets.only(top: 20),
+                    alignment: Alignment.center,
+                    child: Image.asset(
+                       
+                      'assets/images/FullLogo_Transparent.png',
+                      width: 20.w,
+                      height: 20.w,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
           SizedBox(height: 2.h),
            SizedBox(
             height: MediaQuery.of(context).size.height,

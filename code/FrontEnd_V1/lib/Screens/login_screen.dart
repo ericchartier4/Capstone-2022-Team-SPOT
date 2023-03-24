@@ -62,7 +62,7 @@ class LogInScreenState extends State<LogInScreen> {
                   Container(
                     padding: const EdgeInsets.only(top: 20),
                     child: Image.asset(
-                      'assets/images/bot.png',
+                      'assets/images/FullLogo_Transparent.png',
                       fit: BoxFit.cover,
                     ),
                   )

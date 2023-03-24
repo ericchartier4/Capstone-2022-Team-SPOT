@@ -138,17 +138,61 @@ void addToScanDoc(map)
         child: Text('Select Area'),
       ),
       const DropdownMenuItem(
-        value: 'Knee',
-        child: Text('Knee'),
+        value: 'Head',
+        child: Text('Head'),
       ),
-      const DropdownMenuItem(
-        value: 'Arm',
-        child: Text('Arm'),
+       const DropdownMenuItem(
+        value: 'Neck',
+        child: Text('Neck'),
       ),
-      const DropdownMenuItem(
+       const DropdownMenuItem(
         value: 'Back',
         child: Text('Back'),
       ),
+       const DropdownMenuItem(
+        value: 'Chest',
+        child: Text('Chest'),
+      ),
+       const DropdownMenuItem(
+        value: 'Torso',
+        child: Text('Torso'),
+      ),
+       const DropdownMenuItem(
+        value: 'Hips',
+        child: Text('Hips'),
+      ),
+       const DropdownMenuItem(
+        value: 'Right Arm',
+        child: Text('Right Arm'),
+      ),
+       const DropdownMenuItem(
+        value: 'Left Arm',
+        child: Text('Left Arm'),
+      ),
+       const DropdownMenuItem(
+        value: 'Right Hand',
+        child: Text('Right Hand'),
+      ),
+       const DropdownMenuItem(
+        value: 'Left Hand',
+        child: Text('Left Hand'),
+      ),
+       const DropdownMenuItem(
+        value: 'Right Leg',
+        child: Text('Right Leg'),
+      ),
+       const DropdownMenuItem(
+        value: 'Left Leg',
+        child: Text('Left Leg'),
+      ),
+       const DropdownMenuItem(
+        value: 'Right Foot',
+        child: Text('Right Foot'),
+      ),
+       const DropdownMenuItem(
+        value: 'Left Foot',
+        child: Text('Left Foot'),
+      ), 
     ];
     return menuItems;
   }
