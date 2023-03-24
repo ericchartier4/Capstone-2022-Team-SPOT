@@ -1,4 +1,5 @@
 config.json
+salt.json
 *.h5
 **/__pycache__
 *.pyc

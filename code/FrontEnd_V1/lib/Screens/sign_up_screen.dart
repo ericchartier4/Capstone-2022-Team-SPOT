@@ -143,14 +143,9 @@ class SignUpScreenState extends State<SignUpScreen> {
                     setState(() {
                       isLoading = true;
                     });
-                    showDialog(context: context,
-                                    barrierDismissible: false,
-                                     builder: (BuildContext context) {
-                                      return getLegal(context,1, authController);
-                                     }
-                    );
+                    authController.checkValidationForSignUpDetails(context);
                       setState(() {
-                      isLoading = true;
+                      isLoading = false;
                     });
                   },
                 ),

@@ -41,6 +41,8 @@ import time
 import mariadb
 from datetime import date
 import base64
+import hashlib
+import encodings
 
 from werkzeug.middleware.proxy_fix import ProxyFix
 
@@ -85,6 +87,13 @@ config = {
     'password': mysqlconfig['mysql']['passwd'],
     'database': "crab"
 }
+
+with open("salt.json") as salt_file:
+    salt_json = json.load(salt_file)
+salt = salt_json["salt"]["salt_string"]
+
+
+
 conn = mariadb.connect(host=mysqlconfig['mysql']['host'],port=mysqlconfig['mysql']['port'],password=mysqlconfig['mysql']['passwd'],user=mysqlconfig['mysql']['user'])
 cur = conn.cursor()
 cur.execute('CREATE DATABASE IF NOT EXISTS crab;')
@@ -131,7 +140,13 @@ def analyzePhoto(img_4d):
 
     return   melResult,   melBenResult,  melMaligResult, nVResult, bKLResult, bCCResult, akiecResult, vascResult, dFResult
 
-
+def saltHash(password):
+    password = str(password)+salt
+    sha256 =hashlib.sha256()
+    sha256.update(password.encode("utf-8"))
+    password = sha256.hexdigest()
+    return password
+   
 
 
 TEMPLATES_DIR = 'templates'
@@ -164,14 +179,15 @@ class SignUp(Resource):
         lName = request.values['lName']
         email = request.values['email']
         password = request.values['pass']
-       
+        password =saltHash(password)       
         
         conn = mariadb.connect(**config)
         cur = conn.cursor()
         cur.execute("INSERT INTO users (FirstName,LastName, Email,Password) VALUES (%s, %s, %s, %s)",(fName,lName,email,password))
         
         conn.commit()
-        conn.close() 
+        conn.close()
+        
      
         response = jsonify({'status':"200"})
         response.headers.add('Access-Control-Allow-Origin', '*') # needed line to fix CORS error 
@@ -183,6 +199,7 @@ class LogIn(Resource):
          
         email = request.values['email']
         password = request.values['pass']
+        password =saltHash(password)   
       
         
         conn = mariadb.connect(**config)
@@ -193,6 +210,7 @@ class LogIn(Resource):
         val = (email,password)
         cur.execute(sql,val)
         results = cur.fetchall()
+        
         
         if (len(results) > 0):
             response = jsonify({'Result': True})
@@ -233,6 +251,7 @@ class AddEntry(Resource):
          
         email = request.values['email']
         password = request.values['pass']
+        password =saltHash(password)   
         details = request.values['details']
         area = request.values['area']
         conn = mariadb.connect(**config)
@@ -273,6 +292,7 @@ class AddEntry(Resource):
         entriesList = []
         entriesList.append(entryDict)
         response = jsonify(entriesList)
+       
  
         response.headers.add('Access-Control-Allow-Origin', '*') # needed line to fix CORS error 
         return response
@@ -286,6 +306,7 @@ class GetEntries(Resource):
          
         email = request.values['email']
         password = request.values['pass']
+        password =saltHash(password)   
       
         conn = mariadb.connect(**config)
         cur = conn.cursor()
@@ -348,6 +369,7 @@ class DeleteEntries(Resource):
         email = request.values['email']
         password = request.values['pass']
         entryID = request.values['entryID']
+        password =saltHash(password)   
        
         
         conn = mariadb.connect(**config)
@@ -395,6 +417,7 @@ class DeleteAccount(Resource):
          
         email = request.values['email']
         password = request.values['pass']
+        password =saltHash(password)   
        
        
         

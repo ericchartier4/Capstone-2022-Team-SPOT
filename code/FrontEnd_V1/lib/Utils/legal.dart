@@ -64,7 +64,7 @@ If you have any questions or concerns about this privacy policy or our practices
                              }
                              else
                              {
-                              authController.checkValidationForSignUpDetails(context);
+                              authController.signUpHelper(context);
                             
                              }
 

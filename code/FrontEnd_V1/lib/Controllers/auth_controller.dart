@@ -10,6 +10,7 @@ import '../Utils/constant_widgets.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:http_parser/http_parser.dart';
+import '../Utils/legal.dart';
 import '../Utils/preference.dart';
 import '../utils/api_manager.dart'; 
 
@@ -126,6 +127,7 @@ class AuthController extends GetxController {
 
   // validation for login
   checkValidationForLoginDetails(BuildContext context) async {
+    
     bool emailValid = RegExp(
             r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
         .hasMatch(lEmailController.text);
@@ -143,6 +145,7 @@ class AuthController extends GetxController {
 
   // validation for signup
   checkValidationForSignUpDetails(BuildContext context) {
+    bool passValid = RegExp(r"^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$").hasMatch(sPasswordController.text);
     bool emailValid = RegExp(
             r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(sEmailController.text);
 
@@ -156,13 +159,22 @@ class AuthController extends GetxController {
       errorSnackBar(message: "Enter your Email");
     } else if (sPasswordController.text.isEmpty) {
       errorSnackBar(message: "Enter your Password");
-    } else if (sCPasswordController.text != sPasswordController.text) {
-      errorSnackBar(message: "Enter Correct Password");
+    } else if (!passValid){
+      errorSnackBar(message: "password must contain: Minimum eight characters, at least one letter, one number and one special character" );
+    }else if (sCPasswordController.text != sPasswordController.text) {
+      errorSnackBar(message: "Your Passwords do not match");
     } else if (sCPasswordController.text.isEmpty) {
       errorSnackBar(message: "Enter Confirm Password");
     
     } else {
-      signUpHelper(context);
+       showDialog(context: context,
+                                    barrierDismissible: false,
+                                     builder: (BuildContext context) {
+                                      return getLegal(context,1, this);
+                                     }
+                    );
     }
   }
 }
+
+

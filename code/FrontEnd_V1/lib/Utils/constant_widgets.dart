@@ -70,7 +70,7 @@ errorSnackBar({String? title, String? message}) {
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
       borderRadius: 8,
       duration: const Duration(
-        seconds: 3,
+        seconds: 30,
       ),
     ),
   );
