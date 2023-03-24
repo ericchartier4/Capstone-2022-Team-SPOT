@@ -51,77 +51,7 @@ class _NewScanScreenState extends State<NewScanScreen> {
             // ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 5.w),
-              child: isDesktop(context)
-                  ? chooseFromGallery(context)
-                  : Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        // Choose from gallery
-                        chooseFromGallery(context),
-                        SizedBox(height: 5.h),
-                        // Take new photo
-                        GestureDetector(
-                          onTap: () async {
-                            var res = await PermissionHandlerPermissionService
-                                .handleCameraPermission(context);
-                            if (res == true) {
-                              await homeController.getImage(
-                                  source: ImageSource.camera);
-                              if (homeController.selectedImageBytes != null) {
-                                Get.toNamed(
-                                  Routes.IMAGE_VIEW_SCREEN,
-                                  arguments: ImageSource.camera,
-                                );
-                              }
-                            }
-                          },
-                          child: Card(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15.0),
-                            ),
-                            elevation: 5,
-                            shadowColor: const Color(0xffFEDBD0),
-                            child: Container(
-                              alignment: Alignment.center,
-                              width: isDesktop(context) ? 20 : 80.w,
-                              padding: EdgeInsets.symmetric(
-                                horizontal: isDesktop(context) ? 20 : 3.w,
-                                vertical: 1.5.h,
-                              ),
-                              decoration: BoxDecoration(
-                                color: const Color(0xffFEDBD0),
-                                // border: Border.all(
-                                //   color: const Color(0xff442C2E),
-                                //   width: 0,
-                                // ),
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Icon(
-                                    Icons.photo_camera,
-                                    color: const Color(0xff442C2E),
-                                    size: isDesktop(context) ? 40 : 35.sp,
-                                  ),
-                                  SizedBox(
-                                      width: isDesktop(context) ? 10 : 4.w),
-                                  Text(
-                                    'TAKE NEW PHOTO',
-                                    style: GoogleFonts.poppins(
-                                      fontSize: isDesktop(context) ? 20 : 14.sp,
-                                      color: AppColor.textBlackColor,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+              child:  chooseFromGallery(context)
             ),
           ],
         ),
@@ -173,12 +103,12 @@ class _NewScanScreenState extends State<NewScanScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Icon(
-                Icons.photo,
+                Icons.upload,
                 size: isDesktop(context) ? 40 : 35.sp,
               ),
               SizedBox(width: isDesktop(context) ? 10 : 4.w),
               Text(
-                'CHOOSE FROM GALLERY',
+                'UPLOAD NEW PHOTO',
                 style: GoogleFonts.poppins(
                   fontSize: isDesktop(context) ? 20 : 14.sp,
                   color: AppColor.textBlackColor,

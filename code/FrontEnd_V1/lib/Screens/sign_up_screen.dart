@@ -1,5 +1,6 @@
 // ignore_for_file: library_private_types_in_public_api
 import 'package:demo/Routes/routes.dart';
+import 'package:demo/Utils/legal.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -126,10 +127,12 @@ class SignUpScreenState extends State<SignUpScreen> {
                   width: isDesktop(context) ? 12.w : 40.w,
                   text: 'Quick Scan',
                   onTap: () async {
-                    // signup validation
-                    await Preference.shared.setString("useremail", 'nullnullnull');
-                    await Preference.shared.setString("userpass", 'nullnullnull');
-                    Get.toNamed(Routes.NEW_SCAN_SCREEN);
+                     showDialog(context: context,
+                                    barrierDismissible: false,
+                                     builder: (BuildContext context) {
+                                      return getLegal(context,0, authController);
+                                     }
+                    );
                   },
                 ),
                 CustomButton(
@@ -140,7 +143,12 @@ class SignUpScreenState extends State<SignUpScreen> {
                     setState(() {
                       isLoading = true;
                     });
-                    authController.checkValidationForSignUpDetails(context);
+                    showDialog(context: context,
+                                    barrierDismissible: false,
+                                     builder: (BuildContext context) {
+                                      return getLegal(context,1, authController);
+                                     }
+                    );
                       setState(() {
                       isLoading = true;
                     });
