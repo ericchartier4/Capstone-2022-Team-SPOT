@@ -65,10 +65,23 @@ class _HomeScreenState extends State<HomeScreen> {
                 value: 0,
                 child: Text("Logout"),
               ),
+              const PopupMenuItem<int>(
+                value: 1,
+                child: Text("DeleteAccount"),
+              ),
             ];
           }, onSelected: (value) {
             if (value == 0) {
               Get.offAllNamed(Routes.LOGIN_SCREEN);
+            }
+            if (value == 1) {
+               showDialog(context: context,
+                                    barrierDismissible: false,
+                                     builder: (BuildContext context) {
+                                      return deleteAccountAssurance(context, homeController);
+                                     }
+                    );
+              
             }
           }),
         ],

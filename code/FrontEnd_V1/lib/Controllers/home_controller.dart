@@ -326,6 +326,41 @@ void addToScanDoc(map)
     Get.toNamed(Routes
         .VIEW_DETAILS_SCREEN); // having this here to transition to next page
   }
+
+
+  Future<http.StreamedResponse> deleteAccount() async {
+    http.MultipartRequest request = http.MultipartRequest(
+        'POST', Uri.parse(API.URL +'/deleteAccount'));
+
+    request.fields['email'] = Preference.shared.getString('useremail')!;
+    request.fields['pass'] = Preference.shared.getString('userpass')!;
+    http.StreamedResponse response = await request.send();
+    return response;
+  }
+
+  Future<void> deleteAccountHelper(BuildContext context) async {
+
+    
+    http.StreamedResponse response = await deleteAccount(
+      
+    );
+
+    //_isLoading = false;
+    if (response.statusCode == 200) {
+
+      Get.offAllNamed(Routes.LOGIN_SCREEN);
+
+    } else {
+      errorSnackBar(
+          message: "Unable to Delete Accounrt");
+    }
+
+  }
+
+
+
+
+
 }
 
 
@@ -387,4 +422,41 @@ Card getHomeCard(context,cardName,index,homeController)
 
   return cardMaker;
   
+}
+
+AlertDialog deleteAccountAssurance (context,homeController)
+{
+    AlertDialog deleteAccount =  AlertDialog(
+       title:  const Text("You are about to delete your account"),
+       content:const SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
+        child:  Text("Are you sure you want to delete your account?"),
+          ),
+       
+       actions: <Widget>[
+            TextButton(
+              onPressed: () {Navigator.pop(context, 'No');
+                              
+              
+              } ,
+              child: const Text('No'),
+            ),
+            TextButton(
+              onPressed: () async {Navigator.pop(context, 'Yes');
+                         homeController.deleteAccountHelper(context);
+
+              
+              },
+              child: const Text('Yes'),
+            ),
+          ],
+       
+       
+        );
+
+  
+
+
+return deleteAccount;
+
 }

@@ -3,8 +3,8 @@ Flask-RESTful
 opencv-python
 pytest-shutil
 Pillow
-keras 
-tensorflow 
+keras == 2.8.0
+tensorflow == 2.8.0 
 mariadb
 matplotlib
 pandas
