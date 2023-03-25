@@ -24,7 +24,7 @@ We choose to do this AI application because it fulfils one of the 17 goals of th
 
 # Localization and Cloning the Repository: 
 **This Localization is tested on a windows machine as of 3/24/23**
-##  Video tutorial:
+##  Video tutorial: https://youtu.be/qVJ8CqDr43Q
 
 1. Requirements 
 * Flutter 3.3.8 (or newer) https://docs.flutter.dev/get-started/install
