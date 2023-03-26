@@ -73,8 +73,8 @@ app = Flask(__name__)
 api = Api(app)
 if not os.path.exists(r".\uploads"):
    os.makedirs(r".\uploads")
-#modelGen = load_model(r".\modelGen.h5")
-#modelGen = load_model(r".\model77.h5")
+modelGen = load_model(r".\modelGen.h5")
+
 modelMel = load_model(r".\modelMel.h5")                           
 
 
@@ -114,29 +114,39 @@ app.wsgi_app = ProxyFix(
     app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1
 )
 
-def analyzePhoto(img_4d):
-    #genPrediction = modelGen.predict(img_4d)[0]
-    melPrediction = modelMel.predict(img_4d)[0]  
-   # melResult = ((genPrediction[4])*100)
+def analyzePhoto(img):
+    imgArray = img_to_array(img)
+    imgGen = img.resize((100,100))
+    imgGenArray = img_to_array(imgGen)
+    imgMel = img.resize((224,224))
+    imgMelArray  = img_to_array(imgMel)
+    img4dMel = imgMelArray.reshape(-1,224,224,3)
+    img4dGen = imgGenArray.reshape(-1,100,100,3)
+
+
+    genPrediction = modelGen.predict(img4dGen)[0]
+  
+    melPrediction = modelMel.predict(img4dMel)[0]  
+    melResult = ((genPrediction[1])*100)
     melBenResult = ((melPrediction[0])*100)
     melMaligResult = ((melPrediction[1])*100)
-    melResult = 10
-    nVResult = 40
-    bKLResult = 10
-    bCCResult = 10
-    akiecResult =  10
-    vascResult = 10
-    dFResult = 10
+    # melResult = 10
+    # nVResult = 40
+    # bKLResult = 10
+    # bCCResult = 10
+    # akiecResult =  10
+    # vascResult = 10
+    # dFResult = 10
 
 
 
 
-    # nVResult = ((genPrediction[5])*100)
-    # bKLResult = ((genPrediction[2])*100)
-    # bCCResult = ((genPrediction[1])*100)
-    # akiecResult =  ((genPrediction[0])*100)
-    # vascResult = ((genPrediction[6])*100)
-    # dFResult = ((genPrediction[3])*100)
+    nVResult = ((genPrediction[0])*100)
+    bKLResult = ((genPrediction[2])*100)
+    bCCResult = ((genPrediction[3])*100)
+    akiecResult =  ((genPrediction[4])*100)
+    vascResult = ((genPrediction[5])*100)
+    dFResult = ((genPrediction[6])*100)
 
     return   melResult,   melBenResult,  melMaligResult, nVResult, bKLResult, bCCResult, akiecResult, vascResult, dFResult
 
@@ -258,6 +268,7 @@ class AddEntry(Resource):
         cur = conn.cursor()
 
         sql = "SELECT UserID  FROM users WHERE Email = %s AND Password = %s;"
+
         
         val = (email,password)
         cur.execute(sql,val)
@@ -268,9 +279,8 @@ class AddEntry(Resource):
             imageName = "quickscanImage"+str(filecount) # geting file extention 
             image.save(os.path.join(r".\uploads" , imageName))   
             img = load_img(fr".\uploads\{imageName}")
-            img_array = img_to_array(img)
-            img_4d = img_array.reshape(-1,224,224,3)
-            melResult,   melBenResult,  melMaligResult, nVResult, bKLResult, bCCResult, akiecResult, vascResult, dFResult = analyzePhoto(img_4d)
+            
+            melResult,   melBenResult,  melMaligResult, nVResult, bKLResult, bCCResult, akiecResult, vascResult, dFResult = analyzePhoto(img)
             os.remove(fr".\uploads\{imageName}")
         else:
             userID_tuple = results[0]
@@ -279,9 +289,7 @@ class AddEntry(Resource):
             imageName = image.filename+str(filecount)+"."+image.content_type.split('/')[-1] # geting file extention 
             image.save(os.path.join(r".\uploads" , imageName))   
             img = load_img(fr".\uploads\{imageName}")
-            img_array = img_to_array(img)
-            img_4d = img_array.reshape(-1,224,224,3)
-            melResult,   melBenResult,  melMaligResult, nVResult, bKLResult, bCCResult, akiecResult, vascResult, dFResult = analyzePhoto(img_4d)
+            melResult,   melBenResult,  melMaligResult, nVResult, bKLResult, bCCResult, akiecResult, vascResult, dFResult = analyzePhoto(img)
             cur.execute("INSERT INTO entries (UserID,EntryText, EntryArea,NV, Mel,BCC, BLK, Akiec, Vasc, DF, MelBen, MelMalig,EntryDate,ImageURL) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)",(userID,details,area,nVResult,melResult,bCCResult,bKLResult,akiecResult,vascResult,dFResult,melBenResult,melMaligResult,date.today(),imageName))
             conn.commit()
             conn.close() 
