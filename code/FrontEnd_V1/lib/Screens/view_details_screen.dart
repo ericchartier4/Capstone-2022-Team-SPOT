@@ -194,34 +194,17 @@ class ViewDetailsScreen extends StatelessWidget {
 
            SizedBox(height: 0.5.h),
                       
-            
-                                  Text("What our AI is predicting about your scan:"),
-                            PieChart(chartRadius: 40.w ,legendOptions: LegendOptions(legendPosition: LegendPosition.bottom), dataMap: {"Melanocytic nevi":double.parse(homeController.scanDoc[0]['Melanocytic nevi']!),
-                          "Benign keratosis-like lesions":double.parse(homeController.scanDoc[0]['Benign keratosis-like lesions']!),
-                          "Basal cell carcinoma":double.parse(homeController.scanDoc[0]['Basal cell carcinoma']!),
-                          "Actinic keratoses":double.parse(homeController.scanDoc[0]['Actinic keratoses']!),
-                          "Vascular lesions":double.parse(homeController.scanDoc[0]['Vascular lesions']!),
-                          "Dermatofibroma":double.parse(homeController.scanDoc[0]['Dermatofibroma']!),
-                          "Melanoma":double.parse(homeController.scanDoc[0]['Melanoma']!),      
-                            }),
-                            
-
-
-                              
-                          
-                                   Text("More deatailed information on the melanoma prediction"),
-                          
-                                   PieChart(chartRadius: 40.w, legendOptions: LegendOptions(legendPosition: LegendPosition.bottom),  dataMap: {"Benign":double.parse(homeController.scanDoc[0]['Benign']!), "Malignant":double.parse(homeController.scanDoc[0]['Malignant']!)}),
-                     
-
-                           
                        
-                          
-                        
-                          SizedBox(height: 0.5.h),
+                      
                             
                  ExpansionTile(
-                  title: Text("expand this for a more detailed representation:"),
+                  title:  Row ( children: 
+                  const [(Icon(Icons.info )),
+                  Text("Expand here for a more detailed explanation of this scan")
+                  
+                  ]
+                  
+                  ),
                   children:[
                  getHomeCard(context,"Melanocytic nevi", 0, homeController),
                  getHomeCard(context,"Benign keratosis-like lesions", 0, homeController),
@@ -235,7 +218,11 @@ class ViewDetailsScreen extends StatelessWidget {
                   ],
                  ),
 
+             SizedBox(height: 0.5.h),
 
+
+
+             homeController.getPieChart(0),           
 
 
             SizedBox(height: 1.h),

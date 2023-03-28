@@ -1,4 +1,5 @@
 // ignore_for_file: library_private_types_in_public_api
+import 'package:demo/Utils/legal.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -67,7 +68,11 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               const PopupMenuItem<int>(
                 value: 1,
-                child: Text("DeleteAccount"),
+                child: Text("Delete Account"),
+              ),
+              const PopupMenuItem<int>(
+                value: 2,
+                child: Text("Legal Licences "),
               ),
             ];
           }, onSelected: (value) {
@@ -81,7 +86,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                       return deleteAccountAssurance(context, homeController);
                                      }
                     );
+           
+
               
+            } 
+            if (value == 2) {
+              showAboutDialog(context: context, applicationLegalese: legalText,applicationName: "SPOT", );
             }
           }),
         ],
@@ -140,10 +150,13 @@ class _HomeScreenState extends State<HomeScreen> {
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
       padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 1.h),
-      child: Column(
+      child:
+     
+       Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          
           Container(
                     padding: const EdgeInsets.only(top: 20),
                     alignment: Alignment.center,
@@ -156,8 +169,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
           SizedBox(height: 2.h),
+          Container(
+            padding: const EdgeInsets.only(left: 10, right: 10), 
+            child:
            SizedBox(
-            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width/0.5,
+            height: MediaQuery.of(context).size.height*2,
             child: 
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -165,6 +182,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Expanded(
             child:
             ListView(
+            
             shrinkWrap: true,
             children: homeExpndable.map(buildTile).toList(),),
            
@@ -175,9 +193,10 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             
            ),
-           
+          ),
         ],
       ),
+     
     );
   }
 
@@ -489,27 +508,7 @@ class _HomeScreenState extends State<HomeScreen> {
                  
                           SizedBox(height: 0.5.h),
 
-            
-                                  Text("What our AI is predicting about your scan:"),
-                            PieChart(chartRadius: 40.w ,legendOptions: LegendOptions(legendPosition: LegendPosition.bottom), dataMap: {"Melanocytic nevi":double.parse(homeController.scanDoc[index]['Melanocytic nevi']!),
-                          "Benign keratosis-like lesions":double.parse(homeController.scanDoc[index]['Benign keratosis-like lesions']!),
-                          "Basal cell carcinoma":double.parse(homeController.scanDoc[index]['Basal cell carcinoma']!),
-                          "Actinic keratoses":double.parse(homeController.scanDoc[index]['Actinic keratoses']!),
-                          "Vascular lesions":double.parse(homeController.scanDoc[index]['Vascular lesions']!),
-                          "Dermatofibroma":double.parse(homeController.scanDoc[index]['Dermatofibroma']!),
-                          "Melanoma":double.parse(homeController.scanDoc[index]['Melanoma']!),      
-                            }),
-                            
-
-
-                              
-                          
-                                   Text("More deatailed information on the melanoma prediction"),
-                          
-                                   PieChart(chartRadius: 40.w, legendOptions: LegendOptions(legendPosition: LegendPosition.bottom),  dataMap: {"Benign":double.parse(homeController.scanDoc[index]['Benign']!), "Malignant":double.parse(homeController.scanDoc[index]['Malignant']!)}),
-                     
-
-                           
+          
                         
                             
 
@@ -520,7 +519,13 @@ class _HomeScreenState extends State<HomeScreen> {
                           SizedBox(height: 0.5.h),
                             
                  ExpansionTile(
-                  title: Text("Expand this for a  detailed representation:"),
+                  title: Row ( children: 
+                  const [(Icon(Icons.info )),
+                  Text("Expand here for a more detailed explanation of this scan")
+                  
+                  ]
+                  
+                  ),
                   children:[
                  getHomeCard(context,"Melanocytic nevi", index, homeController),
                  getHomeCard(context,"Benign keratosis-like lesions", index, homeController),
@@ -533,6 +538,9 @@ class _HomeScreenState extends State<HomeScreen> {
                  getHomeCard(context, "Malignant", index, homeController),
                   ],
                  ),
+
+
+                  homeController.getPieChart(index),       
 
 
 

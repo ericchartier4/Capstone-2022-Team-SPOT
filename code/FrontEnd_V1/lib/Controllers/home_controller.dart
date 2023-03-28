@@ -12,6 +12,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:http_parser/http_parser.dart';
+import 'package:pie_chart/pie_chart.dart';
 import 'package:sizer/sizer.dart';
 import '../Routes/routes.dart';
 import '../Utils/app_colors.dart';
@@ -401,8 +402,61 @@ void addToScanDoc(map)
 
   }
 
+Widget getPieChart(index)
+{
+   var copy = scanDoc[index];
+   var valueList =[];
+   valueList.add(copy['Melanocytic nevi']);
+   valueList.add(copy['Benign keratosis-like lesions']);
+   valueList.add(copy['Basal cell carcinoma']);
+   valueList.add(copy['Actinic keratoses']);
+   valueList.add(copy['Vascular lesions']);
+   valueList.add(copy['Dermatofibroma']);
+   valueList.add(copy['Melanoma']);
+   valueList.add(copy['Benign']);
+   valueList.add(copy['Malignant']);
+
+   for (int i = 0 ; i < valueList.length;i++)
+   {
+    if ( double.parse(valueList[i]) < 1 )
+    {
+       valueList[i] = double.parse('0');
+    }
+    else
+    {
+      valueList[i] = double.parse(valueList[i]);
+    }
+   }
+
+      Column pieCharts = Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+             const Text("What our AI is predicting about your scan:"),
+             PieChart( chartRadius: 40.w, legendOptions: LegendOptions(legendPosition: LegendPosition.bottom), 
+                      dataMap: {"Melanocytic nevi":valueList[0],
+                           "Benign keratosis-like lesions":valueList[1],
+                           "Basal cell carcinoma":valueList[2],
+                           "Actinic keratoses":valueList[3],
+                           "Vascular lesions":valueList[4],
+                           "Dermatofibroma":valueList[5],
+                           "Melanoma":valueList[6],      
+                             }),
+        Text("More deatailed information on the melanoma prediction"),
+        PieChart( chartRadius: 40.w , legendOptions: LegendOptions(legendPosition: LegendPosition.bottom),
+          dataMap: {"Benign":valueList[7],
+           "Malignant":valueList[8]}),
 
 
+        ],
+      );
+   
+   
+
+  
+
+
+     return pieCharts;
+}
 
 
 }
@@ -465,6 +519,10 @@ Card getHomeCard(context,cardName,index,homeController)
            );
 
   return cardMaker;
+
+
+
+  
   
 }
 
@@ -504,3 +562,5 @@ AlertDialog deleteAccountAssurance (context,homeController)
 return deleteAccount;
 
 }
+
+
