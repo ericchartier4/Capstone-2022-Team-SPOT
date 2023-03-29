@@ -149,12 +149,12 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget home(BuildContext context) {
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
-      padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 1.h),
+      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 1.h),
       child:
      
        Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           
           Container(
@@ -173,11 +173,11 @@ class _HomeScreenState extends State<HomeScreen> {
             padding: const EdgeInsets.only(left: 10, right: 10), 
             child:
            SizedBox(
-            width: MediaQuery.of(context).size.width/0.5,
+            width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height*2,
             child: 
             Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
             Expanded(
             child:
@@ -521,7 +521,7 @@ class _HomeScreenState extends State<HomeScreen> {
                  ExpansionTile(
                   title: Row ( children: 
                   const [(Icon(Icons.info )),
-                  Text("Expand here for a more detailed explanation of this scan")
+                  Text("full values found under here")
                   
                   ]
                   

@@ -432,7 +432,7 @@ Widget getPieChart(index)
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
              const Text("What our AI is predicting about your scan:"),
-             PieChart( chartRadius: 40.w, legendOptions: LegendOptions(legendPosition: LegendPosition.bottom), 
+             PieChart( chartRadius: 40.w, legendOptions: const LegendOptions(legendPosition: LegendPosition.bottom), 
                       dataMap: {"Melanocytic nevi":valueList[0],
                            "Benign keratosis-like lesions":valueList[1],
                            "Basal cell carcinoma":valueList[2],
@@ -441,8 +441,8 @@ Widget getPieChart(index)
                            "Dermatofibroma":valueList[5],
                            "Melanoma":valueList[6],      
                              }),
-        Text("More deatailed information on the melanoma prediction"),
-        PieChart( chartRadius: 40.w , legendOptions: LegendOptions(legendPosition: LegendPosition.bottom),
+        const Text("More deatailed information on the melanoma prediction"),
+        PieChart( chartRadius: 40.w , legendOptions: const LegendOptions(legendPosition: LegendPosition.bottom),
           dataMap: {"Benign":valueList[7],
            "Malignant":valueList[8]}),
 
@@ -472,7 +472,7 @@ Card getHomeCard(context,cardName,index,homeController)
               mainAxisAlignment: MainAxisAlignment.center,
               children:  [
                 Text(cardName),
-                Text(":"),
+                const Text(":"),
                 SizedBox(width: 0.5.w),
                 Text(
                                       homeController.scanDoc[index][cardName]!,
@@ -484,7 +484,7 @@ Card getHomeCard(context,cardName,index,homeController)
                                       ),
                 ),
                 SizedBox(width: 0.5.w),
-                Text("|"),
+                const Text("|"),
                 IconButton(onPressed: ()
                 {
 
@@ -563,4 +563,61 @@ return deleteAccount;
 
 }
 
+
+
+AlertDialog getExampleImage(context,homeController)
+{
+    AlertDialog legalDialog =  AlertDialog(
+       title:  const Text("Picture taking recomendations and example"),
+       content: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        child: Column(
+          children: [
+             Image.asset(
+                      'assets/images/example.jpg',
+                      height: 30.h,
+                      width: 30.h,
+                    ),
+                  const Text("Tips to get the best results possible:"),
+               Row(
+                children: const [
+                  Text ("1. Use your device's flash"),
+                  Icon(Icons.flash_on),
+                  Text(" to fully light your area of concern"),
+                ],
+               )                    
+          ],
+        ),
+                
+
+
+       ),
+       
+       actions: <Widget>[
+            TextButton(
+              onPressed: () async {Navigator.pop(context, 'OK');
+              await homeController.getImage(source: ImageSource.gallery);
+        if (homeController.selectedImageBytes!.value != null) {
+          Get.toNamed(
+            Routes.IMAGE_VIEW_SCREEN,
+            arguments: ImageSource.gallery,
+          );
+        }
+                            
+              
+              } ,
+              child: const Text('OK'),
+            ),
+            
+          ],
+       
+       
+        );
+
+  
+
+
+return legalDialog;
+
+}
 

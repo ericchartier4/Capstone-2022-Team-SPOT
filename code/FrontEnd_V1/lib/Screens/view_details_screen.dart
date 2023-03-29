@@ -200,7 +200,7 @@ class ViewDetailsScreen extends StatelessWidget {
                  ExpansionTile(
                   title:  Row ( children: 
                   const [(Icon(Icons.info )),
-                  Text("Expand here for a more detailed explanation of this scan")
+                  Text("full values found under here")
                   
                   ]
                   

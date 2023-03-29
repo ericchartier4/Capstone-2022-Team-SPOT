@@ -68,13 +68,15 @@ class _NewScanScreenState extends State<NewScanScreen> {
         //       await PermissionHandlerPermissionService.handleStoragePermission(
         //           context);
         //   if (res == true) {
-        await homeController.getImage(source: ImageSource.gallery);
-        if (homeController.selectedImageBytes!.value != null) {
-          Get.toNamed(
-            Routes.IMAGE_VIEW_SCREEN,
-            arguments: ImageSource.gallery,
-          );
-        }
+        showDialog(context: context,
+                                    barrierDismissible: false,
+                                     builder: (BuildContext context) {
+                                      return getExampleImage(context,homeController);
+                                     }
+                    );
+
+
+        
         // }
         // }
         // pickedFile();
@@ -125,3 +127,9 @@ class _NewScanScreenState extends State<NewScanScreen> {
   // Pick File
   void pickedFile() async {}
 }
+
+
+
+
+
+
