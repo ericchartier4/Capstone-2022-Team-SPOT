@@ -583,9 +583,10 @@ AlertDialog getExampleImage(context,homeController)
                 children: const [
                   Text ("1. Use your device's flash"),
                   Icon(Icons.flash_on),
-                  Text(" to fully light your area of concern"),
+                  
                 ],
-               )                    
+               ), 
+               const Text(" to fully light your area of concern"),                  
           ],
         ),
                 
