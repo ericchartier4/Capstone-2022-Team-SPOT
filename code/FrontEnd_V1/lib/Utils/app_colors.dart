@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 
-///
-/// Class for const colors declaration
-///
 class AppColor {
   static const topLightBlueColor = Color(0xFF5FBFEB);
   static const bottomPurpleColor = Color(0xFF9E87D1);

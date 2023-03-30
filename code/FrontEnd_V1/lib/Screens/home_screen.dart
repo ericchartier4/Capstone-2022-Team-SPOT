@@ -1,4 +1,5 @@
-// ignore_for_file: library_private_types_in_public_api
+
+import 'dart:math';
 import 'package:demo/Utils/legal.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -50,16 +51,9 @@ class _HomeScreenState extends State<HomeScreen> {
         isShowMenuIcon: false,
         title: 'Home',
         actions: [
-          // IconButton(
-          //   icon: const Icon(Icons.more_vert),
-          //   onPressed: () {
-
-          //   },
-          // ),
+   
 
           PopupMenuButton(
-              // add icon, by default "3 dot" icon
-              // icon: Icon(Icons.book)
               itemBuilder: (context) {
             return [
               const PopupMenuItem<int>(
@@ -94,6 +88,7 @@ class _HomeScreenState extends State<HomeScreen> {
               showAboutDialog(context: context, applicationLegalese: legalText,applicationName: "SPOT", );
             }
           }),
+          
         ],
       ),
       body: 
@@ -145,6 +140,24 @@ class _HomeScreenState extends State<HomeScreen> {
           FloatingActionButtonLocation.miniCenterDocked,
     );
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   Widget home(BuildContext context) {
     return SingleChildScrollView(
@@ -200,6 +213,25 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   Widget scan(BuildContext context) {
     
     return 
@@ -251,12 +283,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // Processing Status
+                        
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
-                                // photobox
+                       
                                 height: isDesktop(context) ? 10.h : 8.h,
                                 width: isDesktop(context) ? 10.w : 30.w,
       
@@ -269,7 +301,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       return
                                       Dialog(
                                         child: SizedBox(
-                                // photobox
+                                
                                 height: isDesktop(context) ? 60.h : 80.h,
                                 width: isDesktop(context) ? 80.w : 80.w,
                                 child:
@@ -332,9 +364,6 @@ class _HomeScreenState extends State<HomeScreen> {
                               child: GestureDetector(
                                 onTap: () {
                                   homeController.deleteEntriesHelper(index);
-                                  //errorSnackBar(
-                                  //    message:
-                                  //        "Scan $index deleted Successfully");
                                 },
                                 child: Container(
                                     padding: const EdgeInsets.symmetric(
@@ -346,7 +375,19 @@ class _HomeScreenState extends State<HomeScreen> {
                           ],
                         ),
                         SizedBox(height: 0.5.h),
-                        // Scan-Date
+                
+
+
+
+
+
+
+
+
+
+
+
+
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
@@ -400,7 +441,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ],
                         ),
-                        // Expanded part
+                     
                         Visibility(
                           visible: homeController.selectedIndex.value == index
                               ? true
@@ -410,7 +451,27 @@ class _HomeScreenState extends State<HomeScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               SizedBox(height: 0.5.h),
-                              // About this scan text
+                            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                               Text(
                                 'About this scan',
                                 style: GoogleFonts.poppins(
@@ -419,7 +480,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   color: const Color(0xff442C2E),
                                 ),
                               ),
-                              // About this scan description
+                        
                               Container(
                                 constraints: BoxConstraints(
                                   maxHeight: isDesktop(context) ? 15.h : 12.h,
@@ -459,9 +520,16 @@ class _HomeScreenState extends State<HomeScreen> {
 
 
 
+
+
+
+
+
+
+
                             
                               SizedBox(height: 0.5.h),
-                              //  Area   header
+                             
                               Text(
                                 'Area Affected:',
                                 style: GoogleFonts.poppins(
@@ -470,7 +538,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   color: const Color(0xff442C2E),
                                 ),
                               ),
-                              // Area affected text
+                           
                               Container(
                                 constraints: BoxConstraints(
                                   maxHeight: isDesktop(context) ? 15.h : 12.h,

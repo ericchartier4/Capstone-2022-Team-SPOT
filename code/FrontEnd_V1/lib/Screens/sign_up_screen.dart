@@ -1,4 +1,4 @@
-// ignore_for_file: library_private_types_in_public_api
+
 import 'package:demo/Routes/routes.dart';
 import 'package:demo/Utils/legal.dart';
 import 'package:flutter/gestures.dart';
@@ -46,11 +46,11 @@ class SignUpScreenState extends State<SignUpScreen> {
               height: isDesktop(context) ? 30.h : 25.h,
               width: isDesktop(context) ? 55.w : 100.w,
               decoration: BoxDecoration(
-                // color: const Color(0xffFEEAE6),
+                
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Container(
-                    //padding: const EdgeInsets.only(top: 20),
+                    
                     alignment: Alignment.center,
                     child: Image.asset(
                       'assets/images/FullLogo_Transparent.png',
@@ -58,9 +58,22 @@ class SignUpScreenState extends State<SignUpScreen> {
                     ),
                   )
               
-              //child: const Text('Image'),
+           
             ),
             SizedBox(height: 2.h),
+
+
+
+
+
+
+
+
+
+
+
+
+
             Padding(
               padding: isDesktop(context)
                   ? EdgeInsets.symmetric(horizontal: 32.w)
@@ -82,6 +95,19 @@ class SignUpScreenState extends State<SignUpScreen> {
                         textInputAction: TextInputAction.next,
                       ),
                       SizedBox(height: .5.h),
+
+
+
+
+
+
+
+
+
+
+
+
+
                       CustomTextField(
                         hint: 'Last Name',
                         controller: authController.sLNameController,
@@ -89,6 +115,14 @@ class SignUpScreenState extends State<SignUpScreen> {
                         textInputAction: TextInputAction.next,
                       ),
                       SizedBox(height: .5.h),
+
+
+
+
+
+
+
+
                       CustomTextField(
                         hint: 'Email',
                         controller: authController.sEmailController,
@@ -96,6 +130,14 @@ class SignUpScreenState extends State<SignUpScreen> {
                         textInputAction: TextInputAction.next,
                       ),
                       SizedBox(height: .5.h),
+
+
+
+
+
+
+
+
                       CustomTextField(
                         hint: 'Password',
                         controller: authController.sPasswordController,
@@ -104,6 +146,11 @@ class SignUpScreenState extends State<SignUpScreen> {
                         obscureText: true,
                       ),
                       SizedBox(height: .5.h),
+
+
+
+
+
                       CustomTextField(
                         hint: 'Confirm Password',
                         controller: authController.sCPasswordController,
@@ -119,22 +166,20 @@ class SignUpScreenState extends State<SignUpScreen> {
               ),
             ),
             SizedBox(height: 5.h),
+
+
+
+
+
+
+
+
+
+
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                CustomButton(
-                  height: isDesktop(context) ? 7.h : 6.5.h,
-                  width: isDesktop(context) ? 12.w : 40.w,
-                  text: 'Quick Scan',
-                  onTap: () async {
-                     showDialog(context: context,
-                                    barrierDismissible: false,
-                                     builder: (BuildContext context) {
-                                      return getLegal(context,0, authController);
-                                     }
-                    );
-                  },
-                ),
+            
                 CustomButton(
                   height: isDesktop(context) ? 7.h : 6.5.h,
                   width: isDesktop(context) ? 12.w : 40.w,
@@ -151,6 +196,9 @@ class SignUpScreenState extends State<SignUpScreen> {
                 ),
               ],
             ),
+
+
+            
             SizedBox(height: 2.h),
             Text.rich(
               TextSpan(

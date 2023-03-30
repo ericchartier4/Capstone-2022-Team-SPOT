@@ -85,7 +85,28 @@ class AddDetailsScreenState extends State<AddDetailsScreen> {
                   ),
                 ),
                 SizedBox(height: 1.h),
-                // Selected Image
+               
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                 Container(
                   padding: const EdgeInsets.all(8),
                   height: isDesktop(context) ? 30.w : 35.h,
@@ -96,14 +117,11 @@ class AddDetailsScreenState extends State<AddDetailsScreen> {
                       () => Image.memory(
                         homeController.selectedImageBytes!.value!,
                         fit: BoxFit.cover,
-                        // height: isDesktop(context) ? 30.w : 35.h,
-                        // width: isDesktop(context) ? 30.w : 80.w,
                       ),
                     ),
                   ),
                 ),
                 SizedBox(height: 2.h),
-                // Bottom Part
                 Container(
                   margin: const EdgeInsets.all(10),
                   constraints: BoxConstraints(
@@ -120,7 +138,6 @@ class AddDetailsScreenState extends State<AddDetailsScreen> {
                     children: <Widget>[
                       Row(
                         children: <Widget>[
-                          // Area affected text
                           Text(
                             'Area affected:',
                             style: GoogleFonts.poppins(
@@ -129,7 +146,29 @@ class AddDetailsScreenState extends State<AddDetailsScreen> {
                             ),
                           ),
                           SizedBox(width: 3.w),
-                          // Dropdown for select area
+                         
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                           Expanded(
                             child: Container(
                               padding: EdgeInsets.symmetric(
@@ -165,6 +204,29 @@ class AddDetailsScreenState extends State<AddDetailsScreen> {
                           ),
                         ],
                       ),
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                       SizedBox(height: 3.h),
                       Text(
                         'How would you describe the area affected (Colour, Shape, is there pain when you touch it)? :',
@@ -196,13 +258,7 @@ class AddDetailsScreenState extends State<AddDetailsScreen> {
                               contentPadding:
                                   const EdgeInsets.only(left: 10, top: 10),
                               hintText: 'Your text here...',
-                              // enabledBorder: OutlineInputBorder(
-                              //   borderSide: const BorderSide(
-                              //     width: 1.5,
-                              //     color: AppColor.greyColor,
-                              //   ),
-                              //   borderRadius: BorderRadius.circular(10),
-                              // ),
+                   
                               focusedBorder: OutlineInputBorder(
                                 borderSide: const BorderSide(
                                   width: 1.5,
@@ -218,13 +274,28 @@ class AddDetailsScreenState extends State<AddDetailsScreen> {
                   ),
                 ),
                 SizedBox(height: 2.h),
-                // Submit button
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                
                 CustomButton(
                   height: isDesktop(context) ? 6.h : 6.h,
                   width: isDesktop(context) ? 30.w : 90.w,
                   text: 'Submit',
                   onTap: () { 
-                    //Get.toNamed(Routes.VIEW_DETAILS_SCREEN);
+                    
                      setState(() {
                       isLoading = true;
                     });

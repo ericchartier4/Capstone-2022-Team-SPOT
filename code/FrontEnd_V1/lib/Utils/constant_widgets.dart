@@ -3,7 +3,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'app_colors.dart';
 
-// Snack bar for showing success message
+
 successSnackBar({String? title, String? message}) {
   Get.log("[$title] $message", isError: true);
   return Get.showSnackbar(
@@ -39,7 +39,6 @@ successSnackBar({String? title, String? message}) {
   );
 }
 
-// Snack bar for showing error message
 errorSnackBar({String? title, String? message}) {
   Get.log("[$title] $message", isError: true);
   return Get.showSnackbar(
@@ -76,7 +75,7 @@ errorSnackBar({String? title, String? message}) {
   );
 }
 
-// Show progress indicator when API call Or any other async method call
+
 showProgressIndicator() {
   return EasyLoading.show(
     maskType: EasyLoadingMaskType.black,
@@ -85,12 +84,11 @@ showProgressIndicator() {
   );
 }
 
-// Dismiss progress indicator after API calling Or any other async method calling
+
 dismissProgressIndicator() {
   return EasyLoading.dismiss();
 }
 
-// Custom Appbar
 customAppBar(
     {required String title,
     List<Widget>? actions,
@@ -128,17 +126,6 @@ customAppBar(
     centerTitle: true,
     actions: actions ?? [],
     elevation: 0,
-    // flexibleSpace: Container(
-    //   decoration: const BoxDecoration(
-    //     gradient: LinearGradient(
-    //       begin: Alignment.centerLeft,
-    //       end: Alignment.centerRight,
-    //       colors: <Color>[
-    //         AppColor.topLightBlueColor,
-    //         AppColor.bottomPurpleColor,
-    //       ],
-    //     ),
-    //   ),
-    // ),
+
   );
 }

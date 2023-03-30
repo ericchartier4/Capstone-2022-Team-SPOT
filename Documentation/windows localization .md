@@ -1,6 +1,6 @@
 # Localization and Cloning the Repository: 
 **This Localization is tested on a windows machine as of 3/24/23**
-##  Video tutorial: https://youtu.be/qVJ8CqDr43Q
+##  Video tutorial: https://www.youtube.com/watch?v=l-xhTzQk8qA
 
 1. Requirements 
 * Flutter 3.3.8 (or newer) https://docs.flutter.dev/get-started/install
@@ -26,7 +26,7 @@ fresh install of apache used and assuming that httpd was already installed as a 
 * open httpd.conf which can be found in the conf folder of your apache installation 
 *  change line 60 from: Listen 80 to: 
 
-        listen 8000     
+        Listen 8000     
 *  uncomment line 120: 
   
        LoadModule headers_module modules/mod_headers.so 
@@ -43,11 +43,13 @@ fresh install of apache used and assuming that httpd was already installed as a 
 
 	   ProxyPass / http://127.0.0.1:5000/
 	   RequestHeader set X-Forwarded-Proto http
-	   RequestHeader set X-Forwarded-Prefix / 
+	   RequestHeader set X-Forwarded-Prefix / Create 
+           
+a virtual environment in python to run the app.py file (a method also described here: https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/)
 
-3. Create virtual environment in python to run the app.py file (a method also described here: https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/)
-* on command line/terminal line, change the directory into the backend directory ./code/backend
-* enter in command line: 
+on command line/terminal line, change the directory into the backend directory ./code/backend
+
+enter in the command line: 
 
       pip install virtualenv
 * enter in the command line:
@@ -61,8 +63,8 @@ fresh install of apache used and assuming that httpd was already installed as a 
 The next step is done while in the virtual environment
 
 
-3. Downloading Python Requirements onto virtual system environment 
-* while in the back end virtual environment as in the previous step 
+1. Downloading Python Requirements onto the virtual system environment 
+* while in the backend virtual environment as in the previous step 
 *  enter in the command line:
 
         pip install -r requirements.txt
@@ -93,19 +95,22 @@ The next step is done while in the virtual environment
 
 
 
-7. Download and add "model77.h5" and "modelMel.h5" and add these files to the backend folder
+7. Download and add "modelGen.h5" and "modelMel.h5" and add these files to the backend folder
 
-### model files can be gotten by submitting a models request to: crabuofr@gmail.com
+ model files can be gotten by submitting a models inquiry  to: crabuofr@gmail.com
 
-8. Running the application
 
-### currently an issue where our application can only run on mobile phones  or desktop, not both
+
+8. Running the application:
+currently, there is an issue where our application can only run on browsers on mobile phones or through launching the frontend as an executable  on desktop 
 
 - Running on mobile 
   -  open command prompt 
-  -  enter in command line: ipconfig 
+  -  enter in command line: 
+        
+          ipconfig 
   -  copy the IPv4 address of your Wireless LAN adapter Wi-Fi (ex: 142.3.83.240)
-  -  open the file 'api_manager.dart' that can be found in this path: code/FrontEnd_V1/Utils
+  -  open the file 'api_manager.dart' that can be found in this path: code/FrontEnd_V1/lib/Utils
   -  change the URL Variable to http://{your IPv4 address}:8000
   -  in a command line go to  'code/FrontEnd_V1'
   -  enter in command line : 
@@ -120,15 +125,15 @@ The next step is done while in the virtual environment
   -  start your apache service, you can do so in the Services Application 
   -  on your mobile device, go to your browser of choice and enter {your IPv4 address}:8000
 - Running on desktop:
-  -  open the file 'api_manager.dart' that can be found in this path: code/FrontEnd_V1/Utils
-  -  change the URL Variable to http://127.0.0.1:5000
-  -  enter into your virtual environment in the 'code/backend' as described im step 2 
+  -  open command prompt 
   -  enter in command line: 
+        
+          ipconfig 
+  -  copy the IPv4 address of your Wireless LAN adapter Wi-Fi (ex: 142.3.83.240)
+  -  open the file 'api_manager.dart' that can be found in this path: code/FrontEnd_V1/Utils
+  -  change the URL Variable to http://{your IPv4 address}:8000
   
-          flask run
   -  change directory to 'code/FrontEnd_V1'
   -  enter in the command line 
             
           flutter run 
-	
- 

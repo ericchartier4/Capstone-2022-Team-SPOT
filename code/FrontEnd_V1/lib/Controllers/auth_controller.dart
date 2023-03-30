@@ -29,12 +29,11 @@ class AuthController extends GetxController {
   
   
 
-  // change obsecure value of password
   toggleObsecureValue() {
     isObsecureText.value = !isObsecureText.value;
   }
 
-  // Email validation
+
   checkEmailLoginValidation(String email) {
     bool emailValid = GetUtils.isEmail(
       email.trim(),
@@ -49,8 +48,6 @@ class AuthController extends GetxController {
     http.MultipartRequest request =
         http.MultipartRequest('POST', Uri.parse(API.URL +'/logIn'));
 
-    //request.headers.addAll(<String,String>{'Authorization': 'Bearer $token'});
-    //Check if Uint8List populated, it will or will not have an image, this image
     request.fields['email'] = email!;
     request.fields['pass'] = pass!;
 
@@ -58,7 +55,6 @@ class AuthController extends GetxController {
     return response;
   }
 
-// ignore: non_constant_identifier_names
 
   Future<void> logInHelper(BuildContext context) async {
 
@@ -125,7 +121,7 @@ class AuthController extends GetxController {
         Routes.HOME_SCREEN); 
   }
 
-  // validation for login
+
   checkValidationForLoginDetails(BuildContext context) async {
     
     bool emailValid = RegExp(
@@ -143,7 +139,7 @@ class AuthController extends GetxController {
     }
   }
 
-  // validation for signup
+ 
   checkValidationForSignUpDetails(BuildContext context) {
     bool passValid = RegExp(r"^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$").hasMatch(sPasswordController.text);
     bool emailValid = RegExp(

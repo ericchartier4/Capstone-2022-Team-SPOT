@@ -67,7 +67,7 @@ class ViewDetailsScreen extends StatelessWidget {
               ),
             ),
             SizedBox(height: 1.h),
-            // Selected Image
+         
             Container(
               child: Container(
                 padding: const EdgeInsets.all(8),
@@ -79,15 +79,14 @@ class ViewDetailsScreen extends StatelessWidget {
                     () => Image.memory(
                       homeController.selectedImageBytes!.value!,
                       fit: BoxFit.cover,
-                      // height: isDesktop(context) ? 30.w : 35.h,
-                      // width: isDesktop(context) ? 30.w : 80.w,
+                     
                     ),
                   ),
                 ),
               ),
             ),
             SizedBox(height: 2.h),
-            // Bottom Part
+        
             Container(
               margin: const EdgeInsets.all(10),
               padding:
@@ -100,7 +99,7 @@ class ViewDetailsScreen extends StatelessWidget {
                 children: <Widget>[
                   Row(
                     children: <Widget>[
-                      // Area affected text
+                    
                       Text.rich(
                         TextSpan(
                           text: 'Area affected: ',
@@ -124,7 +123,7 @@ class ViewDetailsScreen extends StatelessWidget {
                     ],
                   ),
                   SizedBox(height: 0.5.h),
-                  // About this scan text
+            
                   Text(
                     'How would you describe the area affected (Colour, Shape, is there pain when you touch it)? :',
                     style: GoogleFonts.poppins(
@@ -134,7 +133,7 @@ class ViewDetailsScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 1.h),
-                  // About this scan description
+                  
                   Container(
                     height: isDesktop(context) ? 15.h : 14.h,
                     width: isDesktop(context) ? 60.w : 100.w,
@@ -226,7 +225,7 @@ class ViewDetailsScreen extends StatelessWidget {
 
 
             SizedBox(height: 1.h),
-            // Submit button
+         
             CustomButton(
               height: isDesktop(context) ? 6.h : 6.h,
               width: isDesktop(context) ? 30.w : 90.w,

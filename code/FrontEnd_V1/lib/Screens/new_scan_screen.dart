@@ -1,4 +1,3 @@
-// ignore_for_file: library_private_types_in_public_api, avoid_print
 
 import 'package:demo/Routes/routes.dart';
 import 'package:demo/Utils/app_colors.dart';
@@ -34,21 +33,7 @@ class _NewScanScreenState extends State<NewScanScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Container(
-            //   height: 200,
-            //   width: 200,
-            //   color: Colors.blue,
-            //   child: Obx(
-            //     () => homeController.selectedImageBytes != null
-            //         ? Image.memory(homeController.selectedImageBytes!.value!)
-            //         : const Center(
-            //             child: Text("Not Selected"),
-            //           ),
-            //   ),
-            // ),
-            // const SizedBox(
-            //   height: 50,
-            // ),
+       
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 5.w),
               child:  chooseFromGallery(context)
@@ -59,27 +44,17 @@ class _NewScanScreenState extends State<NewScanScreen> {
     );
   }
 
-  /// Choose From Gallery
+ 
   GestureDetector chooseFromGallery(BuildContext context) {
     return GestureDetector(
       onTap: () async {
-        // if (Platform.isAndroid || Platform.isIOS) {
-        //   var res =
-        //       await PermissionHandlerPermissionService.handleStoragePermission(
-        //           context);
-        //   if (res == true) {
+        
         showDialog(context: context,
                                     barrierDismissible: false,
                                      builder: (BuildContext context) {
                                       return getExampleImage(context,homeController);
                                      }
                     );
-
-
-        
-        // }
-        // }
-        // pickedFile();
       },
       child: Card(
         shape: RoundedRectangleBorder(
@@ -93,10 +68,7 @@ class _NewScanScreenState extends State<NewScanScreen> {
               horizontal: isDesktop(context) ? 5 : 3.w, vertical: 1.5.h),
           decoration: BoxDecoration(
             color: const Color(0xffFEDBD0),
-            // border: Border.all(
-            //   color: const Color(0xff442C2E),
-            //   width: 2,
-            // ),
+       
             borderRadius: BorderRadius.circular(15),
           ),
           child: Row(
@@ -124,7 +96,7 @@ class _NewScanScreenState extends State<NewScanScreen> {
     );
   }
 
-  // Pick File
+  
   void pickedFile() async {}
 }
 

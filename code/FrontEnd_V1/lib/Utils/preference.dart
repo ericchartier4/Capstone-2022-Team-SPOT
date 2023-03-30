@@ -3,8 +3,7 @@ import 'dart:async';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Preference {
-  // static const String USER_ID = "USER_ID";
-  // static const String IS_USER_FIRSTTIME = "IS_USER_FIRSTTIME";
+
 
   static final Preference _preference = Preference._internal();
 

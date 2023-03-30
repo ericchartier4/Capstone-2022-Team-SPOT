@@ -1,4 +1,4 @@
-// ignore_for_file: library_private_types_in_public_api
+
 import 'package:demo/Routes/routes.dart';
 import 'package:demo/main.dart';
 import 'package:flutter/gestures.dart';
@@ -10,6 +10,7 @@ import '../../Utils/Widgets/custom_button.dart';
 import '../../Utils/Widgets/custom_textfield.dart';
 import '../../Utils/app_colors.dart';
 import '../../Utils/constant_widgets.dart';
+import '../Utils/legal.dart';
 
 
 class LogInScreen extends StatefulWidget{
@@ -44,7 +45,7 @@ class LogInScreenState extends State<LogInScreen> {
               height: isDesktop(context) ? 30.h : 25.h,
               width: isDesktop(context) ? 55.w : 100.w,
               decoration: BoxDecoration(
-                // color: const Color(0xffFEEAE6),
+      
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Row(
@@ -118,12 +119,27 @@ class LogInScreenState extends State<LogInScreen> {
               ),
             ),
             SizedBox(height: 3.h),
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             CustomButton(
               height: isDesktop(context) ? 7.h : 6.5.h,
               width: isDesktop(context) ? 15.w : 50.w,
               text: 'Login',
               onTap: () {
-                // login validation
+               
                     setState(() {
                       isLoading = true;
                     });
@@ -133,7 +149,33 @@ class LogInScreenState extends State<LogInScreen> {
                     });
               },
             ),
+                CustomButton(
+                  height: isDesktop(context) ? 7.h : 6.5.h,
+                  width: isDesktop(context) ? 12.w : 40.w,
+                  text: 'Quick Scan',
+                  onTap: () async {
+                     showDialog(context: context,
+                                    barrierDismissible: false,
+                                     builder: (BuildContext context) {
+                                      return getLegal(context,0, authController);
+                                     }
+                    );
+                  },
+                ),
             SizedBox(height: 2.h),
+
+
+
+
+
+
+
+
+
+
+
+
+            
             Text.rich(
               TextSpan(
                 text: 'Don\'t have an account? ',

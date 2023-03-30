@@ -87,24 +87,19 @@ class _ViewImageScreenState extends State<ViewImageScreen> {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(25),
                 child: Obx(
-                  // ignore: unrelated_type_equality_checks
+                 
                   () => homeController.selectedImageBytes!.value == ''
                       ? Image.asset(
                           'assets/images/placeholder.png',
                         )
                       : Image.memory(
                           homeController.selectedImageBytes!.value!,
-                          // height: isDesktop(context) ? 30.w : 50.h,
-                          // width: isDesktop(context) ? 30.w : 80.w,
+                          
                         ),
                 ),
               ),
             ),
-            // Container(
-            //   height: 200,
-            //   width: 200,
-            //   color: Colors.blue,
-            // ),
+   
             SizedBox(height: 3.h),
             GestureDetector(
               onTap: () {
@@ -124,10 +119,7 @@ class _ViewImageScreenState extends State<ViewImageScreen> {
                       vertical: 1.5.h),
                   decoration: BoxDecoration(
                     color: const Color(0xffFEDBD0),
-                    // border: Border.all(
-                    //   color: const Color(0xff442C2E),
-                    //   width: 2,
-                    // ),
+         
                     borderRadius: BorderRadius.circular(25),
                   ),
                   child: Text(
@@ -159,10 +151,7 @@ class _ViewImageScreenState extends State<ViewImageScreen> {
                       vertical: 1.5.h),
                   decoration: BoxDecoration(
                     color: const Color(0xffFEDBD0),
-                    // border: Border.all(
-                    //   color: const Color(0xff442C2E),
-                    //   width: 2,
-                    // ),
+  
                     borderRadius: BorderRadius.circular(25),
                   ),
                   child: Text(

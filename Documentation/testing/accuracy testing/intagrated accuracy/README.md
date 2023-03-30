@@ -1,0 +1,1 @@
+This folder contains testing the accuracy of AI predictions between our AI in our model creation environment VS our User solution environment. 

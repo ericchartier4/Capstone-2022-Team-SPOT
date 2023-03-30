@@ -39,10 +39,16 @@ class HomeController extends GetxController {
   Uint8List? get encodedImage => _encodedImage;
   List<Uint8List>? _serverImages = [];
   List<Uint8List>? get serverImages => _serverImages;
-
-
   RxBool homeIsLoading = false.obs;
   RxBool noEntries = true.obs;
+
+
+
+
+
+
+
+
 
   var scanDocTemplate = 
   [
@@ -63,6 +69,12 @@ class HomeController extends GetxController {
       
     },
   ];
+
+
+
+
+
+
 
   var scanDoc = [
  {
@@ -85,12 +97,19 @@ class HomeController extends GetxController {
 
 
 
+
+
+
+
+
+
+
+
 void addToScanDoc(map)
 {
    var newList;
   for (var i = 0; i < map.length; i++) {
       if (map[i]["date"] == "NullList") {
-        // no entries here
         scanDoc.value = scanDocTemplate;
         homeIsLoading.value = false ;
         return;
@@ -127,6 +146,14 @@ void addToScanDoc(map)
     }
   
 }
+
+
+
+
+
+
+
+
 
 
 
@@ -198,7 +225,23 @@ void addToScanDoc(map)
     return menuItems;
   }
 
-  /// get entries
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   Future<http.StreamedResponse> getEntries() async {
     http.MultipartRequest request = http.MultipartRequest(
         'POST', Uri.parse(API.URL  +'/getEntries'));
@@ -211,7 +254,10 @@ void addToScanDoc(map)
     return response;
   }
 
-// method to help get the scan doc
+
+
+
+
   Future<void> getEntriesHelper() async {
     homeIsLoading.value = true ;
     http.StreamedResponse response = await getEntries();
@@ -250,6 +296,18 @@ void addToScanDoc(map)
   }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
   void onInit() {
     super.onInit();
     ever(selectedBottomIndex, (value) {
@@ -260,10 +318,20 @@ void addToScanDoc(map)
     });
   }
 
-  /// delete entries
-  ///
-  ///
-  ///
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   Future<http.StreamedResponse> deleteEntries(int index) async {
     http.MultipartRequest request = http.MultipartRequest(
         'POST', Uri.parse(API.URL +'/deleteEntries'));
@@ -275,8 +343,16 @@ void addToScanDoc(map)
     return response;
   }
 
+
+
+
+
+
+
+
+
   Future<void> deleteEntriesHelper(int index) async {
-    if (serverImages?.isEmpty == true) //  meaning there are no entries in this list when called
+    if (serverImages?.isEmpty == true) 
     {
       errorSnackBar(message: "no saved Enties to delete");
       return;
@@ -305,9 +381,20 @@ void addToScanDoc(map)
     }
   }
 
-  ///
-  /// Get image from gallery/camera
-  ///
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
   Future getImage({required ImageSource source}) async {
     if (kIsWeb) {
       FilePickerResult? result = await FilePicker.platform.pickFiles(
@@ -337,6 +424,27 @@ void addToScanDoc(map)
     }
   }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   Future<http.StreamedResponse> addEntry(
       String? filename, String? fileextention, Uint8List? data) async {
     http.MultipartRequest request = http.MultipartRequest(
@@ -359,6 +467,12 @@ void addToScanDoc(map)
     return response;
   }
 
+
+
+
+
+
+
   Future<void> addEntryHelper() async {
     http.StreamedResponse response = await addEntry(
         _imagefilename, _imagefileextention, selectedImageBytes?.value);
@@ -373,6 +487,20 @@ void addToScanDoc(map)
   }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   Future<http.StreamedResponse> deleteAccount() async {
     http.MultipartRequest request = http.MultipartRequest(
         'POST', Uri.parse(API.URL +'/deleteAccount'));
@@ -382,6 +510,12 @@ void addToScanDoc(map)
     http.StreamedResponse response = await request.send();
     return response;
   }
+
+
+
+
+
+
 
   Future<void> deleteAccountHelper(BuildContext context) async {
 
@@ -401,6 +535,22 @@ void addToScanDoc(map)
     }
 
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 Widget getPieChart(index)
 {
@@ -449,17 +599,25 @@ Widget getPieChart(index)
 
         ],
       );
-   
-   
-
-  
-
-
      return pieCharts;
 }
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -526,6 +684,23 @@ Card getHomeCard(context,cardName,index,homeController)
   
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 AlertDialog deleteAccountAssurance (context,homeController)
 {
     AlertDialog deleteAccount =  AlertDialog(
@@ -565,6 +740,23 @@ return deleteAccount;
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 AlertDialog getExampleImage(context,homeController)
 {
     AlertDialog legalDialog =  AlertDialog(
@@ -580,7 +772,9 @@ AlertDialog getExampleImage(context,homeController)
                     ),
                   const Text("Tips to get the best results possible:"),
                Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: const [
+                  
                   Text ("1. Use your device's flash"),
                   Icon(Icons.flash_on),
                   

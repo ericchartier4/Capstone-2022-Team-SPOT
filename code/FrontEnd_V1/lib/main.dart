@@ -11,10 +11,10 @@ bool isDesktop(BuildContext context) =>
     MediaQuery.of(context).size.width >= 600;
 
 Future<void> main() async {
-  // binds the framework to the Flutter engine.
+
   WidgetsFlutterBinding.ensureInitialized();
   await Preference().instance();
-  // manage portrait lock
+
   await SystemChrome.setPreferredOrientations(
     [DeviceOrientation.portraitUp],
   );
@@ -24,7 +24,6 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return Sizer(

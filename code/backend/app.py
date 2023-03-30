@@ -63,12 +63,6 @@ from werkzeug.middleware.proxy_fix import ProxyFix
 
 
 
-#flutter build web --release --base-href=/web/
-
- 
-
- # assume you have created a uploads folder
- #DATE - format YYYY-MM-DD for sql 
 app = Flask(__name__)
 api = Api(app)
 if not os.path.exists(r".\uploads"):
@@ -100,10 +94,8 @@ cur.execute('CREATE DATABASE IF NOT EXISTS crab;')
 conn.commit()
 conn.close()  
 conn = mariadb.connect(**config)
-# create a connection cursor
+
 cur = conn.cursor()
-# execute a SQL statement
-#to 
 
 cur.execute('CREATE TABLE IF NOT EXISTS users ( UserID INT NOT NULL PRIMARY KEY AUTO_INCREMENT, FirstName VARCHAR(255) NOT NULL, Email VARCHAR(255) NOT NULL, LastName VARCHAR(255) NOT NULL,  Password VARCHAR(255) NOT NULL);')
 cur.execute('CREATE TABLE IF NOT EXISTS entries ( EntryID INT NOT NULL PRIMARY KEY AUTO_INCREMENT,UserID INT NOT NULL, FOREIGN KEY (UserID)  REFERENCES users(UserID), EntryText LONGTEXT, EntryArea LONGTEXT, NV FLOAT,  Mel FLOAT,  BLK FLOAT,  BCC FLOAT,  Akiec FLOAT ,  Vasc FLOAT ,  DF FLOAT, MelBen FLOAT , MelMalig FLOAT, EntryDate DATE,ImageURL LONGTEXT);')
@@ -130,13 +122,7 @@ def analyzePhoto(img):
     melResult = ((genPrediction[1])*100)
     melBenResult = ((melPrediction[0])*100)
     melMaligResult = ((melPrediction[1])*100)
-    # melResult = 10
-    # nVResult = 40
-    # bKLResult = 10
-    # bCCResult = 10
-    # akiecResult =  10
-    # vascResult = 10
-    # dFResult = 10
+    
 
 
 
@@ -169,7 +155,7 @@ def render_page_web():
 @app.route('/web/<path:name>')
 def return_flutter_doc(name):
 
-    pathlist = str(name).split('/') # this splits the url path 
+    pathlist = str(name).split('/') 
     DIR_NAME = TEMPLATES_DIR
 
     if len(pathlist) > 1:
@@ -485,4 +471,4 @@ api.add_resource(DeleteAccount, '/deleteAccount')
 
 if __name__ == '__main__':
     app.run()
-#use  host='10.0.2.2' for non-browser
+
