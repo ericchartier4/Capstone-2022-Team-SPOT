@@ -40,7 +40,7 @@ class HomeController extends GetxController {
   List<Uint8List>? _serverImages = [];
   List<Uint8List>? get serverImages => _serverImages;
   RxBool homeIsLoading = false.obs;
-  RxBool noEntries = true.obs;
+  RxBool noEntries = false.obs;
 
 
 
@@ -271,11 +271,13 @@ void addToScanDoc(map)
 
     for (var i = 0; i < map.length; i++) {
       if (map[i]["date"] == "NullList") {
-        // no entries here
+        
         scanDoc.value = scanDocTemplate;
         homeIsLoading.value = false ;
+        noEntries.value = true;
         return;
       }
+      noEntries.value = false;
       var imageBin = map[i]["imageBinary"];
       var imageDec = base64Decode(imageBin);
       _serverImages?.add(imageDec);
@@ -311,7 +313,7 @@ void addToScanDoc(map)
   void onInit() {
     super.onInit();
     ever(selectedBottomIndex, (value) {
-      // ignore: unrelated_type_equality_checks
+      
       if (selectedBottomIndex != 0) {
         getEntriesHelper();
       }

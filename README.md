@@ -1,6 +1,10 @@
 
 ![logo](logo.png)
 
+![demo1](demo1.gif)
+
+![demo2](demo2.gif)
+
 
 ## Project Name: SPOT 
 
