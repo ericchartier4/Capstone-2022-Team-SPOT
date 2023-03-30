@@ -130,7 +130,7 @@ currently, there is an issue where our application can only run on browsers on m
         
           ipconfig 
   -  copy the IPv4 address of your Wireless LAN adapter Wi-Fi (ex: 142.3.83.240)
-  -  open the file 'api_manager.dart' that can be found in this path: code/FrontEnd_V1/Utils
+  -  open the file 'api_manager.dart' that can be found in this path: code/FrontEnd_V1/lib/Utils
   -  change the URL Variable to http://{your IPv4 address}:8000
   
   -  change directory to 'code/FrontEnd_V1'
