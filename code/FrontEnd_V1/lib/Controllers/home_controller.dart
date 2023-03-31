@@ -1,7 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 import 'dart:typed_data';
-import 'package:demo/Utils/glossery.dart';
+import 'package:demo/Utils/glossary.dart';
 import 'package:demo/Utils/preference.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
@@ -20,7 +20,7 @@ import '../Utils/preference.dart';
 import '../Utils/constant_widgets.dart';
 import '../main.dart';
 import '../utils/api_manager.dart' ;
-import '../Utils/glossery.dart';
+import '../Utils/glossary.dart';
 
 class HomeController extends GetxController {
   var selectedBottomIndex = 0.obs;
@@ -656,7 +656,7 @@ Card getHomeCard(context,cardName,index,homeController)
                                       return
                                       AlertDialog(
                                         title:  Text(cardName),
-                                        content: Text(glosseryTerms[cardName]!),
+                                        content: Text(glossaryTerms[cardName]!),
                                         actions: <Widget>[
                                         TextButton(
                                         onPressed: () => Navigator.pop(context, 'OK'),

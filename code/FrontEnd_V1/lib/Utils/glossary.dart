@@ -1,4 +1,4 @@
-const  Map<String,String> glosseryTerms = 
+const  Map<String,String> glossaryTerms = 
 {
   "Actinic keratoses": "Actinic keratoses are rough, scaly patches that appear on skin that has been exposed to the sun. They are usually found on the face, scalp, ears, neck, hands, and forearms. They are not cancerous but can sometimes develop into squamous cell carcinoma, a type of skin cancer. Treatment for actinic keratoses includes cryotherapy, topical medications, and photodynamic therapy.",
   "Basal cell carcinoma": "Basal cell carcinoma is the most common type of skin cancer. It appears as a raised, pearly bump on the skin that may bleed or develop a crust. It is usually found on areas of the skin that are frequently exposed to the sun, such as the face and neck. Treatment for basal cell carcinoma includes surgical removal, radiation therapy, and topical medications.",

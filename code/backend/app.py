@@ -96,7 +96,7 @@ conn.close()
 conn = mariadb.connect(**config)
 
 cur = conn.cursor()
-
+# for line 100 , make sure EntryURL is the last element for functionality on line 391
 cur.execute('CREATE TABLE IF NOT EXISTS users ( UserID INT NOT NULL PRIMARY KEY AUTO_INCREMENT, FirstName VARCHAR(255) NOT NULL, Email VARCHAR(255) NOT NULL, LastName VARCHAR(255) NOT NULL,  Password VARCHAR(255) NOT NULL);')
 cur.execute('CREATE TABLE IF NOT EXISTS entries ( EntryID INT NOT NULL PRIMARY KEY AUTO_INCREMENT,UserID INT NOT NULL, FOREIGN KEY (UserID)  REFERENCES users(UserID), EntryText LONGTEXT, EntryArea LONGTEXT, NV FLOAT,  Mel FLOAT,  BLK FLOAT,  BCC FLOAT,  Akiec FLOAT ,  Vasc FLOAT ,  DF FLOAT, MelBen FLOAT , MelMalig FLOAT, EntryDate DATE,ImageURL LONGTEXT);')
 conn.commit()
@@ -119,20 +119,30 @@ def analyzePhoto(img):
     genPrediction = modelGen.predict(img4dGen)[0]
   
     melPrediction = modelMel.predict(img4dMel)[0]  
-    melResult = ((genPrediction[1])*100)
+    melResult = ((genPrediction[1])*100) 
+    melResult= (np.round(melResult,1))
     melBenResult = ((melPrediction[0])*100)
+    melBenResult= (np.round(melBenResult,1))
     melMaligResult = ((melPrediction[1])*100)
+    melMaligResult = (np.round(melMaligResult,1))
+   
     
 
 
 
 
     nVResult = ((genPrediction[0])*100)
+    nVResult =  (np.round(nVResult,1))
     bKLResult = ((genPrediction[2])*100)
+    bKLResult= (np.round(bKLResult,1))
     bCCResult = ((genPrediction[3])*100)
+    bCCResult= (np.round(bCCResult,1))
     akiecResult =  ((genPrediction[4])*100)
+    akiecResult= (np.round(akiecResult,1))
     vascResult = ((genPrediction[5])*100)
+    vascResult = (np.round(vascResult,1))
     dFResult = ((genPrediction[6])*100)
+    dFResult = (np.round(melResult,1))
 
     return   melResult,   melBenResult,  melMaligResult, nVResult, bKLResult, bCCResult, akiecResult, vascResult, dFResult
 
