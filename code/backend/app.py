@@ -142,7 +142,7 @@ def analyzePhoto(img):
     vascResult = ((genPrediction[5])*100)
     vascResult = (np.round(vascResult,1))
     dFResult = ((genPrediction[6])*100)
-    dFResult = (np.round(melResult,1))
+    dFResult = (np.round(dFResult,1))
 
     return   melResult,   melBenResult,  melMaligResult, nVResult, bKLResult, bCCResult, akiecResult, vascResult, dFResult
 
