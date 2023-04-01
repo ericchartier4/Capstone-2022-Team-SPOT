@@ -82,7 +82,7 @@ class _NewScanScreenState extends State<NewScanScreen> {
               ),
               SizedBox(width: isDesktop(context) ? 10 : 4.w),
               Text(
-                'UPLOAD NEW PHOTO',
+                'UPLOAD/TAKE NEW SCAN',
                 style: GoogleFonts.poppins(
                   fontSize: isDesktop(context) ? 20 : 14.sp,
                   color: AppColor.textBlackColor,
