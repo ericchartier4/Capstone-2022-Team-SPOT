@@ -8,6 +8,7 @@
 
 ## Project Name: SPOT 
 * Project Commercial: https://www.youtube.com/watch?v=_3ojdhXg7DA&ab_channel=CrabAI
+* https://img.youtube.com/vi/JLMbpiywVxQ/maxresdefault.jpg
 ## Team Members: 
 * Chirayu Patel
 * Eric Chartier
