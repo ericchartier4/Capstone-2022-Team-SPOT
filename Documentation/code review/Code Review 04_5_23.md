@@ -73,6 +73,7 @@ e can choose different front ends while the back end remains the same
      -  another good example of good dry code is getHomeCard from ./code/FrontEnd_V1/lib/Controllers/home_controller.dart line 626 that can take the index of the an entry in the scanDoc as well as the spacific desease name  and get a formated card back that includes a link to the spacific glossary term. 
      -  on the objective of wet code there is a lot of repatition in some code such as scanDoc intitalization  on line 79  and scanDonTemplate on line 53 of ./code/FrontEnd_V1/lib/Controllers/home_controller.dart which is the exact same I wish we could have the scan doc initalized to the template or make it so that whenever the scanDoc is called without being initalized it displays nothing. 
      -  some wet code is also found in .code/backend/app.py spacifically when getting the UserID such on line 384-392 the process of which is repeated more than once in the file. 
+     -  For functions in the controllers of ./code/FrontEnd_V1/lib/Controllers/*, a way to enhance readability is to have the stated  types of the variables that it takes in, allowing readers of the code know eaily what needs to be input into tyhe function 
   - Reliability
     - There are major patches needed to be added for more reliability, these include in the http  helper function   on lines 263, 362, 478, 522 in  ./code/FrontEnd_V1/lib/Controllers/home_controller.dart and lines 62,105 in .code/frontend/lib/auth_controller.dart as they do not have any exeption functions in case the back end returns a status code other than 200 
   -  Extensibility
@@ -106,7 +107,8 @@ e can choose different front ends while the back end remains the same
   -  Scalability 
      -  we belive scallability will not be an issue , esspecally since we designed spot to utalize Apache, A common hosting framework out in industry, as a proxy ( a mail dilvery service that shuttles messages back and forth between our flask server that is doing the heavy lifting and our users). meaning that in theory , our application should be able to be intagrated into many diffremnt existing server ecosystems.
   -  Usability 
-     -  There are a few issues ( that we have opened issue cards for on our github) that we have discovered while doing usability testing that could affect usability. most of it seems to be issues that may arise with different mobile devices, another issue has to do with some components of  ./code/backend/templates/ that are returning a 404 status code when certain devices try to load them.
+     -  There are a few issues ( that we have opened issue cards for on our github) that we have discovered while doing usability testing that could affect usability. most of it seems to be issues that may arise with different mobile devices, another issue has to do with some components of  ./code/backend/templates/ that are returning a 404 status code when certain devices try to load them. There is also usability tests avilable at ./Documentation/testing/useability testing.
+     -  some major refactors needed on the accordions for both ' the about app' and 'glossary' sections found on line 200 of .code/FrontEnd_V1/lib/Screens/home_screen.dart which is highly difficult to scroll through on mobile devices , there was a suggestion to add buttons at the bottom of the page along with 'home ' , 'add scan ' and history ' to take you to diffrent pages for the about app and the glossary 
 # Object-Oriented Analysis and Design (OOAD) Principles
   - Single Responsibility Principle 
     - I believe we have most if not all functionality separated into different functions that are either alone as a stand-alone function or a function inside of a controller.
@@ -120,6 +122,10 @@ e can choose different front ends while the back end remains the same
 # other suggested refactoring 
  - move the homeExpndable and getGlossery function from .code/FrontEnd_V1/lib/Utils/tilesbilder.dart to ./code/FrontEnd_V1/lib/Controllers/home_controller.dart, we need to keep the Utiles folder for builder functions not implementations of these builder functions 
  - move getLegal function from .code/FrontEnd_V1/lib/Utils/legal.dart to ./code/FrontEnd_V1/lib/Controllers/home_controller.dart so that we can keep implementation functions out of the Utils section 
+ - with email validation for SignUp in./code/backend/app.py make sure email does not already exist in database
+ - need to fix error found in useability testing where the front end system is accepting the non-image files instead of rejecting them 
+ - need refactor to keep or lock orientation high and width for mobile devices , as scall changes when changing from portrait to landscape and vice versa and does not revert back, seriously hampering usability '
+ - Terms and Conditions need to be added into the system, currently only have the privacy policy. 
   
 
 

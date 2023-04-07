@@ -1,0 +1,15 @@
+# User Interface Testing Report April 6, 2023
+## Current tests done:
+of the current test we have done we have completed 
+ - Apple Mobile Useability testing found in .\Documentation\testing\useability testing
+ - Accuracy testing to see the diffrence between our models in diffrent environments , found in .\Documentation\testing\accuracy testing\intagrated accuracy
+ - informal user testting done fron March 10,2023-April 1, 2023 found in .\Documentation\testing\user testing
+
+## How this information has been useable to us: 
+- For the informal user testing, Not only did our users help discover some crutal errors, such as the image sizing issue found in TCUser2. But the users that we did interview gave us great ideas that are currently implemented in our solution, some of which are small such as suggested changes to vauge wording to stronger more descriptive wording such as changing the home screen button from " scan" to " history". to giving ideas for features to increase the overall usability of the system such as the inclusion of a glossary of terms or the enclusion of an example picture and recomendations to get the the most usable picture for our system that will give the users the best results 
+- for the intagrated accuracy testing, this helps us get functional accuracy info which is good to  present to users , but in continuing in our project , we can see what of our disease catagories has the biggest error between our AI development environment and our User application environmemt, this helps us gage if our models are intigrating well into the application envrionment and the models are maintaining their confidence levels even with the resizing of images that we have to do with images incoming into our system 
+ - The Mobile Usability tests are black box unit tests that help us verify that all of the implimented functionalities are functioning as we expected as well as making sure that a few use cases such as a user trying to submit a video to our system are rejected. this has pointed out some heavy bugs in our system that we can rectify later in the project 
+
+## What we need to change:
+- now that we have a user testing questionare avalible at .\Documentation\User Feedback Questionnaire.pdf we need to switch to exclusivly use this questionare , not only are these stadardized questions meaning we can interview more users quickly , but the questionare will help us record and keep track of user feedback much easier then the quick and dirty user testing we were doing before. 
+- We need to test on more devices , not only desktops , tablets , android phones, this bis because we need to verify that our solutions work work on diffrent devices , even through we chose flutter so that we could code once and deploy on mulytiple devices , does not mean we should trust this promise pointy blank. as well.
